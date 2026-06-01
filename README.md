@@ -1,4 +1,4 @@
-# LeanFusion
+# Symmetric Polynomials
 
 ## GitHub configuration
 
