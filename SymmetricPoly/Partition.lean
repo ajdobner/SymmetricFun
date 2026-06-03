@@ -1,5 +1,6 @@
 import Mathlib.Data.List.Sort
 import Mathlib.Data.PNat.Notation
+import Mathlib.Data.Multiset.Defs
 
 /-! ## Partitions -/
 /-- A partition: a weakly decreasing list of positive natural numbers,
@@ -25,6 +26,8 @@ macro:max atomic("|" noWs) μ:term noWs "|" : term => `(size $μ)
 
 /-- The empty partition. -/
 def empty : Partition := ⟨[], List.Pairwise.nil, by simp⟩
+
+def toMultiset (μ : Partition) : Multiset ℕ := μ.parts
 
 /-- Componentwise order: μ ≤ ν iff every part of μ is ≤ the corresponding part of ν. -/
 instance instLE : LE Partition := ⟨fun μ ν => ∀ i, μ.part i ≤ ν.part i⟩
