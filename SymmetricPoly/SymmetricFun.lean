@@ -6,13 +6,6 @@ import Mathlib.Algebra.Algebra.Subalgebra.Operations
 
 noncomputable section
 
--- instance {σ : Type*} [DecidableEq σ] : DecomposableAddMonoid (σ →₀ ℕ) where
---   antidiagonal m := m.antidiagonal'.support
---   mem_antidiagonal {m} {p} := by
---     rcases p with ⟨p₁, p₂⟩
---     simp [Finsupp.antidiagonal', ← and_assoc, Multiset.toFinsupp_eq_iff,
---       ← Multiset.toFinsupp_eq_iff (f:=m)]
-
 
 namespace MvPowerSeries
 
@@ -67,6 +60,10 @@ instance permMonomialAction : DistribMulAction (Equiv.Perm σ) (σ →₀ ℕ) w
   smul_add e f₁ f₂ := map_add (Finsupp.domCongr e) f₁ f₂
   smul_zero e := map_zero (Finsupp.domCongr e)
 
+theorem monomialMultiset (e : Equiv.Perm σ) (m : σ →₀ ℕ) :
+    Multiset.map (e • m) (e • m).support.val = Multiset.map m m.support.val := by
+  sorry
+
 variable {σ R : Type*} [CommSemiring R]
 /-- There is a permutation group action on MvPowerSeries that is compatible with the
   power series ring operations. -/
@@ -90,10 +87,25 @@ instance : SMulCommClass (Equiv.Perm σ) R (MvPowerSeries σ R) where
     change rename e (r • p) = r • rename e p
     simp only [map_smul]
 
-/-- This theorem would be 'free' if the algebra action were defined via a
-  general lifting procedure rather than using `MvPowerSeries.rename`. -/
+/-- This theorem says that if one bijectively renames the variables in a power series,
+  then the coefficients transform in the expected way. -/
+theorem renameEquiv_coeff (e : σ ≃ τ) (p : MvPowerSeries σ R) {m : τ →₀ ℕ} :
+    coeff m (rename e p) = coeff (Finsupp.equivMapDomain e.symm m) p := by
+    rw [coeff_rename, Finsupp.equivMapDomain_eq_mapDomain]
+    apply Finset.sum_eq_single (Finsupp.mapDomain (↑e.symm) m)
+    · intro b hb hne
+      simp only [Set.Finite.mem_toFinset] at hb
+      exact absurd (Finsupp.mapDomain_injective e.injective
+        (hb.trans (by simp [← Finsupp.mapDomain_comp, Equiv.self_comp_symm]))) hne
+    · intro h
+      simp only [Set.Finite.mem_toFinset] at h
+      exact absurd (by simp [← Finsupp.mapDomain_comp, Equiv.self_comp_symm]) h
+
+
 theorem perm_coeff (e : Equiv.Perm σ) (p : MvPowerSeries σ R) {m : σ →₀ ℕ} :
-    coeff m (e • p) = coeff (e.symm • m) p := by sorry
+    coeff m (e • p) = coeff (e.symm • m) p := by
+    change coeff m (rename e p) = coeff (Finsupp.equivMapDomain e.symm m) p
+    rw [renameEquiv_coeff]
 
 end SymmetricAction
 
@@ -110,6 +122,8 @@ def bddDegSubalgebra (σ R : Type*) [CommSemiring R] : Subalgebra R (MvPowerSeri
     rename_i f g
     exact lt_of_le_of_lt (totalDegree_mul f g) (WithTop.add_lt_top.mpr ⟨ha, hb⟩)
 
+/-- The subalgebra of symmetric power series are those that are invariant under the
+  permutation group action. -/
 def symmSubalgebra (σ R : Type*) [CommSemiring R] : Subalgebra R (MvPowerSeries σ R) :=
   FixedPoints.subalgebra R (MvPowerSeries σ R) (Equiv.Perm σ)
 
@@ -139,7 +153,10 @@ theorem msymm_isHomogeneous : IsHomogeneous (msymm σ R μ) |μ| := by
   · exact absurd rfl hd'
 
 theorem msymm_isSymmetric : IsSymmetric (msymm σ R μ) := by
-  sorry -- use `perm_coeff`
+  intro e
+  ext m
+  rw [perm_coeff]
+  simp only [coeff_apply, msymm, monomialMultiset]
 
 end MonomialSymmetric
 
