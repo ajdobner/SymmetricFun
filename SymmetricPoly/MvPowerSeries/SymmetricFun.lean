@@ -3,51 +3,15 @@ import Mathlib.RingTheory.MvPowerSeries.Rename
 import Mathlib.Algebra.Algebra.Subalgebra.Basic
 import SymmetricPoly.Partition
 import Mathlib.Algebra.Algebra.Subalgebra.Operations
+import SymmetricPoly.MvPowerSeries.Homogeneous
 
 noncomputable section
 
-
 namespace MvPowerSeries
 
-section Degrees
-
-variable {σ : Type*} {R : Type*} [CommSemiring R]
-
-def totalDegree (p : MvPowerSeries σ R) : ℕ∞ :=
-  ⨆ (m : {m : σ →₀ ℕ // coeff m p ≠ 0}), (m.1.sum (fun _ n => n) : ℕ∞)
-
-theorem totalDegree_C (r : R) : (C r : MvPowerSeries σ R).totalDegree = 0 := by
-  sorry
-
-theorem totalDegree_mul (p q : MvPowerSeries σ R) :
-    totalDegree (p * q) ≤ totalDegree p + totalDegree q := by
-  sorry
-
-theorem totalDegree_add (p q : MvPowerSeries σ R) :
-    totalDegree (p + q) ≤ max (totalDegree p) (totalDegree q) := by
-  sorry
-
-def HasBoundedDegree (p : MvPowerSeries σ R) : Prop := totalDegree p < ⊤
-
-lemma hasBddDeg_iff_exists_bound {σ R : Type*} [CommSemiring R] (p : MvPowerSeries σ R) :
-    HasBoundedDegree p ↔ ∃ (D : ℕ), ∀ m, p.coeff m ≠ 0 → m.sum (fun _ e => e) ≤ D := by sorry
-
-theorem IsHomogeneous.hasBoundedDegree {p : MvPowerSeries σ R} (h : IsHomogeneous p d) :
-    HasBoundedDegree p := by
-  rw [hasBddDeg_iff_exists_bound]
-  use d
-  intro m hm
-  sorry
-end Degrees
-
-
-
-
-
-
 section SymmetricAction
-/- The results here use `MvPowerSeries.rename`. Ultimately this should be refactored to use facts
-  about general group/monoid actions on (total) monoid algebras. -/
+/- The results here use `MvPowerSeries.rename`. Probably this should later be refactored to use
+  facts about group/monoid actions on total monoid algebras. -/
 
 /-- There is a permutation group action on monomials. -/
 instance permMonomialAction : DistribMulAction (Equiv.Perm σ) (σ →₀ ℕ) where
@@ -60,9 +24,14 @@ instance permMonomialAction : DistribMulAction (Equiv.Perm σ) (σ →₀ ℕ) w
   smul_add e f₁ f₂ := map_add (Finsupp.domCongr e) f₁ f₂
   smul_zero e := map_zero (Finsupp.domCongr e)
 
+
+
 theorem monomialMultiset (e : Equiv.Perm σ) (m : σ →₀ ℕ) :
     Multiset.map (e • m) (e • m).support.val = Multiset.map m m.support.val := by
-  sorry
+  change Multiset.map (Finsupp.equivMapDomain e m) (Finsupp.equivMapDomain e m).support.val = _
+  have h : (Finsupp.equivMapDomain e m).support = Finset.map e (m.support) := by ext a; simp
+  rw [h]
+  simp
 
 variable {σ R : Type*} [CommSemiring R]
 /-- There is a permutation group action on MvPowerSeries that is compatible with the
@@ -80,15 +49,15 @@ instance permAlgAction : MulSemiringAction (Equiv.Perm σ) (MvPowerSeries σ R) 
   smul_one e := (rename e).map_one
   smul_mul e := (rename e).map_mul
 
-/-- Permutation group action commutes with scalar multiplication. -/
+/-- The permutation action commutes with scalar multiplication. -/
 instance : SMulCommClass (Equiv.Perm σ) R (MvPowerSeries σ R) where
   smul_comm e := by
     intro r p
     change rename e (r • p) = r • rename e p
     simp only [map_smul]
 
-/-- This theorem says that if one bijectively renames the variables in a power series,
-  then the coefficients transform in the expected way. -/
+/-- Bijectively renaming the variables in a power series transforms the coefficients
+  in the expected way. -/
 theorem renameEquiv_coeff (e : σ ≃ τ) (p : MvPowerSeries σ R) {m : τ →₀ ℕ} :
     coeff m (rename e p) = coeff (Finsupp.equivMapDomain e.symm m) p := by
     rw [coeff_rename, Finsupp.equivMapDomain_eq_mapDomain]
@@ -102,25 +71,19 @@ theorem renameEquiv_coeff (e : σ ≃ τ) (p : MvPowerSeries σ R) {m : τ →�
       exact absurd (by simp [← Finsupp.mapDomain_comp, Equiv.self_comp_symm]) h
 
 
+@[simp]
 theorem perm_coeff (e : Equiv.Perm σ) (p : MvPowerSeries σ R) {m : σ →₀ ℕ} :
-    coeff m (e • p) = coeff (e.symm • m) p := by
+    coeff m (e • p) = coeff (e⁻¹ • m) p := by
     change coeff m (rename e p) = coeff (Finsupp.equivMapDomain e.symm m) p
     rw [renameEquiv_coeff]
+
+theorem perm_coeff' (e : Equiv.Perm σ) (p : MvPowerSeries σ R) {m : σ →₀ ℕ} :
+  coeff (e • m) (e • p) = coeff m p := by simp
 
 end SymmetricAction
 
 section SymmetricFunctions
 
-def bddDegSubalgebra (σ R : Type*) [CommSemiring R] : Subalgebra R (MvPowerSeries σ R) where
-  carrier := {f | HasBoundedDegree f}
-  algebraMap_mem' r := by
-    simp [HasBoundedDegree, algebraMap_apply, totalDegree_C]
-  add_mem' ha hb := by
-    rename_i f g
-    exact lt_of_le_of_lt (totalDegree_add f g) (max_lt ha hb)
-  mul_mem' ha hb := by
-    rename_i f g
-    exact lt_of_le_of_lt (totalDegree_mul f g) (WithTop.add_lt_top.mpr ⟨ha, hb⟩)
 
 /-- The subalgebra of symmetric power series are those that are invariant under the
   permutation group action. -/
@@ -130,8 +93,7 @@ def symmSubalgebra (σ R : Type*) [CommSemiring R] : Subalgebra R (MvPowerSeries
 def IsSymmetric [CommSemiring R] (p : MvPowerSeries σ R) := p ∈ symmSubalgebra σ R
 
 def symmetricFunctions (σ R : Type*) [CommSemiring R] : Subalgebra R (MvPowerSeries σ R) :=
-  bddDegSubalgebra σ R ⊓ symmSubalgebra σ R
-
+  boundedDegreeSubalgebra σ R ⊓ symmSubalgebra σ R
 
 
 section MonomialSymmetric
@@ -158,7 +120,35 @@ theorem msymm_isSymmetric : IsSymmetric (msymm σ R μ) := by
   rw [perm_coeff]
   simp only [coeff_apply, msymm, monomialMultiset]
 
+theorem msymm_mem_symmetricFunctions : msymm σ R μ ∈ symmetricFunctions σ R := by
+  constructor
+  · apply mem_boundedDegreeSubalgebra_of_isHomogeneous
+    exact msymm_isHomogeneous
+  · exact msymm_isSymmetric
+
 end MonomialSymmetric
+
+section ElementarySymmetric
+variable {σ R : Type*} [CommSemiring R]
+
+def esymm (σ R : Type*) [CommSemiring R] (n : ℕ) : MvPowerSeries σ R :=
+  fun c ↦ if c.support.card = n ∧ (∀ i ∈ c.support, c i = 1) then 1 else 0
+
+theorem esymm_isSymmetric σ R [CommSemiring R] (n : ℕ) : IsSymmetric (esymm σ R n) := by
+  sorry
+
+theorem esymm_mem_symmetricFunctions : esymm σ R n ∈ symmetricFunctions σ R := by
+  sorry
+
+end ElementarySymmetric
+
+section HomogeneousSymmetric
+variable {σ R : Type*} [CommSemiring R]
+
+def hsymm (n : ℕ) : MvPowerSeries σ R :=
+  fun c ↦ if c.degree = n then 1 else 0
+
+end HomogeneousSymmetric
 
 end SymmetricFunctions
 
