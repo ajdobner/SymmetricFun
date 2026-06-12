@@ -1,93 +1,19 @@
 import Mathlib.RingTheory.MvPowerSeries.Rename
 import Mathlib.Algebra.Algebra.Subalgebra.Operations
 import Mathlib.Logic.Equiv.Fintype
+
 import SymmetricPoly.Partition
+import SymmetricPoly.Finsupp.SymmetricAction
 
 noncomputable section
 
-namespace Finsupp
 
-/-- There is a permutation group action on monomials. -/
-instance : DistribMulAction (Equiv.Perm σ) (σ →₀ ℕ) where
-  smul e f := Finsupp.domCongr e f
-  one_smul f := by
-    change Finsupp.domCongr (Equiv.refl σ) f = f
-    rw [Finsupp.domCongr_refl]
-    simp only [AddEquiv.refl_apply]
-  mul_smul e₁ e₂ f := Finsupp.equivMapDomain_trans e₂ e₁ f
-  smul_add e f₁ f₂ := map_add (Finsupp.domCongr e) f₁ f₂
-  smul_zero e := map_zero (Finsupp.domCongr e)
-
-def toPartition (m : σ →₀ ℕ) : Partition where
-  parts := (Multiset.map m m.support.val).sort (· ≥ ·)
-  sorted := Multiset.pairwise_sort _ _
-  pos := by
-    intro x hx
-    rw [Multiset.mem_sort] at hx
-    rw [Multiset.mem_map] at hx
-    rcases hx with ⟨a, ha, rfl⟩
-    have h_nonzero : m a ≠ 0 := Finsupp.mem_support_iff.mp ha
-    exact Nat.pos_of_ne_zero h_nonzero
-
-lemma smul_multiset_helper (e : Equiv.Perm σ) (m : σ →₀ ℕ) :
-    Multiset.map (e • m) (e • m).support.val = Multiset.map m m.support.val := by
-  change Multiset.map (Finsupp.equivMapDomain e m) (Finsupp.equivMapDomain e m).support.val = _
-  have h : (Finsupp.equivMapDomain e m).support = Finset.map e (m.support) := by ext a; simp
-  rw [h]
-  simp
-
-@[simp]
-lemma toPartition_smul {σ : Type*} (e : Equiv.Perm σ) (m : σ →₀ ℕ) :
-  (e • m).toPartition = m.toPartition:= by
-  apply Partition.ext
-  change (Multiset.map (e • m) (e • m).support.val).sort (· ≥ ·) =
-    (Multiset.map m m.support.val).sort (· ≥ ·)
-  rw [smul_multiset_helper e m]
-
-lemma toPartition_perm (m : σ →₀ ℕ) : m.toPartition.parts.Perm (Multiset.map m m.support.val).toList := by
-  sorry
-
-lemma exists_smul_of_toPartition_eq {σ : Type*} (m₁ m₂ : σ →₀ ℕ)
-    (h : m₁.toPartition = m₂.toPartition) :
-    ∃ e : Equiv.Perm σ, e • m₁ = m₂ := by
-  have h' : (Multiset.map m₁ m₁.support.val).toList.Perm (Multiset.map m₂ m₂.support.val).toList := by
-    transitivity m₁.toPartition.parts
-    · symm
-      apply toPartition_perm
-    transitivity m₂.toPartition.parts
-    · simp [h]
-    apply toPartition_perm
-  sorry
-
-
-theorem toPartition_eq_iff {σ R : Type*} [CommSemiring R] (m₁ m₂ : σ →₀ ℕ) :
-  m₁.toPartition = m₂.toPartition ↔ ∃ e : Equiv.Perm σ, e • m₁ = m₂:=
-  by
-  constructor
-  · exact exists_smul_of_toPartition_eq m₁ m₂
-  · rintro ⟨e, rfl⟩
-    exact (toPartition_smul e m₁).symm
-
-
-end Finsupp
 
 namespace MvPowerSeries
 
 section SymmetricAction
 /- The results here use `MvPowerSeries.rename`. Probably this should later be refactored to use
   facts about group/monoid actions on total monoid algebras. -/
-
-
--- lemma test' {α : Type*} (A B : Finset α) (f : ↑A ≃ ↑B) :
---   ∃ e : Equiv.Perm α, ∀ a : ↑A, e ↑a = ↑(f a) := by
---   classical
---   -- Construct the full permutation directly from f
---   use Equiv.extendSubtype f
---   intro a
---   -- Prove it acts exactly like f on elements inside A
---   exact Equiv.extendSubtype_apply_of_mem f ↑a a.property
-
-
 
 variable {σ R : Type*} [CommSemiring R]
 /-- There is a permutation group action on `MvPowerSeries` that is compatible with the
@@ -126,7 +52,6 @@ theorem renameEquiv_coeff (e : σ ≃ τ) (p : MvPowerSeries σ R) {m : τ →�
       simp only [Set.Finite.mem_toFinset] at h
       exact absurd (by simp [← Finsupp.mapDomain_comp, Equiv.self_comp_symm]) h
 
-
 @[simp]
 theorem perm_coeff (e : Equiv.Perm σ) (p : MvPowerSeries σ R) {m : σ →₀ ℕ} :
     coeff m (e • p) = coeff (e⁻¹ • m) p := by
@@ -147,17 +72,30 @@ def symmetricSubalgebra (σ R : Type*) [CommSemiring R] : Subalgebra R (MvPowerS
 def IsSymmetric [CommSemiring R] (p : MvPowerSeries σ R) := ∀ e : Equiv.Perm σ, e • p = p
 
 @[simp]
-lemma isSymmetric_iff_mem_symmetricSubalgebra {σ R : Type*} [CommSemiring R]
+theorem mem_symmetricSubalgebra {σ R : Type*} [CommSemiring R]
     (f : MvPowerSeries σ R) :
-    IsSymmetric f ↔ f ∈ symmetricSubalgebra σ R :=
+    f ∈ symmetricSubalgebra σ R ↔ IsSymmetric f :=
   Iff.rfl
 
 @[simp]
-lemma coeff_smul_monomial {σ R : Type*} [CommSemiring R] (e : Equiv.Perm σ) (m : σ →₀ ℕ)
+theorem coeff_smul_monomial {σ R : Type*} [CommSemiring R] (e : Equiv.Perm σ) (m : σ →₀ ℕ)
     (f : MvPowerSeries σ R) (hf : IsSymmetric f) :
      coeff (e • m) f = coeff m f := by
   nth_rw 1 [← hf e]
   simp
+
+variable {σ R : Type*} [CommSemiring R]
+
+theorem isSymmetric_C (r : R) :
+    IsSymmetric (C r : MvPowerSeries σ R) := by
+  sorry
+
+theorem isSymmetric_one : IsSymmetric (1 : MvPowerSeries σ R) := isSymmetric_C 1
+
+theorem isSymmetric_zero : IsSymmetric (0 : MvPowerSeries σ R) := by
+  have h : (0 : MvPowerSeries σ R) = C 0 := by simp
+  rw [h]
+  exact isSymmetric_C 0
 
 end SymmetricSubalgebra
 end MvPowerSeries

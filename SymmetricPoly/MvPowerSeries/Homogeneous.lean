@@ -94,8 +94,16 @@ theorem mem_boundedDegreeSubalgebra_of_isHomogeneous {n : ℕ} {x : MvPowerSerie
   exact hx
 
 def HasBoundedDegree (f : MvPowerSeries σ R) : Prop :=
-  ∃ n : ℕ, ∀ m : σ →₀ ℕ, coeff m f ≠ 0 → m.degree < n
+  ∃ n : ℕ, ∀ m : σ →₀ ℕ, coeff m f ≠ 0 → m.degree ≤ n
 
+theorem hasBoundedDegree_of_isHomogeneous (n : ℕ) {f : MvPowerSeries σ R} :
+  IsHomogeneous f n → HasBoundedDegree f := by
+  intro hf; use n; intro m hm
+  change ∀ d, (coeff d) f ≠ 0 → (Finsupp.weight fun _ => 1) d = n at hf
+  rw [← Finsupp.degree_eq_weight_one] at hf
+  rw [hf m hm]
+
+@[simp]
 theorem mem_boundedDegreeSubalgebra_iff_hasBoundedDegree {x : MvPowerSeries σ R} :
     x ∈ boundedDegreeSubalgebra σ R ↔ HasBoundedDegree x := by
   sorry

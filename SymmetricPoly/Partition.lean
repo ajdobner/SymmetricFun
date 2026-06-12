@@ -32,6 +32,18 @@ def empty : Partition := ⟨[], List.Pairwise.nil, by simp⟩
 
 def toMultiset (μ : Partition) : Multiset ℕ := μ.parts
 
+theorem ext' {μ ν : Partition} : μ = ν ↔ μ.toMultiset = ν.toMultiset := by
+  constructor
+  · rintro rfl; rfl
+  · intro h
+    apply Partition.ext
+    unfold toMultiset at h
+    have h_perm : μ.parts.Perm ν.parts := Multiset.coe_eq_coe.mp h
+    exact List.Perm.eq_of_pairwise
+      (fun a b _ _ h1 h2 => Nat.le_antisymm h2 h1)
+      μ.sorted
+      ν.sorted
+      h_perm
 
 /-- Componentwise order: μ ≤ ν iff every part of μ is ≤ the corresponding part of ν. -/
 instance instLE : LE Partition := ⟨fun μ ν => ∀ i, μ.part i ≤ ν.part i⟩
@@ -65,9 +77,15 @@ open Partition
 
 abbrev PartitionOf (n : ℕ) := { p : Partition // p.size = n }
 
+@[simp]
+theorem size_PartitionOf (μ : PartitionOf n) : |μ| = n := μ.property
+
 namespace PartitionOf
 
 instance instFinite : Finite (PartitionOf n) := by
+  sorry
+
+instance instFintype : Fintype (PartitionOf n) := by
   sorry
 
 def partitionEquivSigma : Partition ≃ Σ n : ℕ, PartitionOf n := (Equiv.sigmaFiberEquiv size).symm
