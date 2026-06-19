@@ -104,8 +104,25 @@ theorem hasBoundedDegree_of_isHomogeneous (n : ℕ) {f : MvPowerSeries σ R} :
   rw [hf m hm]
 
 @[simp]
-theorem mem_boundedDegreeSubalgebra_iff_hasBoundedDegree {x : MvPowerSeries σ R} :
+theorem mem_boundedDegreeSubalgebra {x : MvPowerSeries σ R} :
     x ∈ boundedDegreeSubalgebra σ R ↔ HasBoundedDegree x := by
   sorry
 
+
+
 end MvPowerSeries
+
+
+namespace MvPolynomial
+
+theorem coeToMvPowerSeries.algHom_range (σ R : Type*) [CommSemiring R] [Fintype σ] :
+    (coeToMvPowerSeries.algHom R).range = MvPowerSeries.boundedDegreeSubalgebra σ R := sorry
+
+/-- For finite types `σ` it is the case that `MvPolynomial` and `MvPowerSeries` with bounded degree
+are isomorphic. -/
+noncomputable def boundedDegreeAlgEquiv (σ R : Type*) [CommSemiring R] [Fintype σ] :
+    MvPolynomial σ R ≃ₐ[R] MvPowerSeries.boundedDegreeSubalgebra σ R :=
+  (AlgEquiv.ofInjective (coeToMvPowerSeries.algHom R) (coe_injective σ R)).trans
+    (Subalgebra.equivOfEq _ _ (coeToMvPowerSeries.algHom_range σ R))
+
+end MvPolynomial

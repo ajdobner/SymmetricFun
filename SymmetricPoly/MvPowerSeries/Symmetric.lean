@@ -2,12 +2,9 @@ import Mathlib.RingTheory.MvPowerSeries.Rename
 import Mathlib.Algebra.Algebra.Subalgebra.Operations
 import Mathlib.Logic.Equiv.Fintype
 
-import SymmetricPoly.Partition
 import SymmetricPoly.Finsupp.SymmetricAction
 
 noncomputable section
-
-
 
 namespace MvPowerSeries
 
