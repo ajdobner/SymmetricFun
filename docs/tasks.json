@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-10-14",
+  "updated": "2026-10-15",
   "status_policy": "Ready means all dependencies are done; optional external work also requires explicit authorization. A coordinator serializes claims and status updates. Done requires an evidence handoff and the checks in AGENTS.md.",
   "tasks": [
     {
@@ -272,7 +272,7 @@
       "id": "HOPF",
       "title": "Prove the standard Hopf algebra structure",
       "phase": "core",
-      "status": "in_progress",
+      "status": "done",
       "owner": "Codex (single worker)",
       "depends_on": [
         "OMEGA",
@@ -285,7 +285,9 @@
         "SymmetricFunctions/Hopf/Basic.lean",
         "SymmetricFunctions/Hopf/Coefficients.lean",
         "SymmetricFunctions/Hopf/Series.lean",
-        "SymmetricFunctions/Hopf/Primitive.lean"
+        "SymmetricFunctions/Hopf/Primitive.lean",
+        "SymmetricFunctions/Hopf/Grading.lean",
+        "SymmetricFunctions/Hopf/Alphabets.lean"
       ],
       "acceptance": [
         "Construct comultiplication, counit, and antipode with the elementary-generator formulas from ROADMAP.",

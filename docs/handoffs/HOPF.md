@@ -1,6 +1,6 @@
 # The standard symmetric-function Hopf algebra
 
-- Task: HOPF; owner: Codex (single worker); status: in_progress.
+- Task: HOPF; owner: Codex (single worker); status: done.
 - Prerequisites: OMEGA ce87705, NEWTON fde87d5, BASE 9a38147, GRADE fc48b62.
 - Lean v4.34.1; Mathlib d13f23b723b8a846827a245b89c10fc7d3f11612.
 - Scope: SymmetricFunctions/Hopf.lean and supporting Hopf modules if needed.
@@ -41,7 +41,7 @@ four convolution identities. Register Mathlib structures only after their laws
 are proved. Use integral formal-series identities for complete coproduct and
 primitive p; prove the grading and coefficient naturality separately.
 
-Pending: all HOPF implementation and validation. A Hopf instance alone will not
+Initial pre-proof status: all HOPF implementation and validation pending. A Hopf instance alone will not
 mark this task done; all additional acceptance statements above remain required.
 
 ## Checkpoint 1: Hopf instance and coefficient naturality
@@ -114,3 +114,58 @@ CommRing hypotheses, h has all natural indices, and p has positive indices.
 Direct axiom checks for both results use only standard Lean foundations.
 The exact checked sources are in the commit containing this entry. HOPF remains
 in progress: total grading/connectedness and finite alphabet addition remain.
+
+## Finite alphabet substep: reviewed contract
+
+For finite sets of variables σ and τ, define specialization to either alphabet
+by elementary evaluation. The tensor specialization sends f⊗g to the product
+of their specializations renamed into the disjoint alphabet σ⊕τ. Prove its
+composition with Δ equals elementary specialization to σ⊕τ, and identify the
+single-alphabet specialization with the existing `rho R N` when σ=Fin N.
+Prove the finite elementary antidiagonal identity from the product of the two
+finite generating series. This is ordinary alphabet addition and requires no
+lambda structure on coefficients or tensors.
+
+
+## Final interface, separate statement review, and completion
+
+`Hopf/Grading.lean` exports `tensorDegree`, `tmul_mem_tensorDegree`, its graded
+multiplication structure, `comultiplication_mem_tensorDegree`, `degreeZeroEquiv`,
+`counit_eq_coeff_zero`, `counit_eq_zero_of_homogeneous`, and
+`IsHomogeneous.antipode`. The span defining tensorDegree counts BOTH factor
+degrees. GRADE already supplies the direct-sum grading on SF R. The counit is
+zero on positive pieces and inverse to coefficient inclusion on degree zero.
+
+`Hopf/Alphabets.lean` exports `SymmetricFunctions.esymm_sum_alphabet`,
+`alphabetSpecialization`, its `e` and `fin` formulas,
+`tensorAlphabetSpecialization`, its pure-tensor formula, and the algebra-map
+identity `tensorAlphabetSpecialization_comp_comultiplication` with pointwise
+version. The alphabets are arbitrary finite types, including empty types.
+Their sum is disjoint union. The tensor base is exactly R. No lambda structure
+on R or on the tensor product is asserted.
+
+The implementing worker made a separate review of the fully elaborated types
+in `.scratch/HopfFinalReview.lean`, apart from the proofs. It confirms the
+indices, degree sum, explicit associators, coefficient-map tensor bases, and
+absence of Nontrivial, characteristic, torsion-free, or flatness assumptions.
+Mathlib HopfAlgebra and cocommutativity instances also synthesize for PUnit.
+The earlier public-type-irreducible examples check Δ(e 2) including its middle
+term and S(e 2)=e 1²-e 2. No contract changes were required.
+
+Final validation (exact sources are the commit containing this completion):
+- `python3 scripts/check_project.py`: exit 0; 25 accepted modules, 547 declarations
+  passed the transitive axiom audit. All affected modules/root built cleanly.
+- `python3 scripts/test_check_project.py`: all five tests passed.
+- `lake env lean .scratch/HopfFinalReview.lean`: exit 0.
+- Lean MCP final Grading/Alphabets diagnostics: empty.
+- `git diff --check`: passed. All new files covered by the root and registry.
+
+All HOPF criteria and the roadmap's finite alphabet-addition interpretation are
+proved. LPOLY is the next ready core task. The lambda-ring milestones and RELEASE
+remain open. The pinned dependencies and original colleague checkouts are unchanged.
+
+Useful implementation notes: a natural successor used as a positive index in a
+finite sum should use `Nat.succPNat`; raw subtype constructors can trigger
+semireducibility mismatches in rewrites. Explicit degrees in the graded tensor
+unit proof avoid expensive metavariable searches. The finite alphabet proof
+cancels only a power of the unit -1, never an integer index.

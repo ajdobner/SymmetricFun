@@ -20,3 +20,5 @@ import SymmetricFunctions.Hopf
 import SymmetricFunctions.Hopf.Coefficients
 import SymmetricFunctions.Hopf.Series
 import SymmetricFunctions.Hopf.Primitive
+import SymmetricFunctions.Hopf.Grading
+import SymmetricFunctions.Hopf.Alphabets
