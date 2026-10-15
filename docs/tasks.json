@@ -402,8 +402,8 @@
       "id": "LSTABLE",
       "title": "Transport integral lambda operations through stability",
       "phase": "core",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "LSPECIAL",
         "STABLE"
@@ -416,7 +416,7 @@
         "Transfer the special structure to SymmetricFunction ℤ.",
         "Prove lambda_n(e_1) = e_n and compatibility with finite integer specializations."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/LSTABLE.md"
     },
     {
       "id": "LFREE",

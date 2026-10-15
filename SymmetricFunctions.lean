@@ -46,3 +46,4 @@ import LambdaRing.Polynomial.Newton
 import LambdaRing.Polynomial.Rational
 import LambdaRing.Polynomial.Density
 import LambdaRing.Polynomial.Special
+import SymmetricFunctions.Lambda.Structure
