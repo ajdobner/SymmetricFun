@@ -1,0 +1,605 @@
+{
+  "schema_version": 1,
+  "updated": "2026-10-14",
+  "status_policy": "Ready means all dependencies are done; optional external work also requires explicit authorization. A coordinator serializes claims and status updates. Done requires an evidence handoff and the checks in AGENTS.md.",
+  "tasks": [
+    {
+      "id": "ENV",
+      "title": "Configure and pin the Lean environment",
+      "phase": "core",
+      "status": "done",
+      "owner": "environment setup",
+      "depends_on": [],
+      "files": [
+        "lean-toolchain",
+        "lakefile.toml",
+        "lake-manifest.json",
+        "SymmetricFunctions.lean",
+        ".github/workflows/lean.yml",
+        "scripts/check_project.py"
+      ],
+      "acceptance": [
+        "Select and record an exact Lean/Mathlib pair after finite symmetric-polynomial, weighted-grading, tensor, and Hopf import probes.",
+        "Build all accepted modules and check root coverage; prove the check catches an intentionally broken scratch module without shipping that module.",
+        "Verify Lean MCP discovery/search/diagnostics or record a working CLI fallback.",
+        "Implement task-DAG and no-placeholder prechecks; document the separate transitive-axiom check.",
+        "Record colleague port compatibility and attribution requirements."
+      ],
+      "evidence": "docs/handoffs/ENV.md"
+    },
+    {
+      "id": "API",
+      "title": "Define the polynomial-backed public type",
+      "phase": "core",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "ENV"
+      ],
+      "files": [
+        "SymmetricFunctions/Basic.lean"
+      ],
+      "acceptance": [
+        "Choose and document a dedicated type backed by MvPolynomial \u2115+ R; test wrapper versus controlled type synonym before freezing it.",
+        "Provide ring/algebra instances, the polynomial algebra equivalence, e : \u2115 \u2192 SymmetricFunction R, and e 0 = 1.",
+        "Provide evaluation into a commutative R-algebra, generator evaluation laws, induction, and algebra-map extensionality.",
+        "Demonstrate ordinary algebra elaboration without unfolding the representation downstream."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "PART",
+      "title": "Equate partitions with weighted exponent vectors",
+      "phase": "core",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "ENV"
+      ],
+      "files": [
+        "SymmetricFunctions/Partition.lean"
+      ],
+      "acceptance": [
+        "Construct Nat.Partition d \u2243 {a : \u2115+ \u2192\u2080 \u2115 // \u2211 i in a.support, (i : \u2115) * a i = d}.",
+        "Prove both inverse laws and product/multiplicity interpretation, including the empty partition.",
+        "Reuse Mathlib Nat.Partition; do not import the colleague's redeclaration."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "GRADE",
+      "title": "Transport weighted grading and degree filtration",
+      "phase": "core",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "API"
+      ],
+      "files": [
+        "SymmetricFunctions/Grading.lean"
+      ],
+      "acceptance": [
+        "Construct homogeneous components, direct-sum decomposition, and degree-at-most submodules.",
+        "Prove e n is homogeneous of degree n and multiplication respects grading.",
+        "Handle degree zero and the zero coefficient ring without global Nontrivial assumptions."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "EBASIS",
+      "title": "Construct the elementary partition basis",
+      "phase": "core",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "PART",
+        "GRADE"
+      ],
+      "files": [
+        "SymmetricFunctions/Basis/Elementary.lean"
+      ],
+      "acceptance": [
+        "Port or reconstruct the general weighted monomial basis lemma with source attribution.",
+        "Construct a Basis (Nat.Partition d) R of the degree-d component with vector e_\u03bc.",
+        "Give coefficient and product formulas and the all-partitions basis via direct sum."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "BASE",
+      "title": "Prove coefficient functoriality and scalar extension",
+      "phase": "core",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "API"
+      ],
+      "files": [
+        "SymmetricFunctions/BaseChange.lean"
+      ],
+      "acceptance": [
+        "Construct coefficient maps for ring homomorphisms and identity/composition laws.",
+        "Construct R \u2297[\u2124] SymmetricFunction \u2124 \u2243\u2090[R] SymmetricFunction R.",
+        "Prove evaluation and elementary-generator compatibility; do not infer a lambda structure from CommRing R."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "SPEC",
+      "title": "Specialize to finite symmetric polynomials",
+      "phase": "core",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "API"
+      ],
+      "files": [
+        "SymmetricFunctions/Specialization.lean"
+      ],
+      "acceptance": [
+        "Construct rho_N as an R-algebra map into MvPolynomial.symmetricSubalgebra (Fin N) R.",
+        "Construct zero-last-variable transitions and prove compatibility on all elements.",
+        "Prove elementary evaluation, vanishing for indices greater than N, and empty-alphabet formulas."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "FINITE",
+      "title": "Prove weighted finite fundamental theorem and stable range",
+      "phase": "core",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "GRADE",
+        "SPEC"
+      ],
+      "files": [
+        "SymmetricFunctions/Finite/Weighted.lean",
+        "SymmetricFunctions/Finite/StableRange.lean"
+      ],
+      "acceptance": [
+        "Prove weighted-homogeneous compatibility of the finite elementary presentation using Mathlib's fundamental theorem.",
+        "Prove rho_N is surjective and identify its kernel as the ideal generated by e k for k > N.",
+        "For N \u2265 d, construct the degree-at-most-d R-linear equivalence and a bounded-degree equality test.",
+        "State explicitly why the result does not assert global injectivity of rho_N."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "STABLE",
+      "title": "Identify bounded compatible families",
+      "phase": "core",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "FINITE"
+      ],
+      "files": [
+        "SymmetricFunctions/Stable.lean"
+      ],
+      "acceptance": [
+        "Define compatible symmetric polynomial families with a single uniform existential degree bound.",
+        "Prove ring closure, construct the algebra equivalence to SymmetricFunction R, and verify each specialization.",
+        "Prove independence of the chosen bound and stable alphabet."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "COMPLETE",
+      "title": "Construct complete symmetric functions integrally",
+      "phase": "core",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "API",
+        "GRADE"
+      ],
+      "files": [
+        "SymmetricFunctions/Complete.lean"
+      ],
+      "acceptance": [
+        "Define h recursively with h 0 = 1 and the finite coefficient recurrence E(-u)H(u) = 1.",
+        "Prove homogeneity and both convolution orders without dividing by integers.",
+        "Provide the generator recurrence API needed for omega and the antipode."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "OMEGA",
+      "title": "Construct the elementary-complete involution",
+      "phase": "core",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "COMPLETE"
+      ],
+      "files": [
+        "SymmetricFunctions/Omega.lean"
+      ],
+      "acceptance": [
+        "Define the algebra map e n \u21a6 h n.",
+        "Prove omega(h n) = e n and package an involutive algebra equivalence preserving degree."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "HBASIS",
+      "title": "Transport the complete partition basis",
+      "phase": "core",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "OMEGA",
+        "EBASIS"
+      ],
+      "files": [
+        "SymmetricFunctions/Basis/Complete.lean"
+      ],
+      "acceptance": [
+        "Construct the homogeneous and all-partitions complete bases through omega.",
+        "Prove polynomial freeness of h generators and basis evaluation formulas."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "NEWTON",
+      "title": "Construct positive power sums and finite compatibility",
+      "phase": "core",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "COMPLETE",
+        "SPEC"
+      ],
+      "files": [
+        "SymmetricFunctions/PowerSum.lean"
+      ],
+      "acceptance": [
+        "Define positive power sums using integral Newton recurrences.",
+        "Prove specialization of h and p to Mathlib hsymm and psum; prove homogeneity.",
+        "Verify p_2 = e_1^2 - 2e_2 and do not introduce a stable cardinal-valued p_0."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "HOPF",
+      "title": "Prove the standard Hopf algebra structure",
+      "phase": "core",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "OMEGA",
+        "NEWTON",
+        "BASE",
+        "GRADE"
+      ],
+      "files": [
+        "SymmetricFunctions/Hopf.lean"
+      ],
+      "acceptance": [
+        "Construct comultiplication, counit, and antipode with the elementary-generator formulas from ROADMAP.",
+        "Prove both antipode laws, coassociativity, counit laws, and instantiate Mathlib HopfAlgebra.",
+        "Prove complete coproduct, primitive positive power sums, cocommutativity, connected grading, and coefficient-map compatibility.",
+        "Check tensor base rings and associators explicitly."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "LPOLY",
+      "title": "Construct stable integral product and iteration polynomials",
+      "phase": "core",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "FINITE"
+      ],
+      "files": [
+        "LambdaRing/UniversalPolynomials.lean"
+      ],
+      "acceptance": [
+        "Define product polynomials from elementary functions of pairwise products in two alphabets.",
+        "Define iteration polynomials from elementary functions of squarefree degree-m monomials.",
+        "Prove uniqueness, sufficient-variable bounds, truncation stability, degree bounds, and boundary conventions.",
+        "Keep this construction independent of any lambda structure on SymmetricFunction."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "LDEFS",
+      "title": "Define pre-lambda and special lambda rings",
+      "phase": "core",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "LPOLY"
+      ],
+      "files": [
+        "LambdaRing/Defs.lean",
+        "LambdaRing/Hom.lean"
+      ],
+      "acceptance": [
+        "Define the exterior-power convention with zero, one, addition, unit, product, and iteration laws.",
+        "Define preserving ring morphisms, composition, identity, and extensionality.",
+        "Document arbitrary torsion targets and explicit index-zero cases; review every universal polynomial substitution."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "LLINE",
+      "title": "Construct lambda operations on integer polynomial rings",
+      "phase": "core",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "LDEFS"
+      ],
+      "files": [
+        "LambdaRing/Polynomial/Operations.lean"
+      ],
+      "acceptance": [
+        "Define finite products of (1 + m u)^a using units and integer exponents in one-variable power series.",
+        "Prove addition, unit normalization, lambda_1 identity, and negative-coefficient formulas.",
+        "Prove renaming and zero-variable-substitution naturality plus degree(lambda_k f) \u2264 k*d when degree(f) \u2264 d.",
+        "Do not claim the special identities in this task."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "LSPECIAL",
+      "title": "Prove both special identities including virtual differences",
+      "phase": "core",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "LLINE"
+      ],
+      "files": [
+        "LambdaRing/Polynomial/Special.lean"
+      ],
+      "acceptance": [
+        "Write a reviewed decomposition of the product and iteration identity proofs before extended search.",
+        "Prove both universal identities for arbitrary integer polynomial coefficients, including negative ones.",
+        "Package the finite integer polynomial special lambda-ring instance and preserving substitution maps.",
+        "If using a torsion-free Adams criterion, prove that criterion and its hypotheses rather than assuming it."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "LSTABLE",
+      "title": "Transport integral lambda operations through stability",
+      "phase": "core",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "LSPECIAL",
+        "STABLE"
+      ],
+      "files": [
+        "SymmetricFunctions/Lambda/Structure.lean"
+      ],
+      "acceptance": [
+        "Show finite operations preserve symmetric families, compatibility, and a uniform degree bound.",
+        "Transfer the special structure to SymmetricFunction \u2124.",
+        "Prove lambda_n(e_1) = e_n and compatibility with finite integer specializations."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "LFREE",
+      "title": "Prove the free special lambda-ring universal property",
+      "phase": "core",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "LSTABLE"
+      ],
+      "files": [
+        "SymmetricFunctions/Lambda/Universal.lean"
+      ],
+      "acceptance": [
+        "For arbitrary special lambda ring A and a : A, construct the ring map e n \u21a6 lambda_n(a).",
+        "Prove preservation of all lambda operations on arbitrary expressions using special identities.",
+        "Prove uniqueness and package Hom_lambda(SymmetricFunction \u2124,A) \u2243 A with evaluation and naturality laws.",
+        "Review that the result has no torsion-free assumption on A and does not assume the desired morphism exists."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "RELEASE",
+      "title": "Integrate and audit the initial deliverable",
+      "phase": "core",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "HBASIS",
+        "HOPF",
+        "LFREE",
+        "STABLE",
+        "BASE"
+      ],
+      "files": [
+        "SymmetricFunctions.lean",
+        "SymmetricFunctions/Examples.lean",
+        "docs/handoffs/RELEASE.md"
+      ],
+      "acceptance": [
+        "Build every accepted module and affected downstream examples in the pinned environment.",
+        "Review the exact stable-realization, Hopf, and free-lambda theorem statements against the mathematical targets.",
+        "Audit transitive axioms and absence of proof holes, including reused modules.",
+        "Check zero-degree, empty alphabet, e/h/p identities, e_2 coproduct, antipode, and lambda-generator examples.",
+        "Publish a local declaration index and identify genuinely unfinished extensions without presenting them as initial-release gaps."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "PLETH",
+      "title": "Derive integral plethysm and alphabet operations",
+      "phase": "extension",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "LFREE",
+        "NEWTON",
+        "HOPF"
+      ],
+      "files": [
+        "SymmetricFunctions/Plethysm/Integral.lean",
+        "LambdaRing/TensorProduct.lean"
+      ],
+      "acceptance": [
+        "Define plethysm from lambda evaluation and prove unit and associativity laws.",
+        "Derive Adams operations and psi_k(p_n) = p_(kn).",
+        "Prove needed tensor-product lambda structure before claiming compatibility with Hopf alphabet addition."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "RATIONAL",
+      "title": "Support rational evaluation and multiple alphabets",
+      "phase": "extension",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "PLETH",
+        "HBASIS",
+        "BASE"
+      ],
+      "files": [
+        "SymmetricFunctions/Plethysm/Rational.lean",
+        "SymmetricFunctions/Alphabets.lean"
+      ],
+      "acceptance": [
+        "Prove the power-sum polynomial presentation and basis over a Q-algebra.",
+        "Construct evaluation from specified power-sum images; distinguish fixed outer coefficients and parameter Adams action.",
+        "Prove sign and parameter conventions, including p_k[-X] and p_k[tX].",
+        "Construct separately symmetric tensor alphabets and mixed finite-polynomial/symmetric objects; state hypotheses for X/(1-t) evaluation."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "MONOMIAL",
+      "title": "Construct the monomial basis and coefficient extraction",
+      "phase": "extension",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "STABLE",
+        "PART"
+      ],
+      "files": [
+        "SymmetricFunctions/Basis/Monomial.lean"
+      ],
+      "acceptance": [
+        "Lift finite monomial symmetric polynomials through stability.",
+        "Prove the homogeneous partition basis and finite-specialization coefficient formulas.",
+        "Adapt useful exponent-orbit arguments from SymmetricFun without replacing Mathlib partitions."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "SERIES",
+      "title": "Identify bounded symmetric power series",
+      "phase": "extension",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "MONOMIAL"
+      ],
+      "files": [
+        "SymmetricFunctions/Realization/PowerSeries.lean"
+      ],
+      "acceptance": [
+        "Port selected homogeneous and permutation-action lemmas with attribution.",
+        "Prove SymmetricFunction R is algebra-equivalent to bounded symmetric MvPowerSeries \u2115 R.",
+        "Prove compatibility for e, h, m and finite specializations; close all transitive holes in reused proofs."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "SCHUR",
+      "title": "Develop Schur and Hall theory",
+      "phase": "extension",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "MONOMIAL",
+        "HBASIS"
+      ],
+      "files": [
+        "SymmetricFunctions/Basis/Schur.lean",
+        "SymmetricFunctions/Hall.lean"
+      ],
+      "acceptance": [
+        "Split into smaller reviewed tasks for Jacobi\u2013Trudi, basis, conjugation/omega, Hall pairing, skewing, and Cauchy identities.",
+        "Use an explicit integer-index extension of h for determinant formulas.",
+        "Retain proof links to combinatorial definitions needed for later positivity results."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "COMPLETION",
+      "title": "Support symmetric series and convergent substitutions",
+      "phase": "extension",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "SERIES",
+        "RATIONAL"
+      ],
+      "files": [
+        "SymmetricFunctions/Completion.lean"
+      ],
+      "acceptance": [
+        "Construct the product of homogeneous components with convolution multiplication.",
+        "Define Omega and prove the e/h generating-series identities in the completion.",
+        "State and prove sufficient continuity/substitution conditions, including completed tensor products for coproduct extension.",
+        "Do not claim arbitrary infinite plethysm exists."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "BLUEPRINT",
+      "title": "Render the mathematical proof dependency plan",
+      "phase": "optional",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "LPOLY",
+        "LDEFS"
+      ],
+      "files": [
+        "blueprint/"
+      ],
+      "acceptance": [
+        "Connect prose statements and proofs to exact declarations using Lean Blueprint.",
+        "Use task IDs and declaration mappings consistently; distinguish planned, formalized, and proved nodes.",
+        "Do not block local theorem work on successful website rendering."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "PLATFORM",
+      "title": "Evaluate a small Prove2Me proof workflow",
+      "phase": "optional",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "ENV",
+        "PART",
+        "SPEC"
+      ],
+      "files": [
+        "docs/handoffs/PLATFORM.md",
+        "external/prove2me/"
+      ],
+      "acceptance": [
+        "Run only after explicit authorization for external work.",
+        "Select one reviewed stable leaf and an explicit compatible verification environment.",
+        "Record theorem/definition IDs, source hashes, and the reversible local-name mapping.",
+        "Retrieve a closed proof and recompile locally; measure integration effort before expanding the pilot."
+      ],
+      "evidence": null,
+      "external_authorization_required": true
+    }
+  ]
+}

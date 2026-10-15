@@ -1,38 +1,36 @@
-# SymmetricFun
+# Symmetric functions in Lean
 
-## Goal
+This fork of [ajdobner/SymmetricFun](https://github.com/ajdobner/SymmetricFun) develops the integral ring of symmetric functions, its stable polynomial realization, Hopf algebra structure, and universal special lambda-ring property. The polynomial-backed design is fixed in the [roadmap](docs/ROADMAP.md).
 
-Implement the ring of symmetric functions in Lean and prove some of its properties.
+The environment is ready. The default `SymmetricFunctions` library currently contains dependency compatibility probes; the mathematical tasks have not started. The inherited `SymmetricPoly` files remain drafts and are excluded from the accepted-library build. The [original README](docs/UPSTREAM_README.md) and Git history preserve the colleague's work.
 
-Note: some theorems about symmetric *polynomials* are already in `mathlib`. The implementation there is very dependent on the assumption that there are finitely many variables. To construct the ring of symmetric functions, one must either take some kind of categorical limit or take a subalgebra of a power series ring (in infinitely many variables).
+## Build and check
 
-**Plan**
-1. Construct the ring of symmetric functions (and polynomials) as a subalgebra of the existing `MvPowerSeries σ R` ring in `mathlib`.
-    * Define the subalgebra of bounded degree series. If the type `σ` is finite, then this subalgebra is isomorphic to `MvPolynomial σ R`.
-    * Define the action of permutations on `MvPowerSeries σ R` and the subalgebra invariant under this action.
-2. Construct the monomial symmetric functions. 
-    * If `σ` has cardinality $n \in \mathbb{N}$ then $(m_\mu)_{\ell(\mu)\leq n}$ forms a basis for the symmetric polynomials. Hence if `σ` and `τ` have the same finite cardinality then there is a canonical isomorphism between the associated rings of symmetric polynomials.
-    * If `σ` is infinite then $(m_\mu)$ forms a basis for symmetric polynomials.
-3. Construct the elementary symmetric functions.
-    * When writing $e_\lambda$ in terms of the $m_\mu$'s, the transition matrix $M_{\lambda\mu}$ counts 0-1 matrices with row sums equal to $\lambda$ and column sums equal to $\mu$. Equivalently, this counts simple bipartite graphs whose degree sequences are given by $\lambda$ and $\mu$. A necessary and sufficient condition for the existence of such graphs is given by the [Gale-Ryser theorem](https://en.wikipedia.org/wiki/Gale–Ryser_theorem). This can be used to show that $M_{\lambda\mu}$ is unitriangular with respect to a certain ordering on the partition bases.
-    * If `σ` has cardinality $n \in \mathbb{N}$ we get a canonical algebra isomorphism with $R[e_1,\ldots,e_n]$.
-    * If `σ` is infinite we get a canonical algebra isomorphism with $R[e_1,e_2,\ldots]$.
-4. Construct the complete homogeneous symmetric functions.
-    * Prove the relation $\sum_{r=0}^n (-1)^r e_r h_{n-r}$.
-    * Define an algebra homomorphism via $\omega(e_r) = h_r$. 
-    * If `σ` has cardinality $n \in \mathbb{N}$, then the relation implies $\omega(h_r)=e_r$ for all $1 \leq r \leq n$. Hence, we get a canonical isomorphism with $R[h_1,\ldots,h_r]$.
-    * If `σ` is infinite, then $\omega(h_r)=e_r$ for all $r \geq 1$. Hence, we get a canonical isomorphism with $R[h_1,h_2,\ldots]$.
-5. Construct Schur functions as generating functions of semistandard Young tableaux.
-    * When writing $s_\lambda$ in terms of the $m_\mu$'s, the transition matrix $K_{\lambda\mu}$ are the [Kostka numbers](https://en.wikipedia.org/wiki/Kostka_number), which counts SSYTs of shape $\lambda$ and weight $\mu$. This number is positive if and only if $\lambda$ is larger than $\mu$ in the dominance order. $K_{\lambda\mu}$ is unitriangular if one chooses a linear order on partitions that is compatible with dominance.
-    * If `σ` has cardinality $n \in \mathbb{N}$, then the unitriangularity of the transition matrix implies that $(s_\lambda)_{\ell(\lambda)\leq n}$ is a basis.
-    * If `σ` is infinite, then $(s_\lambda)$ is a basis.
-6. Prove the Pieri rules.
-7. Derive other expressions for Schur functions: Jacobi-Trudi identity, Weyl character formula. 
-8. Define the Hall inner product.
-9. Prove positivity of Littlewood--Richardson coefficients, and/or the Littlewood--Richardson rule. Representation theory of $S_n$ and/or $GL_n$ are not implemented in `mathlib`.
-10. (Later?) Refactor `MvPowerSeries` so that it is constructed as a [total monoid algebra](https://en.wikipedia.org/wiki/Total_algebra). The monoid in this case is $(M,+)=\big((\mathbb{Z}_{\geq 0})^I,+\big)$ where $I$ represents the index set for the variables. Note: currently the `MvPolynomial` ring *is* implemented using a general monoid algebra construction.
-Many properties of multivariate power series rings fit into this generalized setting.
-    * A monoid homomorphism $M \to N$ induces an algebra homomorphism $R[[M]]\to R[[N]]$. An example of this in power series (or polynomial) ring setting occurs when one sends some of the variables to zero. 
-    * A distributive group action on $M$ lifts to an action on $R[[M]]$. For example, for power series (or polynomials) we have an action of the symmetric group on the variables. The subset consisting of elements that are invariant under the action form a subalgebra by general principles.
+The project pins Lean **v4.34.1** and Mathlib **d13f23b723b8a846827a245b89c10fc7d3f11612**.
 
+```sh
+lake exe cache get
+python3 scripts/test_check_project.py
+python3 scripts/check_project.py
+```
 
+The checker validates the task graph, rejects proof holes and draft imports, verifies coverage of every accepted module, builds them, and audits transitive axiom dependencies. A plain `lake build` builds the default accepted library.
+
+## Start an implementation task
+
+Read [AGENTS.md](AGENTS.md), then select a ready task in [docs/tasks.json](docs/tasks.json). **ENV is done; API and PART are ready.** Use the [handoff template](docs/TASK_TEMPLATE.md). The [ENV handoff](docs/handoffs/ENV.md) records validation, the colleague prototype's one-line compatibility adjustment, and MCP setup.
+
+Other references:
+
+- [Existing work audit](docs/REUSE_AUDIT.md)
+- [Infrastructure and Prove2Me recommendations](docs/INFRASTRUCTURE.md)
+
+## Lean MCP
+
+A project-bound stdio launcher is available at `scripts/lean_mcp.sh`. It uses the installed server on the setup machine; set `LEAN_MCP_SERVER` to your executable elsewhere. Lean MCP 0.30.0 was tested with declaration search and both clean and error diagnostics. The local Codex configuration also registers `lean-lsp` with project inference for future sessions.
+
+The optional `scripts/check_mcp.py` integration test requires Python with the `mcp` package. The setup machine has it in the Lean MCP virtual environment. Restricted sandbox execution may hang during stdio startup; the integration test passed outside that sandbox.
+
+## Model recommendation
+
+Use **GPT-6 Astra / extra high** for foundational choices, the stable-range proofs, and the lambda universal-property work. **GPT-6.1 Sol / high** is a lower-cost option for bounded lemmas, porting, and routine maintenance. Review exact statements and require compiler evidence regardless of model. This recommendation follows the workload distinctions in [OpenAI's model-selection guidance](https://developers.openai.com/api/docs/guides/model-selection); it is not a measured Lean benchmark.

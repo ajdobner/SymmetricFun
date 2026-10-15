@@ -1,18 +1,23 @@
 name = "SymmetricPoly"
 version = "0.1.0"
 keywords = ["math"]
-defaultTargets = ["SymmetricPoly"]
+defaultTargets = ["SymmetricFunctions"]
 
 [leanOptions]
 pp.unicode.fun = true # pretty-prints `fun a ↦ b`
+autoImplicit = false
 relaxedAutoImplicit = false
 weak.linter.mathlibStandardSet = true
+weak.linter.style.header = false # Preserve existing notices; repository license remains an upstream question.
 maxSynthPendingDepth = 3
 
 [[require]]
 name = "mathlib"
 scope = "leanprover-community"
-rev = "v4.30.0"
+rev = "d13f23b723b8a846827a245b89c10fc7d3f11612" # Mathlib v4.34.1
 
 [[lean_lib]]
 name = "SymmetricPoly"
+
+[[lean_lib]]
+name = "SymmetricFunctions"
