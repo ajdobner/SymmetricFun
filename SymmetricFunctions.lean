@@ -10,3 +10,5 @@ import SymmetricFunctions.Complete
 import SymmetricFunctions.Grading.Evaluation
 import SymmetricFunctions.Omega
 import SymmetricFunctions.Basis.Complete
+import SymmetricFunctions.Finite.Weighted
+import SymmetricFunctions.Finite.StableRange

@@ -151,11 +151,12 @@
       "id": "FINITE",
       "title": "Prove weighted finite fundamental theorem and stable range",
       "phase": "core",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "GRADE",
-        "SPEC"
+        "SPEC",
+        "OMEGA"
       ],
       "files": [
         "SymmetricFunctions/Finite/Weighted.lean",
@@ -167,7 +168,7 @@
         "For N \u2265 d, construct the degree-at-most-d R-linear equivalence and a bounded-degree equality test.",
         "State explicitly why the result does not assert global injectivity of rho_N."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/FINITE.md"
     },
     {
       "id": "STABLE",
