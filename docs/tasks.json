@@ -313,7 +313,12 @@
         "LambdaRing/UniversalPolynomials/Squarefree.lean",
         "LambdaRing/UniversalPolynomials/Bounds.lean",
         "LambdaRing/UniversalPolynomials/Iteration.lean",
-        "lakefile.toml"
+        "lakefile.toml",
+        "LambdaRing/UniversalPolynomials/Generating.lean",
+        "LambdaRing/UniversalPolynomials/ProductFinite.lean",
+        "LambdaRing/UniversalPolynomials/TwoAlphabets.lean",
+        "LambdaRing/UniversalPolynomials/ProductDegree.lean",
+        "LambdaRing/UniversalPolynomials/Product.lean"
       ],
       "acceptance": [
         "Define product polynomials from elementary functions of pairwise products in two alphabets.",

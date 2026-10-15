@@ -120,3 +120,38 @@ now declares the LambdaRing library; dependency pins and manifest are unchanged.
 Remaining LPOLY work: product polynomials and their bidegree, specialization,
 stability, uniqueness, and boundary theorems. LDEFS is not yet ready. No lambda
 structure or special identity has been assumed or claimed at this checkpoint.
+
+## Checkpoint 2: stable product construction and bidegree
+
+The auxiliary coefficient ring is `MvPolynomial ℕ+ R` (the public polynomial
+presentation of the second symmetric alphabet). This is equivalent to the
+reviewed SF R coefficient plan and avoids an unnecessary wrapper conversion;
+the foundational SF representation is unchanged.
+
+- Generating.lean: finite `elementarySeries` and its coefficient formula.
+- ProductFinite.lean: `elementaryCoefficient`, `productFactor`, `productSeries`,
+  finite coefficient formula, symmetry and homogeneous first-alphabet degree,
+  zero-last stability, `productFamily`, `productFunction`, and computation by
+  a lift at every first-alphabet size N>=n.
+- TwoAlphabets.lean: sum/iterated-presentation coefficient and rename formulas,
+  `leftElementary`, its injectivity over an arbitrary polynomial coefficient
+  ring, and `leftElementary_weighted_iff` for arbitrary additive weight monoids.
+- ProductDegree.lean: `firstAlphabetWeight`, `elementaryBlockWeight`,
+  `productFinite_bidegree`, `productPresentation`, and its bidegree.
+- Product.lean: `productPolynomialOver`, its equality to every stable finite
+  presentation, `productPolynomial : ℕ → MvPolynomial (ℕ+ ⊕ ℕ+) ℤ`, bidegree
+  `(n,n)`, and separate bounds `productPolynomial_vars_left_le/right_le`.
+
+Validation: `python3 scripts/check_project.py` passed for all 35 accepted modules
+and 681 transitive-axiom-audited declarations. Lean MCP final Product diagnostics
+were empty. The separate elaborated-type review in `.scratch/ProductDegreeReview.lean`
+passed and confirms the full bidegree, coefficient ring, positive indices, and
+N>=n bound; direct axiom audit uses standard foundations only. `git diff --check`
+passed. Exact checked state: the commit containing this checkpoint.
+
+Remaining LPOLY obligations: prove the pairwise-product evaluation identity,
+two-alphabet uniqueness with both variable bounds, explicit truncation and
+boundary conventions, and final task validation. The constructed polynomial
+is not yet claimed to satisfy all product acceptance criteria. Product-family
+proofs use a formal-series coefficient; they do not introduce completed
+symmetric functions or a lambda structure.
