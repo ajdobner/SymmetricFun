@@ -582,21 +582,24 @@
       "id": "MONOMIAL",
       "title": "Construct the monomial basis and coefficient extraction",
       "phase": "extension",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "STABLE",
         "PART"
       ],
       "files": [
-        "SymmetricFunctions/Basis/Monomial.lean"
+        "SymmetricFunctions/Basis/Monomial.lean",
+        "SymmetricFunctions/Finite/Monomial.lean",
+        "SymmetricFunctions/Partition/Orbits.lean",
+        "SymmetricFunctions/Examples/Monomial.lean"
       ],
       "acceptance": [
         "Lift finite monomial symmetric polynomials through stability.",
         "Prove the homogeneous partition basis and finite-specialization coefficient formulas.",
         "Adapt useful exponent-orbit arguments from SymmetricFun without replacing Mathlib partitions."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/MONOMIAL.md"
     },
     {
       "id": "SERIES",

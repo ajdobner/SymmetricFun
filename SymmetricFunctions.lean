@@ -63,3 +63,7 @@ import SymmetricFunctions.Hopf.TensorSpecialization
 import LambdaRing.TensorProduct
 import SymmetricFunctions.Plethysm.Alphabets
 import SymmetricFunctions.Examples.Plethysm
+import SymmetricFunctions.Finite.Monomial
+import SymmetricFunctions.Partition.Orbits
+import SymmetricFunctions.Basis.Monomial
+import SymmetricFunctions.Examples.Monomial

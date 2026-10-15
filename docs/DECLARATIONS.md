@@ -1,10 +1,10 @@
 # Symmetric functions: declaration guide
 
 Import `SymmetricFunctions` for the accepted library. The generated
-[complete declaration index](declarations.tsv) records 874 noninternal
+[complete declaration index](declarations.tsv) records 929 noninternal
 declarations, their defining modules, and their kinds. It includes generated
 class declarations; private helpers and anonymous examples are omitted. The
-axiom audit also covers those omitted declarations (1,154 declarations total).
+axiom audit also covers those omitted declarations (1,232 declarations total).
 
 Regenerate the index after building the library:
 
@@ -41,6 +41,7 @@ Unless indicated otherwise, the namespace is `SymmetricFunction`.
 | [Partition](../SymmetricFunctions/Partition.lean) | `SymmetricFunctions.Partition.exponentEquiv` | Mathlib `Nat.Partition d` corresponds to positive-index exponent vectors of weighted degree `d`. |
 | [Grading](../SymmetricFunctions/Grading.lean) | `IsHomogeneous`, `homogeneousSubmodule`, `decompose`, `degreeLE`, `exists_mem_degreeLE` | Weight of `e n` is `n`; direct-sum grading and exhaustive degree filtration. |
 | [Elementary basis](../SymmetricFunctions/Basis/Elementary.lean) | `ePart`, `eBasis`, `eBasisAll` | Partition bases of homogeneous pieces and the whole ring. |
+| [Monomial basis](../SymmetricFunctions/Basis/Monomial.lean) | `mPart`, `rho_mPart`, `coeff_rho_mPart`, `mBasis`, `mBasisAll`, `mBasis_repr_eq_coeff` | Actual stable lifts of Mathlib finite orbit sums, partition bases, and representative-independent finite coefficients over arbitrary rings. |
 | [Base change](../SymmetricFunctions/BaseChange.lean) | `map`, `baseChange` | Coefficient functoriality and `A ⊗[ℤ] SymmetricFunction ℤ ≃ₐ[A] SymmetricFunction A`. |
 | [Complete](../SymmetricFunctions/Complete.lean) | `h`, `h_zero`, `h_two` | Integral recurrence with `E(-t)H(t)=1` and `h 0 = 1`. |
 | [Omega](../SymmetricFunctions/Omega.lean) | `omega`, `omega_omega` | Grading-preserving elementary/complete involution. |

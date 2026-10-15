@@ -34,3 +34,15 @@ Port order:
 3. Add finite specialization using Mathlib's fundamental theorem, rather than proving polynomial freeness via Gale–Ryser.
 4. Reuse exponent-orbit arguments for the monomial basis if they shorten the finite-variable proof.
 5. Add the power-series realization after the core ring, Hopf, and lambda targets. Keep it equivalent to the accepted public type.
+
+## MONOMIAL implementation reuse
+
+The pinned Mathlib already defines `MvPolynomial.msymm` from `Nat.Partition`
+and proves its permutation invariance. MONOMIAL directly reuses that sum,
+`Sym.equivNatSum`/multiset multiplicities, `killCompl`, and the multiset
+occurrence type. New local proofs establish its exact coefficients, stability,
+and basis. The colleague's support-fiber matching idea in
+`SymmetricPoly/Finsupp/SymmetricAction.lean` (98938de95a12b3ed363653cb980588e2a9188cb8)
+is credited in `Partition/Orbits.lean`; proofs were reconstructed with Mathlib
+APIs, without copying colleague source or importing its replacement partitions.
+The unresolved redistribution-license caution for colleague source is unchanged.
