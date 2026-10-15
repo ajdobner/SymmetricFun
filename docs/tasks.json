@@ -132,8 +132,8 @@
       "id": "SPEC",
       "title": "Specialize to finite symmetric polynomials",
       "phase": "core",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "API"
       ],
@@ -145,7 +145,7 @@
         "Construct zero-last-variable transitions and prove compatibility on all elements.",
         "Prove elementary evaluation, vanishing for indices greater than N, and empty-alphabet formulas."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/SPEC.md"
     },
     {
       "id": "FINITE",
