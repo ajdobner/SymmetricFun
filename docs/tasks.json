@@ -301,7 +301,7 @@
       "id": "LPOLY",
       "title": "Construct stable integral product and iteration polynomials",
       "phase": "core",
-      "status": "in_progress",
+      "status": "done",
       "owner": "Codex (single worker)",
       "depends_on": [
         "FINITE",
@@ -318,7 +318,10 @@
         "LambdaRing/UniversalPolynomials/ProductFinite.lean",
         "LambdaRing/UniversalPolynomials/TwoAlphabets.lean",
         "LambdaRing/UniversalPolynomials/ProductDegree.lean",
-        "LambdaRing/UniversalPolynomials/Product.lean"
+        "LambdaRing/UniversalPolynomials/Product.lean",
+        "LambdaRing/UniversalPolynomials/ProductEvaluation.lean",
+        "LambdaRing/UniversalPolynomials/TwoAlphabetBounds.lean",
+        "LambdaRing/UniversalPolynomials/ProductSpec.lean"
       ],
       "acceptance": [
         "Define product polynomials from elementary functions of pairwise products in two alphabets.",

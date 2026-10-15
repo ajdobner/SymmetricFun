@@ -30,6 +30,16 @@ theorem sumAlgEquiv_rename_left {σ υ τ : Type*} (f : σ → υ)
     cases i <;> simp
   exact DFunLike.congr_fun he q
 
+/-- Evaluating disjoint blocks agrees with first evaluating the coefficient block. -/
+theorem aeval_sumAlgEquiv {σ τ A : Type*} [CommRing A] [Algebra R A]
+    (x : σ → A) (y : τ → A) (q : MvPolynomial (σ ⊕ τ) R) :
+    aeval (Sum.elim x y) q =
+      eval₂Hom (aeval y).toRingHom x (sumAlgEquiv R σ τ q) := by
+  induction q using MvPolynomial.induction_on with
+  | C r => simp
+  | add p q hp hq => simp only [map_add, hp, hq]
+  | mul_X p i hp => cases i <;> simp [hp]
+
 /-- Elementary substitution in the left finite block, fixing the entire right block. -/
 def leftElementary (N : ℕ) (τ : Type*) :
     MvPolynomial (Fin N ⊕ τ) R →ₐ[R] MvPolynomial (Fin N ⊕ τ) R :=

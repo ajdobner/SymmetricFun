@@ -32,3 +32,6 @@ import LambdaRing.UniversalPolynomials.ProductFinite
 import LambdaRing.UniversalPolynomials.TwoAlphabets
 import LambdaRing.UniversalPolynomials.ProductDegree
 import LambdaRing.UniversalPolynomials.Product
+import LambdaRing.UniversalPolynomials.ProductEvaluation
+import LambdaRing.UniversalPolynomials.TwoAlphabetBounds
+import LambdaRing.UniversalPolynomials.ProductSpec

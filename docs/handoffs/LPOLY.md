@@ -1,6 +1,6 @@
 # Stable integral universal lambda polynomials
 
-- Task: LPOLY; owner: Codex (single worker); status: in_progress.
+- Task: LPOLY; owner: Codex (single worker); status: done.
 - Prerequisites: FINITE ac261f7 and STABLE e257846 (added explicitly for the
   already-proved bounded stable lift; no lambda dependency).
 - Lean v4.34.1; Mathlib d13f23b723b8a846827a245b89c10fc7d3f11612.
@@ -155,3 +155,47 @@ boundary conventions, and final task validation. The constructed polynomial
 is not yet claimed to satisfy all product acceptance criteria. Product-family
 proofs use a formal-series coefficient; they do not introduce completed
 symmetric functions or a lambda structure.
+
+## Completion: specialization, uniqueness, and stability
+
+- ProductEvaluation.lean: `secondAlphabetEval`, `twoAlphabetEval`, coefficient
+  evaluation of the finite generating product, `productPolynomial_eval_fin`,
+  and `productPolynomial_eval` for every pair of finite alphabets in every
+  commutative ring.
+- TwoAlphabetBounds.lean: elementary substitution in the right and both blocks,
+  `twoElementary_injective`, `positiveIndexEmbedding`, finite-support adapters,
+  and `twoElementary_injective_of_vars_le`. Both blocks have explicit bounds.
+- ProductSpec.lean: `pairProductPolynomial`, `productPolynomial_specialize`,
+  `productPolynomial_unique`, `productPolynomial_truncate`, zero and one
+  formulas, empty-alphabet vanishing, and `pairProductValue_extend_left/right`.
+- Finite.lean additionally exports evaluation with a coefficient ring map and
+  elementary evaluation under uniform scaling. TwoAlphabets.lean exports
+  `aeval_sumAlgEquiv` for evaluating the flattened presentation.
+
+Separate final statement review (Codex, single worker):
+`lake env lean .scratch/LPolyFinalReview.lean` prints the fully elaborated
+statements, which were read independently of their proofs. Product and iteration
+polynomials have coefficients Z. Evaluation permits arbitrary CommRing A and
+finite index types, including empty types and the zero ring; there is no
+Nontrivial, characteristic-zero, or torsion-free assumption. Product uniqueness
+requires N,M >= n and each block's variables <= n. Iteration uniqueness requires
+N >= n*m and variables <= n*m. These are support restrictions on an otherwise
+arbitrary candidate polynomial, not assumptions of its desired identity.
+All indices n,m include zero. Q_(n,0) is exactly 1 for n<=1 and 0 otherwise,
+reflecting the singleton squarefree degree-zero monomial. P_0=1 and
+P_1=X_left,1*X_right,1. No lambda structure occurs in the construction.
+
+Final validation on the exact source state in the completion commit:
+- `python3 scripts/check_project.py`: exit 0; all 38 accepted modules built,
+  root coverage checked, 721 declarations transitively axiom-audited.
+- `python3 scripts/test_check_project.py`: exit 0; all five tests passed.
+- `lake env lean .scratch/LPolyFinalReview.lean`: exit 0; direct audits of both
+  evaluation and uniqueness theorems use only propext, Classical.choice, Quot.sound.
+- Lean MCP final ProductSpec diagnostics: empty; changed files compiled cleanly.
+- `git diff --check`: exit 0.
+- Accepted examples cover empty alphabets, Q_(2,0)=0, Q_(0,0)=1,
+  and P_1 evaluation in an arbitrary commutative ring.
+
+All LPOLY acceptance criteria pass. LDEFS is now ready. The actual lambda
+structures, special identities on virtual differences, and free-object theorem
+remain later tasks. Dependency pins and original colleague checkouts are unchanged.

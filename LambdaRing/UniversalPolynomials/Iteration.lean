@@ -180,6 +180,16 @@ theorem iterationPolynomial_zero_right (n : ℕ) :
     iterationPolynomial n 0 = if n ≤ 1 then 1 else 0 := by
   simp [iterationPolynomial, iterationFunction_zero_right, apply_ite]
 
+section Examples
+
+example : iterationPolynomial 2 0 = 0 := by simp [iterationPolynomial_zero_right]
+
+example : iterationFinite (Fin 0) ℤ 1 0 = 1 := by simp [iterationFinite]
+
+example : iterationPolynomial 0 0 = 1 := by simp
+
+end Examples
+
 end
 
 end LambdaRing.UniversalPolynomial

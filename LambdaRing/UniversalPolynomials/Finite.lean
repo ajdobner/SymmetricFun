@@ -99,6 +99,21 @@ theorem aeval_esymm [Fintype σ] {R : Type*} [CommSemiring R] [Algebra R A]
     MvPolynomial.aeval x (MvPolynomial.esymm σ R n) = elementaryValue x n := by
   simp [MvPolynomial.esymm, elementaryValue, elementaryOn]
 
+/-- The elementary specialization identity also holds for arbitrary coefficient homomorphisms. -/
+theorem eval₂Hom_esymm [Fintype σ] (φ : A →+* B) (x : σ → B) (n : ℕ) :
+    MvPolynomial.eval₂Hom φ x (MvPolynomial.esymm σ A n) = elementaryValue x n := by
+  simp [MvPolynomial.esymm, elementaryValue, elementaryOn]
+
+/-- Scaling every alphabet entry scales the nth elementary value by the nth power. -/
+theorem elementaryValue_mul_left [Fintype σ] (a : A) (x : σ → A) (n : ℕ) :
+    elementaryValue (fun i => a * x i) n = a ^ n * elementaryValue x n := by
+  classical
+  unfold elementaryValue elementaryOn
+  rw [Finset.mul_sum]
+  apply Finset.sum_congr rfl
+  intro t ht
+  rw [Finset.prod_mul_distrib, Finset.prod_const, (mem_powersetCard.mp ht).2]
+
 /-- Equal-degree alphabet entries give degree n*d at the nth elementary value. -/
 theorem isHomogeneous_elementaryValue [Fintype σ] {R υ : Type*} [CommSemiring R]
     (x : σ → MvPolynomial υ R) (d n : ℕ) (hx : ∀ i, (x i).IsHomogeneous d) :
