@@ -378,13 +378,17 @@
       "id": "LSPECIAL",
       "title": "Prove both special identities including virtual differences",
       "phase": "core",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "LLINE"
       ],
       "files": [
-        "LambdaRing/Polynomial/Special.lean"
+        "LambdaRing/Polynomial/Special.lean",
+        "LambdaRing/Polynomial/Positive.lean",
+        "LambdaRing/Polynomial/Newton.lean",
+        "LambdaRing/Polynomial/Rational.lean",
+        "LambdaRing/Polynomial/Density.lean"
       ],
       "acceptance": [
         "Write a reviewed decomposition of the product and iteration identity proofs before extended search.",
@@ -392,7 +396,7 @@
         "Package the finite integer polynomial special lambda-ring instance and preserving substitution maps.",
         "If using a torsion-free Adams criterion, prove that criterion and its hypotheses rather than assuming it."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/LSPECIAL.md"
     },
     {
       "id": "LSTABLE",

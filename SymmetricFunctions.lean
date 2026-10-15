@@ -41,3 +41,8 @@ import LambdaRing.Polynomial.SeriesUnits
 import LambdaRing.Polynomial.Operations
 import LambdaRing.Polynomial.Naturality
 import LambdaRing.Polynomial.Degree
+import LambdaRing.Polynomial.Positive
+import LambdaRing.Polynomial.Newton
+import LambdaRing.Polynomial.Rational
+import LambdaRing.Polynomial.Density
+import LambdaRing.Polynomial.Special
