@@ -37,3 +37,7 @@ import LambdaRing.UniversalPolynomials.TwoAlphabetBounds
 import LambdaRing.UniversalPolynomials.ProductSpec
 import LambdaRing.Defs
 import LambdaRing.Hom
+import LambdaRing.Polynomial.SeriesUnits
+import LambdaRing.Polynomial.Operations
+import LambdaRing.Polynomial.Naturality
+import LambdaRing.Polynomial.Degree

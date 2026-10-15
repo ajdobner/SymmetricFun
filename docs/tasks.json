@@ -355,13 +355,16 @@
       "id": "LLINE",
       "title": "Construct lambda operations on integer polynomial rings",
       "phase": "core",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "LDEFS"
       ],
       "files": [
-        "LambdaRing/Polynomial/Operations.lean"
+        "LambdaRing/Polynomial/Operations.lean",
+        "LambdaRing/Polynomial/SeriesUnits.lean",
+        "LambdaRing/Polynomial/Naturality.lean",
+        "LambdaRing/Polynomial/Degree.lean"
       ],
       "acceptance": [
         "Define finite products of (1 + m u)^a using units and integer exponents in one-variable power series.",
@@ -369,7 +372,7 @@
         "Prove renaming and zero-variable-substitution naturality plus degree(lambda_k f) ≤ k*d when degree(f) ≤ d.",
         "Do not claim the special identities in this task."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/LLINE.md"
     },
     {
       "id": "LSPECIAL",
