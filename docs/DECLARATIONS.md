@@ -1,10 +1,10 @@
 # Symmetric functions: declaration guide
 
 Import `SymmetricFunctions` for the accepted library. The generated
-[complete declaration index](declarations.tsv) records 818 noninternal
+[complete declaration index](declarations.tsv) records 823 noninternal
 declarations, their defining modules, and their kinds. It includes generated
 class declarations; private helpers and anonymous examples are omitted. The
-axiom audit also covers those omitted declarations (1,067 declarations total).
+axiom audit also covers those omitted declarations (1,072 declarations total).
 
 Regenerate the index after building the library:
 
@@ -18,7 +18,7 @@ major contracts, their referenced definitions, and representative axiom
 dependencies. Run it with `lake env lean scripts/ReviewRelease.lean`.
 The [release handoff](handoffs/RELEASE.md) records the separate mathematical
 review and initial validation. The [notation handoff](handoffs/NOTATION.md)
-records the subsequent readability work and current complete-library audit.
+records the subsequent readability work. The [lambda simplification repair](handoffs/LSIMP.md) records the current complete-library audit and public normal-form policy.
 
 ## Optional notation and descriptive aliases
 

@@ -123,6 +123,7 @@ def main() -> int:
             subprocess.run(["lake", "build", *modules], cwd=ROOT, check=True)
             subprocess.run(["lake", "env", "lean", "scripts/CheckAxioms.lean"], cwd=ROOT, check=True)
             subprocess.run(["lake", "env", "lean", "scripts/CheckNotation.lean"], cwd=ROOT, check=True)
+            subprocess.run(["lake", "env", "lean", "scripts/CheckLambdaSimp.lean"], cwd=ROOT, check=True)
     except (ValueError, KeyError, OSError, subprocess.CalledProcessError) as error:
         print(f"Project check failed: {error}", file=sys.stderr)
         return 1

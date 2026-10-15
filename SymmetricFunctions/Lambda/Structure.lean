@@ -110,7 +110,8 @@ instance : PreLambdaRing (SymmetricFunction ℤ) where
   lambda_one := lambdaOperation_one
   lambda_add := lambdaOperation_add
 
-@[simp] theorem lambda_eq_lambdaOperation (n : ℕ) (f : SymmetricFunction ℤ) :
+/-- Explicit implementation bridge. Public simplification keeps `LambdaRing.lambda`. -/
+theorem lambda_eq_lambdaOperation (n : ℕ) (f : SymmetricFunction ℤ) :
     LambdaRing.lambda n f = lambdaOperation n f := rfl
 
 /-- The stable unit convention is the exterior-power convention. -/

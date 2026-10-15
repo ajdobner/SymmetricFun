@@ -60,6 +60,12 @@ theorem lambda_neg_convolution (n : ℕ) (a : A) :
       if n = 0 then 1 else 0 := by
   rw [← lambda_add, add_neg_cancel, lambda_zero_input]
 
+/-- The second exterior power of a virtual negative, without any torsion restriction. -/
+@[simp] theorem lambda_two_neg (a : A) : lambda 2 (-a) = a ^ 2 - lambda 2 a := by
+  have h := lambda_neg_convolution 2 a
+  simp [Finset.Nat.sum_antidiagonal_succ] at h
+  simpa [neg_add, pow_two, sub_eq_add_neg, add_comm] using eq_neg_of_add_eq_zero_left h
+
 end LambdaRing
 
 /-- Specialness of a pre-lambda structure, using integral universal polynomials.

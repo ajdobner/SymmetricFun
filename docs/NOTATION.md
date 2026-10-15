@@ -52,6 +52,14 @@ outer function first, matching the paper's order. The existing
 `SymmetricFunction.eval` specifies **elementary** generator images; it is not
 an evaluator specified by power-sum images.
 
+Public simplification keeps `LambdaRing.lambda n a`. The bridges
+`SymmetricFunction.lambda_eq_lambdaOperation` and
+`LambdaRing.Polynomial.lambda_eq_operation` are available for explicit rewriting,
+but do not run automatically in `simp`. Generator, zero, unit, and signed-input
+identities therefore simplify at the public API. The polynomial presentation is
+an algebra equivalence only: its line-element polynomial lambda structure differs
+from the canonical stable lambda structure on symmetric functions.
+
 ## Precedence and displayed goals
 
 Brackets bind tightly and delimit the full inner expression. Chaining is left

@@ -83,7 +83,8 @@ instance : PreLambdaRing (MvPolynomial σ ℤ) where
   lambda_one := operation_one
   lambda_add := operation_add
 
-@[simp] theorem lambda_eq_operation (k : ℕ) (f : MvPolynomial σ ℤ) :
+/-- Explicit implementation bridge. Public simplification keeps `LambdaRing.lambda`. -/
+theorem lambda_eq_operation (k : ℕ) (f : MvPolynomial σ ℤ) :
     LambdaRing.lambda k f = operation k f := rfl
 
 /-- Every integer scalar multiplicity becomes a signed unit power. -/
@@ -111,6 +112,30 @@ theorem operation_monomial_negSucc (k r : ℕ) (m : σ →₀ ℕ) :
     operation k (monomial m (-((r+1 : ℕ) : ℤ))) =
       (-monomial m (1 : ℤ)) ^ k * (Nat.choose (r+k) r : MvPolynomial σ ℤ) := by
   rw [operation, totalUnit_monomial, coeff_lineUnit_negSucc]
+
+/-- A coefficient-one monomial is a line element in the polynomial structure. -/
+@[simp] theorem lambda_monomial_one (k : ℕ) (m : σ →₀ ℕ) :
+    LambdaRing.lambda k (monomial m (1 : ℤ)) =
+      if k = 0 then 1 else if k = 1 then monomial m 1 else 0 := by
+  rw [lambda_eq_operation, operation, totalUnit_monomial, zpow_one, coe_lineUnit]
+  cases k with
+  | zero => simp
+  | succ k => cases k <;> simp [PowerSeries.coeff_one]
+
+/-- A polynomial variable is a line element; this does not apply to elementary generators. -/
+@[simp] theorem lambda_X (k : ℕ) (i : σ) :
+    LambdaRing.lambda k (X i : MvPolynomial σ ℤ) =
+      if k = 0 then 1 else if k = 1 then X i else 0 := lambda_monomial_one k _
+
+/-- Public signed-monomial formula, using the integral inverse-series construction. -/
+theorem lambda_monomial_neg_one (k : ℕ) (m : σ →₀ ℕ) :
+    LambdaRing.lambda k (monomial m (-1 : ℤ)) = (-monomial m (1 : ℤ)) ^ k :=
+  operation_monomial_neg_one k m
+
+/-- The signed formula in the normal form chosen by polynomial simplification. -/
+@[simp] theorem lambda_neg_monomial_one (k : ℕ) (m : σ →₀ ℕ) :
+    LambdaRing.lambda k (-monomial m (1 : ℤ)) = (-monomial m (1 : ℤ)) ^ k := by
+  simpa only [map_neg] using lambda_monomial_neg_one k m
 
 /-- Coefficient form of the total exterior-power inverse law. -/
 theorem operation_neg_convolution (k : ℕ) (f : MvPolynomial σ ℤ) :

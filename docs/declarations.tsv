@@ -5,6 +5,7 @@ LambdaRing.Defs	LambdaRing.lambda_iterate	theorem
 LambdaRing.Defs	LambdaRing.lambda_mul	theorem
 LambdaRing.Defs	LambdaRing.lambda_neg_convolution	theorem
 LambdaRing.Defs	LambdaRing.lambda_one	theorem
+LambdaRing.Defs	LambdaRing.lambda_two_neg	theorem
 LambdaRing.Defs	LambdaRing.lambda_unit	theorem
 LambdaRing.Defs	LambdaRing.lambda_zero	theorem
 LambdaRing.Defs	LambdaRing.lambda_zero_input	theorem
@@ -113,7 +114,11 @@ LambdaRing.Polynomial.Newton	LambdaRing.Polynomial.logTotalHom	definition
 LambdaRing.Polynomial.Newton	LambdaRing.Polynomial.operation_newton	theorem
 LambdaRing.Polynomial.Operations	LambdaRing.Polynomial.constantCoeff_totalUnit	theorem
 LambdaRing.Polynomial.Operations	LambdaRing.Polynomial.instPreLambdaRingMvPolynomialInt	definition
+LambdaRing.Polynomial.Operations	LambdaRing.Polynomial.lambda_X	theorem
 LambdaRing.Polynomial.Operations	LambdaRing.Polynomial.lambda_eq_operation	theorem
+LambdaRing.Polynomial.Operations	LambdaRing.Polynomial.lambda_monomial_neg_one	theorem
+LambdaRing.Polynomial.Operations	LambdaRing.Polynomial.lambda_monomial_one	theorem
+LambdaRing.Polynomial.Operations	LambdaRing.Polynomial.lambda_neg_monomial_one	theorem
 LambdaRing.Polynomial.Operations	LambdaRing.Polynomial.operation	definition
 LambdaRing.Polynomial.Operations	LambdaRing.Polynomial.operation.eq_1	theorem
 LambdaRing.Polynomial.Operations	LambdaRing.Polynomial.operation_add	theorem

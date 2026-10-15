@@ -501,6 +501,32 @@
       "evidence": "docs/handoffs/NOTATION.md"
     },
     {
+      "id": "LSIMP",
+      "title": "Repair public exterior-power simplification normal forms",
+      "phase": "maintenance",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "LSTABLE",
+        "LLINE",
+        "LFREE"
+      ],
+      "files": [
+        "LambdaRing/Defs.lean",
+        "LambdaRing/Polynomial/Operations.lean",
+        "SymmetricFunctions/Lambda/Structure.lean",
+        "scripts/CheckLambdaSimp.lean",
+        "docs/handoffs/LSIMP.md"
+      ],
+      "acceptance": [
+        "Plain simp after importing SymmetricFunctions proves the public lambda generator identity.",
+        "Public lambda expressions remain the default normal form; implementation bridges are explicit for both symmetric functions and polynomials.",
+        "Verify generator, zero, unit, and genuinely signed-input simplification, preserving old theorem statements and actual lambda instances.",
+        "Review statement meaning and rebuild/audit the complete accepted library with pinned dependencies."
+      ],
+      "evidence": "docs/handoffs/LSIMP.md"
+    },
+    {
       "id": "PLETH",
       "title": "Derive integral plethysm and alphabet operations",
       "phase": "extension",
