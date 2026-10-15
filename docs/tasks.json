@@ -192,8 +192,8 @@
       "id": "COMPLETE",
       "title": "Construct complete symmetric functions integrally",
       "phase": "core",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "API",
         "GRADE"
@@ -206,7 +206,7 @@
         "Prove homogeneity and both convolution orders without dividing by integers.",
         "Provide the generator recurrence API needed for omega and the antipode."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/COMPLETE.md"
     },
     {
       "id": "OMEGA",

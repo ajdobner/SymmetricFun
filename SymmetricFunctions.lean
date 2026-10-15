@@ -6,3 +6,4 @@ import SymmetricFunctions.Examples.Foundation
 import SymmetricFunctions.Grading
 import SymmetricFunctions.Partition
 import SymmetricFunctions.Specialization
+import SymmetricFunctions.Complete
