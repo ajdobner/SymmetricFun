@@ -7,3 +7,5 @@ import SymmetricFunctions.Grading
 import SymmetricFunctions.Partition
 import SymmetricFunctions.Specialization
 import SymmetricFunctions.Complete
+import SymmetricFunctions.Grading.Evaluation
+import SymmetricFunctions.Omega

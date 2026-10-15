@@ -212,19 +212,20 @@
       "id": "OMEGA",
       "title": "Construct the elementary-complete involution",
       "phase": "core",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "COMPLETE"
       ],
       "files": [
-        "SymmetricFunctions/Omega.lean"
+        "SymmetricFunctions/Omega.lean",
+        "SymmetricFunctions/Grading/Evaluation.lean"
       ],
       "acceptance": [
         "Define the algebra map e n \u21a6 h n.",
         "Prove omega(h n) = e n and package an involutive algebra equivalence preserving degree."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/OMEGA.md"
     },
     {
       "id": "HBASIS",
