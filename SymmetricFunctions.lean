@@ -1,4 +1,5 @@
 import SymmetricFunctions.Basic
 import SymmetricFunctions.Environment
 import SymmetricFunctions.Examples.Foundation
+import SymmetricFunctions.Grading
 import SymmetricFunctions.Partition

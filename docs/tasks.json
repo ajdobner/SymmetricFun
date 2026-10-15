@@ -73,8 +73,8 @@
       "id": "GRADE",
       "title": "Transport weighted grading and degree filtration",
       "phase": "core",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "API"
       ],
@@ -86,7 +86,7 @@
         "Prove e n is homogeneous of degree n and multiplication respects grading.",
         "Handle degree zero and the zero coefficient ring without global Nontrivial assumptions."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/GRADE.md"
     },
     {
       "id": "EBASIS",
