@@ -422,13 +422,14 @@
       "id": "LFREE",
       "title": "Prove the free special lambda-ring universal property",
       "phase": "core",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "LSTABLE"
       ],
       "files": [
-        "SymmetricFunctions/Lambda/Universal.lean"
+        "SymmetricFunctions/Lambda/Universal.lean",
+        "LambdaRing/Preservation.lean"
       ],
       "acceptance": [
         "For arbitrary special lambda ring A and a : A, construct the ring map e n ↦ lambda_n(a).",
@@ -436,7 +437,7 @@
         "Prove uniqueness and package Hom_lambda(SymmetricFunction ℤ,A) ≃ A with evaluation and naturality laws.",
         "Review that the result has no torsion-free assumption on A and does not assume the desired morphism exists."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/LFREE.md"
     },
     {
       "id": "RELEASE",
