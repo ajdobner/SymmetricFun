@@ -272,8 +272,8 @@
       "id": "HOPF",
       "title": "Prove the standard Hopf algebra structure",
       "phase": "core",
-      "status": "planned",
-      "owner": null,
+      "status": "in_progress",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "OMEGA",
         "NEWTON",
@@ -281,7 +281,9 @@
         "GRADE"
       ],
       "files": [
-        "SymmetricFunctions/Hopf.lean"
+        "SymmetricFunctions/Hopf.lean",
+        "SymmetricFunctions/Hopf/Basic.lean",
+        "SymmetricFunctions/Hopf/Coefficients.lean"
       ],
       "acceptance": [
         "Construct comultiplication, counit, and antipode with the elementary-generator formulas from ROADMAP.",
@@ -289,7 +291,7 @@
         "Prove complete coproduct, primitive positive power sums, cocommutativity, connected grading, and coefficient-map compatibility.",
         "Check tensor base rings and associators explicitly."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/HOPF.md"
     },
     {
       "id": "LPOLY",

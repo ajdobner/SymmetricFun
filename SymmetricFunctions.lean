@@ -15,3 +15,6 @@ import SymmetricFunctions.Finite.StableRange
 import SymmetricFunctions.Stable
 import SymmetricFunctions.Finite.Generating
 import SymmetricFunctions.PowerSum
+import SymmetricFunctions.Hopf.Basic
+import SymmetricFunctions.Hopf
+import SymmetricFunctions.Hopf.Coefficients
