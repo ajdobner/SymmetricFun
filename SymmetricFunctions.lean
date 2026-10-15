@@ -49,3 +49,6 @@ import LambdaRing.Polynomial.Special
 import SymmetricFunctions.Lambda.Structure
 import LambdaRing.Preservation
 import SymmetricFunctions.Lambda.Universal
+import LambdaRing.Transport
+import SymmetricFunctions.Examples.Torsion
+import SymmetricFunctions.Examples

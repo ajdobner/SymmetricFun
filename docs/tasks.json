@@ -443,8 +443,8 @@
       "id": "RELEASE",
       "title": "Integrate and audit the initial deliverable",
       "phase": "core",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "HBASIS",
         "HOPF",
@@ -455,7 +455,13 @@
       "files": [
         "SymmetricFunctions.lean",
         "SymmetricFunctions/Examples.lean",
-        "docs/handoffs/RELEASE.md"
+        "docs/handoffs/RELEASE.md",
+        "LambdaRing/Transport.lean",
+        "SymmetricFunctions/Examples/Torsion.lean",
+        "docs/DECLARATIONS.md",
+        "scripts/DeclarationIndex.lean",
+        "docs/declarations.tsv",
+        "scripts/ReviewRelease.lean"
       ],
       "acceptance": [
         "Build every accepted module and affected downstream examples in the pinned environment.",
@@ -464,7 +470,7 @@
         "Check zero-degree, empty alphabet, e/h/p identities, e_2 coproduct, antipode, and lambda-generator examples.",
         "Publish a local declaration index and identify genuinely unfinished extensions without presenting them as initial-release gaps."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/RELEASE.md"
     },
     {
       "id": "PLETH",

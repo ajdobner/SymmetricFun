@@ -2,7 +2,7 @@
 
 This fork of [ajdobner/SymmetricFun](https://github.com/ajdobner/SymmetricFun) develops the integral ring of symmetric functions, its stable polynomial realization, Hopf algebra structure, and universal special lambda-ring property. The polynomial-backed design is fixed in the [roadmap](docs/ROADMAP.md).
 
-ENV, API, PART, GRADE, EBASIS, BASE, SPEC, COMPLETE, OMEGA, HBASIS, FINITE, STABLE, NEWTON, HOPF, LPOLY, LDEFS, LLINE, LSPECIAL, LSTABLE, and LFREE are complete. The default `SymmetricFunctions` library provides the polynomial-backed public type, elementary generators, universal algebra evaluation, and the equivalence between Mathlib partitions and weighted exponent vectors. Weighted grading, the exhaustive degree filtration, and elementary partition bases are also proved. The bounded stable realization and the standard connected, cocommutative Hopf structure are proved over arbitrary commutative rings. The integral free special lambda-ring theorem is proved for arbitrary special targets, including targets with additive torsion; final release integration remains. The inherited `SymmetricPoly` files remain drafts and are excluded from the accepted-library build. The [original README](docs/UPSTREAM_README.md) and Git history preserve the colleague's work.
+ENV, API, PART, GRADE, EBASIS, BASE, SPEC, COMPLETE, OMEGA, HBASIS, FINITE, STABLE, NEWTON, HOPF, LPOLY, LDEFS, LLINE, LSPECIAL, LSTABLE, LFREE, and RELEASE are complete. The default `SymmetricFunctions` library provides the polynomial-backed public type, elementary generators, universal algebra evaluation, and the equivalence between Mathlib partitions and weighted exponent vectors. Weighted grading, the exhaustive degree filtration, and elementary partition bases are also proved. The bounded stable realization and the standard connected, cocommutative Hopf structure are proved over arbitrary commutative rings. The integral free special lambda-ring theorem is proved for arbitrary special targets, including targets with additive torsion. The initial core release includes a proved nonzero torsion target example, a separate mathematical statement review, and a clean build and axiom audit of all 55 accepted modules. The inherited `SymmetricPoly` files remain drafts and are excluded from the accepted-library build. The [original README](docs/UPSTREAM_README.md) and Git history preserve the colleague's work.
 
 ## Build and check
 
@@ -18,10 +18,12 @@ The checker validates the task graph, rejects proof holes and draft imports, ver
 
 ## Start an implementation task
 
-Read [AGENTS.md](AGENTS.md), then select a ready task in [docs/tasks.json](docs/tasks.json). **RELEASE is the next ready core task.** Use the [handoff template](docs/TASK_TEMPLATE.md). The [API handoff](docs/handoffs/API.md) records the representation decision and public interface; the [PART handoff](docs/handoffs/PART.md) records the partition adapter. The [ENV handoff](docs/handoffs/ENV.md) records the pinned environment and MCP setup.
+Read [AGENTS.md](AGENTS.md), then select a ready task in [docs/tasks.json](docs/tasks.json). The initial core release is complete. **PLETH and MONOMIAL are the next ready research extensions**, outside the completed core scope. Use the [handoff template](docs/TASK_TEMPLATE.md). The [API handoff](docs/handoffs/API.md) records the representation decision and public interface; the [PART handoff](docs/handoffs/PART.md) records the partition adapter. The [ENV handoff](docs/handoffs/ENV.md) records the pinned environment and MCP setup.
 
 Other references:
 
+- [Declaration guide and generated index](docs/DECLARATIONS.md)
+- [Release validation and statement review](docs/handoffs/RELEASE.md)
 - [Existing work audit](docs/REUSE_AUDIT.md)
 - [Infrastructure and Prove2Me recommendations](docs/INFRASTRUCTURE.md)
 
