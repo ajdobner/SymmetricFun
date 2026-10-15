@@ -13,3 +13,5 @@ import SymmetricFunctions.Basis.Complete
 import SymmetricFunctions.Finite.Weighted
 import SymmetricFunctions.Finite.StableRange
 import SymmetricFunctions.Stable
+import SymmetricFunctions.Finite.Generating
+import SymmetricFunctions.PowerSum

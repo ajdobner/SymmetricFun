@@ -251,21 +251,22 @@
       "id": "NEWTON",
       "title": "Construct positive power sums and finite compatibility",
       "phase": "core",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "COMPLETE",
         "SPEC"
       ],
       "files": [
-        "SymmetricFunctions/PowerSum.lean"
+        "SymmetricFunctions/PowerSum.lean",
+        "SymmetricFunctions/Finite/Generating.lean"
       ],
       "acceptance": [
         "Define positive power sums using integral Newton recurrences.",
         "Prove specialization of h and p to Mathlib hsymm and psum; prove homogeneity.",
         "Verify p_2 = e_1^2 - 2e_2 and do not introduce a stable cardinal-valued p_0."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/NEWTON.md"
     },
     {
       "id": "HOPF",
