@@ -35,3 +35,5 @@ import LambdaRing.UniversalPolynomials.Product
 import LambdaRing.UniversalPolynomials.ProductEvaluation
 import LambdaRing.UniversalPolynomials.TwoAlphabetBounds
 import LambdaRing.UniversalPolynomials.ProductSpec
+import LambdaRing.Defs
+import LambdaRing.Hom

@@ -335,8 +335,8 @@
       "id": "LDEFS",
       "title": "Define pre-lambda and special lambda rings",
       "phase": "core",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "LPOLY"
       ],
@@ -349,7 +349,7 @@
         "Define preserving ring morphisms, composition, identity, and extensionality.",
         "Document arbitrary torsion targets and explicit index-zero cases; review every universal polynomial substitution."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/LDEFS.md"
     },
     {
       "id": "LLINE",
