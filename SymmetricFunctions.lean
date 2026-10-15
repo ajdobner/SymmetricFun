@@ -56,3 +56,10 @@ import SymmetricFunctions.Names
 import SymmetricFunctions.Plethysm.Integral
 import SymmetricFunctions.Notation
 import SymmetricFunctions.Examples.Notation
+import SymmetricFunctions.Plethysm.Adams
+import LambdaRing.Pi
+import LambdaRing.Subring
+import SymmetricFunctions.Hopf.TensorSpecialization
+import LambdaRing.TensorProduct
+import SymmetricFunctions.Plethysm.Alphabets
+import SymmetricFunctions.Examples.Plethysm

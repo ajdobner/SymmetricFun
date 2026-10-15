@@ -530,8 +530,8 @@
       "id": "PLETH",
       "title": "Derive integral plethysm and alphabet operations",
       "phase": "extension",
-      "status": "in_progress",
-      "owner": "Codex (integral notation foundation only)",
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "LFREE",
         "NEWTON",
@@ -539,7 +539,14 @@
       ],
       "files": [
         "SymmetricFunctions/Plethysm/Integral.lean",
-        "LambdaRing/TensorProduct.lean"
+        "LambdaRing/TensorProduct.lean",
+        "SymmetricFunctions/Plethysm/Adams.lean",
+        "LambdaRing/Subring.lean",
+        "LambdaRing/Pi.lean",
+        "LambdaRing/Transport.lean",
+        "SymmetricFunctions/Hopf/TensorSpecialization.lean",
+        "SymmetricFunctions/Plethysm/Alphabets.lean",
+        "SymmetricFunctions/Examples/Plethysm.lean"
       ],
       "acceptance": [
         "Define plethysm from lambda evaluation and prove unit and associativity laws.",

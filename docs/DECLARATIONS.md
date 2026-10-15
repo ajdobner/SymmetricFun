@@ -1,10 +1,10 @@
 # Symmetric functions: declaration guide
 
 Import `SymmetricFunctions` for the accepted library. The generated
-[complete declaration index](declarations.tsv) records 823 noninternal
+[complete declaration index](declarations.tsv) records 874 noninternal
 declarations, their defining modules, and their kinds. It includes generated
 class declarations; private helpers and anonymous examples are omitted. The
-axiom audit also covers those omitted declarations (1,072 declarations total).
+axiom audit also covers those omitted declarations (1,154 declarations total).
 
 Regenerate the index after building the library:
 
@@ -24,7 +24,12 @@ records the subsequent readability work. The [lambda simplification repair](hand
 
 Import `SymmetricFunctions.Notation` and activate `open scoped SymmetricFunctionNotation` for `Λ[R]`, `ω f`, `λ[n] a`, and integral `f⟦g⟧`. The [notation guide](NOTATION.md) maps every symbol to its declaration and records precedence and alphabet/coefficient conventions. `Names.lean` supplies `elementary`, `complete`, `powerSum`, and `elementaryCompleteInvolution` as aliases without changing e/h/p/omega callers.
 
-[Integral plethysm](../SymmetricFunctions/Plethysm/Integral.lean) exports `plethysm`, `plethysm_e`, both e_1 identity laws, `plethysm_assoc`, `add_plethysm`, `mul_plethysm`, and `lambda_plethysm`. Both operands have integer coefficients. This completes the operation/laws portion of PLETH; Adams and tensor lambda compatibility remain open.
+[Integral plethysm](../SymmetricFunctions/Plethysm/Integral.lean) exports `plethysm`, `plethysm_e`, both e_1 identity laws, `plethysm_assoc`, `add_plethysm`, `mul_plethysm`, and `lambda_plethysm`. Both operands have integer coefficients. [Adams](../SymmetricFunctions/Plethysm/Adams.lean) proves `plethysm_p`,
+`adams_p`, composition, and finite-variable expansion, integrally.
+[TensorProduct](../LambdaRing/TensorProduct.lean) constructs the actual integral
+tensor special lambda structure; [Alphabets](../SymmetricFunctions/Plethysm/Alphabets.lean)
+proves `comultiplicationLambdaHom` and `comultiplication_plethysm`. PLETH is complete;
+see its [handoff](handoffs/PLETH.md) and `scripts/ReviewPlethysm.lean`.
 
 ## Polynomial foundation and classical generators
 
