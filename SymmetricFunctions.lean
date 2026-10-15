@@ -22,3 +22,8 @@ import SymmetricFunctions.Hopf.Series
 import SymmetricFunctions.Hopf.Primitive
 import SymmetricFunctions.Hopf.Grading
 import SymmetricFunctions.Hopf.Alphabets
+import LambdaRing.UniversalPolynomials
+import LambdaRing.UniversalPolynomials.Finite
+import LambdaRing.UniversalPolynomials.Squarefree
+import LambdaRing.UniversalPolynomials.Bounds
+import LambdaRing.UniversalPolynomials.Iteration

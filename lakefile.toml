@@ -21,3 +21,6 @@ name = "SymmetricPoly"
 
 [[lean_lib]]
 name = "SymmetricFunctions"
+
+[[lean_lib]]
+name = "LambdaRing"

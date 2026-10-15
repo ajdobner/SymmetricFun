@@ -301,13 +301,19 @@
       "id": "LPOLY",
       "title": "Construct stable integral product and iteration polynomials",
       "phase": "core",
-      "status": "planned",
-      "owner": null,
+      "status": "in_progress",
+      "owner": "Codex (single worker)",
       "depends_on": [
-        "FINITE"
+        "FINITE",
+        "STABLE"
       ],
       "files": [
-        "LambdaRing/UniversalPolynomials.lean"
+        "LambdaRing/UniversalPolynomials.lean",
+        "LambdaRing/UniversalPolynomials/Finite.lean",
+        "LambdaRing/UniversalPolynomials/Squarefree.lean",
+        "LambdaRing/UniversalPolynomials/Bounds.lean",
+        "LambdaRing/UniversalPolynomials/Iteration.lean",
+        "lakefile.toml"
       ],
       "acceptance": [
         "Define product polynomials from elementary functions of pairwise products in two alphabets.",
@@ -315,7 +321,7 @@
         "Prove uniqueness, sufficient-variable bounds, truncation stability, degree bounds, and boundary conventions.",
         "Keep this construction independent of any lambda structure on SymmetricFunction."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/LPOLY.md"
     },
     {
       "id": "LDEFS",
