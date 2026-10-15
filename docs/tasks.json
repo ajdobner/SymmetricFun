@@ -92,8 +92,8 @@
       "id": "EBASIS",
       "title": "Construct the elementary partition basis",
       "phase": "core",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "PART",
         "GRADE"
@@ -106,7 +106,7 @@
         "Construct a Basis (Nat.Partition d) R of the degree-d component with vector e_\u03bc.",
         "Give coefficient and product formulas and the all-partitions basis via direct sum."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/EBASIS.md"
     },
     {
       "id": "BASE",
