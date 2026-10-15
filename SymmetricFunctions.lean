@@ -9,3 +9,4 @@ import SymmetricFunctions.Specialization
 import SymmetricFunctions.Complete
 import SymmetricFunctions.Grading.Evaluation
 import SymmetricFunctions.Omega
+import SymmetricFunctions.Basis.Complete

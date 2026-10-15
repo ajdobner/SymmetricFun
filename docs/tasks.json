@@ -231,8 +231,8 @@
       "id": "HBASIS",
       "title": "Transport the complete partition basis",
       "phase": "core",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "OMEGA",
         "EBASIS"
@@ -244,7 +244,7 @@
         "Construct the homogeneous and all-partitions complete bases through omega.",
         "Prove polynomial freeness of h generators and basis evaluation formulas."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/HBASIS.md"
     },
     {
       "id": "NEWTON",
