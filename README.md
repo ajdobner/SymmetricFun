@@ -14,11 +14,20 @@ python3 scripts/test_check_project.py
 python3 scripts/check_project.py
 ```
 
-The checker validates the task graph, rejects proof holes and draft imports, verifies coverage of every accepted module, builds them, and audits transitive axiom dependencies. A plain `lake build` builds the default accepted library.
+The checker validates the task graph, rejects proof holes and draft imports, verifies coverage of every accepted module, builds them, and audits transitive axiom dependencies. It also runs notation scope, type-boundary, and proof-goal display checks. A plain `lake build` builds the default accepted library.
 
 ## Start an implementation task
 
-Read [AGENTS.md](AGENTS.md), then select a ready task in [docs/tasks.json](docs/tasks.json). The initial core release is complete. **PLETH and MONOMIAL are the next ready research extensions**, outside the completed core scope. Use the [handoff template](docs/TASK_TEMPLATE.md). The [API handoff](docs/handoffs/API.md) records the representation decision and public interface; the [PART handoff](docs/handoffs/PART.md) records the partition adapter. The [ENV handoff](docs/handoffs/ENV.md) records the pinned environment and MCP setup.
+Read [AGENTS.md](AGENTS.md), then select a ready task in [docs/tasks.json](docs/tasks.json). The initial core release is complete. **PLETH has its basic integral operation and laws implemented; Adams and tensor compatibility remain. MONOMIAL is also ready**, outside the completed core scope. Use the [handoff template](docs/TASK_TEMPLATE.md). The [API handoff](docs/handoffs/API.md) records the representation decision and public interface; the [PART handoff](docs/handoffs/PART.md) records the partition adapter. The [ENV handoff](docs/handoffs/ENV.md) records the pinned environment and MCP setup.
+
+## Optional mathematical notation
+
+```lean
+import SymmetricFunctions.Notation
+open scoped SymmetricFunctionNotation
+```
+
+This enables `Λ[R]`, `ω f`, `λ[n] a`, and integral `f⟦g⟧`. Import alone leaves the scope inactive. Existing names remain available, with descriptive aliases for elementary, complete, power-sum functions, and the involution. Uppercase `Ω` is reserved for the future degree completion. See the [notation and alphabet guide](docs/NOTATION.md) for precedence, coefficient roles, and virtual negation versus parameter scaling.
 
 Other references:
 

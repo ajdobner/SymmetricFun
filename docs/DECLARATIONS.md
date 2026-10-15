@@ -1,10 +1,10 @@
-# Initial core release: declaration guide
+# Symmetric functions: declaration guide
 
 Import `SymmetricFunctions` for the accepted library. The generated
-[complete declaration index](declarations.tsv) records 800 noninternal
+[complete declaration index](declarations.tsv) records 818 noninternal
 declarations, their defining modules, and their kinds. It includes generated
 class declarations; private helpers and anonymous examples are omitted. The
-axiom audit also covers those omitted declarations (1,039 declarations total).
+axiom audit also covers those omitted declarations (1,067 declarations total).
 
 Regenerate the index after building the library:
 
@@ -17,7 +17,14 @@ The [release review script](../scripts/ReviewRelease.lean) prints the elaborated
 major contracts, their referenced definitions, and representative axiom
 dependencies. Run it with `lake env lean scripts/ReviewRelease.lean`.
 The [release handoff](handoffs/RELEASE.md) records the separate mathematical
-review and full validation.
+review and initial validation. The [notation handoff](handoffs/NOTATION.md)
+records the subsequent readability work and current complete-library audit.
+
+## Optional notation and descriptive aliases
+
+Import `SymmetricFunctions.Notation` and activate `open scoped SymmetricFunctionNotation` for `Λ[R]`, `ω f`, `λ[n] a`, and integral `f⟦g⟧`. The [notation guide](NOTATION.md) maps every symbol to its declaration and records precedence and alphabet/coefficient conventions. `Names.lean` supplies `elementary`, `complete`, `powerSum`, and `elementaryCompleteInvolution` as aliases without changing e/h/p/omega callers.
+
+[Integral plethysm](../SymmetricFunctions/Plethysm/Integral.lean) exports `plethysm`, `plethysm_e`, both e_1 identity laws, `plethysm_assoc`, `add_plethysm`, `mul_plethysm`, and `lambda_plethysm`. Both operands have integer coefficients. This completes the operation/laws portion of PLETH; Adams and tensor lambda compatibility remain open.
 
 ## Polynomial foundation and classical generators
 
@@ -96,8 +103,8 @@ a nonzero element killed by `2`; its `e₂` value is zero.
 
 ## Further work
 
-All initial core tasks through RELEASE are complete. PLETH and MONOMIAL are
-the next ready research extensions. RATIONAL, SERIES, SCHUR, and COMPLETION
+All initial core tasks through RELEASE are complete. PLETH has its basic integral operation and laws; its remaining obligations and
+MONOMIAL are the next research work. RATIONAL, SERIES, SCHUR, and COMPLETION
 have further prerequisites. BLUEPRINT and PLATFORM are optional tooling and
 external-work tasks. Their exact scope and status remain in
 [the registry](tasks.json); none is part of the completed initial release.

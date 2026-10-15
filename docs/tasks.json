@@ -473,11 +473,39 @@
       "evidence": "docs/handoffs/RELEASE.md"
     },
     {
+      "id": "NOTATION",
+      "title": "Readable scoped notation and explicit alphabet conventions",
+      "phase": "extension",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "OMEGA",
+        "LFREE",
+        "NEWTON"
+      ],
+      "files": [
+        "SymmetricFunctions/Names.lean",
+        "SymmetricFunctions/Notation.lean",
+        "SymmetricFunctions/Examples/Notation.lean",
+        "scripts/CheckNotation.lean",
+        "docs/NOTATION.md",
+        "docs/handoffs/NOTATION.md"
+      ],
+      "acceptance": [
+        "Provide opt-in scoped notation for the symmetric-function type, elementary-complete involution, exterior powers, and integral plethysm with descriptive underlying declarations.",
+        "Check precedence, nested plethysm, coefficient and target inference, scope isolation, and displayed proof goals.",
+        "Document paper conventions: virtual negation versus parameter scaling, integral plethysm versus coefficient-linear power-sum evaluation, and separately symmetric alphabets.",
+        "Reserve uppercase Omega for a future justified completed type; preserve existing callers and all mathematical assumptions.",
+        "Build every accepted module, audit axioms, update the declaration index, and record the statement review."
+      ],
+      "evidence": "docs/handoffs/NOTATION.md"
+    },
+    {
       "id": "PLETH",
       "title": "Derive integral plethysm and alphabet operations",
       "phase": "extension",
-      "status": "planned",
-      "owner": null,
+      "status": "in_progress",
+      "owner": "Codex (integral notation foundation only)",
       "depends_on": [
         "LFREE",
         "NEWTON",
@@ -492,7 +520,7 @@
         "Derive Adams operations and psi_k(p_n) = p_(kn).",
         "Prove needed tensor-product lambda structure before claiming compatibility with Hopf alphabet addition."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/PLETH.md"
     },
     {
       "id": "RATIONAL",

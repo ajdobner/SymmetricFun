@@ -52,3 +52,7 @@ import SymmetricFunctions.Lambda.Universal
 import LambdaRing.Transport
 import SymmetricFunctions.Examples.Torsion
 import SymmetricFunctions.Examples
+import SymmetricFunctions.Names
+import SymmetricFunctions.Plethysm.Integral
+import SymmetricFunctions.Notation
+import SymmetricFunctions.Examples.Notation
