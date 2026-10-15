@@ -68,3 +68,49 @@ source state is the commit containing this entry. Dependencies are unchanged.
 Remaining required work: complete-function coproduct, integral primitivity of
 positive power sums, connected total grading, and finite alphabet-addition
 interpretation. This checkpoint does not complete HOPF.
+
+## Series substep: statement review before proof search
+
+The auxiliary series have coefficients in the already constructed bounded ring;
+they do not redefine symmetric functions or assert a completed realization.
+`elementaryGeneratingSeries = PowerSeries.mk e` and
+`completeGeneratingSeries = PowerSeries.mk h` satisfy
+`rescale (-1) elementaryGeneratingSeries * completeGeneratingSeries = 1`.
+For the two canonical inclusions `ι₁, ι₂ : SF R →ₐ[R] SF R ⊗[R] SF R`, prove
+`map Δ E = map ι₁ E * map ι₂ E` and then the same equality for H by uniqueness
+of an inverse. Taking coefficients yields the required `Δ(h n)` formula.
+This argument uses inverse uniqueness in a commutative ring, with no division
+by an integer or hypothesis on characteristic. Positive Newton primitivity
+will use formal derivatives and the integral Newton identity, not cancellation
+of the integer index.
+
+## Total grading substep: reviewed declarations
+
+Define `tensorDegree R d` as the R-span of tensors `f ⊗ g` for which there
+exist natural i,j with i+j=d, f homogeneous of degree i and g homogeneous of
+degree j. Prove products of elements in tensorDegree i and tensorDegree j
+belong to tensorDegree (i+j). Prove that `comultiplication f` belongs to
+`tensorDegree R d` whenever f is homogeneous of degree d. This is the total
+tensor grading, with both factor degrees counted. Construct
+`degreeZeroEquiv R : R ≃ₗ[R] homogeneousSubmodule R 0` using the coefficient
+map and counit. Together with GRADE's existing direct-sum decomposition this
+expresses connectedness. Also prove the antipode preserves each homogeneous
+piece. All conclusions retain arbitrary CommRing R, including the zero ring.
+
+## Checkpoint 2: complete coproduct and primitive power sums
+
+`Hopf/Series.lean` exports the E/H generating series, their inverse identity,
+`comultiplication_elementarySeries`, `comultiplication_completeSeries`, and
+`comultiplication_h`. `Hopf/Primitive.lean` exports `newton_convolution`, the
+positive-index `powerSumGeneratingSeries`, its integral logarithmic-derivative
+identity, and `comultiplication_p`. The proof uses a formal derivative only as
+a derivation; it never infers equality from equality of derivatives or divides
+by an index. Thus torsion and zero coefficient rings remain included.
+
+Validation: `python3 scripts/check_project.py` passed for all 23 accepted modules
+and audited 513 declarations. Lean MCP diagnostics for Primitive were empty.
+Separate `#check @...` review confirms both coproduct statements have only
+CommRing hypotheses, h has all natural indices, and p has positive indices.
+Direct axiom checks for both results use only standard Lean foundations.
+The exact checked sources are in the commit containing this entry. HOPF remains
+in progress: total grading/connectedness and finite alphabet addition remain.

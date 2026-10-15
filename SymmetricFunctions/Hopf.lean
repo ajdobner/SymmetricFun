@@ -1,2 +1,4 @@
 import SymmetricFunctions.Hopf.Basic
 import SymmetricFunctions.Hopf.Coefficients
+import SymmetricFunctions.Hopf.Series
+import SymmetricFunctions.Hopf.Primitive
