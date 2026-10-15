@@ -174,8 +174,8 @@
       "id": "STABLE",
       "title": "Identify bounded compatible families",
       "phase": "core",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "FINITE"
       ],
@@ -187,7 +187,7 @@
         "Prove ring closure, construct the algebra equivalence to SymmetricFunction R, and verify each specialization.",
         "Prove independence of the chosen bound and stable alphabet."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/STABLE.md"
     },
     {
       "id": "COMPLETE",
