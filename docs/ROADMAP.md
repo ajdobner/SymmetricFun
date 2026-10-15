@@ -2,13 +2,13 @@
 
 The first release will construct the graded ring of symmetric functions, identify it with bounded stable symmetric polynomials, equip it with its usual Hopf structure, and prove that its integral form is the free special lambda ring on one generator. The polynomial-backed representation is accepted. The task registry in `tasks.json` supplies prerequisites, module ownership, and completion criteria.
 
-ENV is complete; no mathematical roadmap theorem has been proved yet. The next tasks are API and PART, followed by the finite-specialization prototype. This roadmap intentionally separates implementation work from optional publication on an external proving platform.
+ENV, API, and PART are complete. The polynomial-backed public algebra API and the partition/weighted-exponent equivalence are proved. GRADE, BASE, and SPEC are ready next; EBASIS still requires GRADE. The stable realization and subsequent Hopf and lambda-ring milestones remain open. This roadmap intentionally separates implementation work from optional publication on an external proving platform.
 
 ## Accepted foundation
 
 Use a dedicated `SymmetricFunction R` type with an explicit algebra equivalence to `MvPolynomial ℕ+ R`. Positive generator indices reuse the colleague's prototype and represent `e n` directly. Public functions `e` and `h` take natural-number indices and satisfy `e 0 = h 0 = 1`. Power-sum generators have positive indices. Keep the public type stable if the internal representation later changes.
 
-Task API must settle the Lean mechanism for the dedicated type: test a type synonym with controlled unfolding and transferred instances against a one-field wrapper before choosing. The acceptance test is ordinary algebra elaboration plus usable generator extensionality, not complete opacity at any cost. Downstream proofs should not need to unfold the representation.
+API selected a non-abbreviation type synonym with explicit instances and a polynomial algebra equivalence after compiling both that approach and a one-field wrapper. Both passed ordinary algebra elaboration and generator extensionality probes. Accepted examples also compile with the public type locally irreducible. Downstream proofs should use the public evaluation, induction, and extensionality API without unfolding the representation; see `docs/handoffs/API.md`.
 
 The ambient ring and Hopf API assume `CommRing R`. Reusable polynomial and grading lemmas may retain `CommSemiring R` when inexpensive; semiring generality must not delay the integral target. Use the zero coefficient ring without introducing a blanket `Nontrivial R` assumption. Add that assumption only to results that require it.
 

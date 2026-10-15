@@ -31,13 +31,15 @@
       "id": "API",
       "title": "Define the polynomial-backed public type",
       "phase": "core",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "ENV"
       ],
       "files": [
-        "SymmetricFunctions/Basic.lean"
+        "SymmetricFunctions/Basic.lean",
+        "SymmetricFunctions/Examples/Foundation.lean",
+        "scripts/probes/APIRepresentations.lean"
       ],
       "acceptance": [
         "Choose and document a dedicated type backed by MvPolynomial \u2115+ R; test wrapper versus controlled type synonym before freezing it.",
@@ -45,26 +47,27 @@
         "Provide evaluation into a commutative R-algebra, generator evaluation laws, induction, and algebra-map extensionality.",
         "Demonstrate ordinary algebra elaboration without unfolding the representation downstream."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/API.md"
     },
     {
       "id": "PART",
       "title": "Equate partitions with weighted exponent vectors",
       "phase": "core",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "ENV"
       ],
       "files": [
-        "SymmetricFunctions/Partition.lean"
+        "SymmetricFunctions/Partition.lean",
+        "SymmetricFunctions/Examples/Foundation.lean"
       ],
       "acceptance": [
         "Construct Nat.Partition d \u2243 {a : \u2115+ \u2192\u2080 \u2115 // \u2211 i in a.support, (i : \u2115) * a i = d}.",
         "Prove both inverse laws and product/multiplicity interpretation, including the empty partition.",
         "Reuse Mathlib Nat.Partition; do not import the colleague's redeclaration."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/PART.md"
     },
     {
       "id": "GRADE",
