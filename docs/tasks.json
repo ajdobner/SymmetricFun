@@ -112,20 +112,21 @@
       "id": "BASE",
       "title": "Prove coefficient functoriality and scalar extension",
       "phase": "core",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "API"
       ],
       "files": [
-        "SymmetricFunctions/BaseChange.lean"
+        "SymmetricFunctions/BaseChange.lean",
+        "SymmetricFunctions/Basic.lean"
       ],
       "acceptance": [
         "Construct coefficient maps for ring homomorphisms and identity/composition laws.",
         "Construct R \u2297[\u2124] SymmetricFunction \u2124 \u2243\u2090[R] SymmetricFunction R.",
         "Prove evaluation and elementary-generator compatibility; do not infer a lambda structure from CommRing R."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/BASE.md"
     },
     {
       "id": "SPEC",

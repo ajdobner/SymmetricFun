@@ -2,7 +2,7 @@
 
 The first release will construct the graded ring of symmetric functions, identify it with bounded stable symmetric polynomials, equip it with its usual Hopf structure, and prove that its integral form is the free special lambda ring on one generator. The polynomial-backed representation is accepted. The task registry in `tasks.json` supplies prerequisites, module ownership, and completion criteria.
 
-ENV, API, PART, GRADE, and EBASIS are complete. The public algebra API, partition/weighted-exponent equivalence, weighted grading, and exhaustive degree filtration are proved. The homogeneous and full elementary partition bases are proved. BASE is next in the active implementation run; SPEC and COMPLETE are also ready. The stable realization and subsequent Hopf and lambda-ring milestones remain open. This roadmap intentionally separates implementation work from optional publication on an external proving platform.
+ENV, API, PART, GRADE, EBASIS, and BASE are complete. The public algebra API, partition/weighted-exponent equivalence, weighted grading, and exhaustive degree filtration are proved. The homogeneous and full elementary partition bases are proved. Coefficient functoriality and integral scalar extension are proved. SPEC is next in the active implementation run; COMPLETE is also ready. The stable realization and subsequent Hopf and lambda-ring milestones remain open. This roadmap intentionally separates implementation work from optional publication on an external proving platform.
 
 ## Accepted foundation
 

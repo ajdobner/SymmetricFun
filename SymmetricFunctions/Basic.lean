@@ -33,6 +33,11 @@ instance (R : Type*) [CommRing R] : CommRing (SymmetricFunction R) :=
 instance (R : Type*) [CommSemiring R] : Algebra R (SymmetricFunction R) :=
   inferInstanceAs (Algebra R (MvPolynomial ℕ+ R))
 
+/-- Keep the coefficient module aligned with the algebra structure, including
+when the coefficient ring is `ℤ` and the generic integer module is available. -/
+instance (priority := 1100) (R : Type*) [CommSemiring R] : Module R (SymmetricFunction R) :=
+  Algebra.toModule
+
 /-- The explicit polynomial presentation. -/
 def polynomialEquiv (R : Type*) [CommSemiring R] :
     SymmetricFunction R ≃ₐ[R] MvPolynomial ℕ+ R :=

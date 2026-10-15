@@ -135,3 +135,12 @@ All API acceptance criteria, statement review, and integration checks passed
 for the exact source hashes above. GRADE, BASE, and SPEC are ready next.
 Stable realization, weighted grading, Hopf structure, and the integral universal
 special lambda-ring theorem remain separate obligations.
+
+## BASE integration amendment
+
+BASE adds the coefficient `Module` instance derived from `Algebra.toModule`
+at priority 1100, resolving tensor inference with the generic integer module.
+No operations or theorem statements change. See `BASE.md` for the diagnostic
+and validation. Updated Basic SHA-256:
+`7f2599466c19b9ebf4b81ea4a27024155ef4de0864fda8e2fc9e52a7aaacf49e`.
+The full eight-module build and 194-declaration axiom audit passed.

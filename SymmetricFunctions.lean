@@ -1,4 +1,5 @@
 import SymmetricFunctions.Basic
+import SymmetricFunctions.BaseChange
 import SymmetricFunctions.Basis.Elementary
 import SymmetricFunctions.Environment
 import SymmetricFunctions.Examples.Foundation
