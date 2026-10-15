@@ -1,10 +1,10 @@
 # Symmetric functions: declaration guide
 
 Import `SymmetricFunctions` for the accepted library. The generated
-[complete declaration index](declarations.tsv) records 929 noninternal
+[complete declaration index](declarations.tsv) records 1,037 noninternal
 declarations, their defining modules, and their kinds. It includes generated
 class declarations; private helpers and anonymous examples are omitted. The
-axiom audit also covers those omitted declarations (1,232 declarations total).
+axiom audit also covers those omitted declarations (1,367 declarations total).
 
 Regenerate the index after building the library:
 
@@ -18,7 +18,7 @@ major contracts, their referenced definitions, and representative axiom
 dependencies. Run it with `lake env lean scripts/ReviewRelease.lean`.
 The [release handoff](handoffs/RELEASE.md) records the separate mathematical
 review and initial validation. The [notation handoff](handoffs/NOTATION.md)
-records the subsequent readability work. The [lambda simplification repair](handoffs/LSIMP.md) records the current complete-library audit and public normal-form policy.
+records the subsequent readability work. The [lambda simplification repair](handoffs/LSIMP.md) records the public normal-form policy. The latest extension validation is recorded in the [RATIONAL handoff](handoffs/RATIONAL.md).
 
 ## Optional notation and descriptive aliases
 
@@ -47,6 +47,25 @@ Unless indicated otherwise, the namespace is `SymmetricFunction`.
 | [Omega](../SymmetricFunctions/Omega.lean) | `omega`, `omega_omega` | Grading-preserving elementary/complete involution. |
 | [Complete basis](../SymmetricFunctions/Basis/Complete.lean) | `hBasis`, `hBasisAll` | Complete partition bases and polynomial freeness. |
 | [Power sums](../SymmetricFunctions/PowerSum.lean) | `p`, `p_two` | Positive-index integral Newton power sums and finite specialization. |
+
+## Rational evaluation and independent alphabets
+
+These interfaces require `[CommRing R] [Algebra ℚ R]`. They do not assign lambda
+operations to R, and they do not alter integral freeness for torsion targets.
+
+| Module | Entry points | Contract |
+| --- | --- | --- |
+| [Rational presentation](../SymmetricFunctions/Plethysm/Rational.lean) | `powerSumPolynomialEquiv`, `powerSumChangeOfGenerators`, `powerSumHomogeneous` | Proved algebra equivalence `MvPolynomial ℕ+ R ≃ₐ[R] SymmetricFunction R` sending X_k to p_k; both inverse Newton substitutions preserve weighted degree. No Nontrivial assumption. |
+| [Power-sum basis](../SymmetricFunctions/Basis/PowerSum.lean) | `pPart`, `pBasis`, `pBasisAll`, `pBasisAll_repr` | Actual products of power sums give homogeneous and whole-ring partition bases. The products themselves are defined over every commutative ring. |
+| [Universal evaluator](../SymmetricFunctions/Plethysm/Rational.lean) | `powerSumEval`, `powerSumEvalEquiv`, `algHom_ext_p` | Specify every positive power-sum image in any commutative R-algebra. The unique R-algebra map fixes outer coefficients; no target lambda structure is required. |
+| [Alphabet operations](../SymmetricFunctions/Alphabets.lean) | `negativeAlphabetEval`, `scaledAlphabetEval`, `sumAlphabetEval`, `productAlphabetEval`, `powerSumAdams` | Virtual minus negates every p-image; scaling by t multiplies the kth image by t^k. Adams raises actual finite alphabet variables to powers. |
+| [Tensor and mixed objects](../SymmetricFunctions/Alphabets.lean) | `tensorPowerSumPolynomialEquiv`, `tensorAlphabetEval`, `MixedAlphabet`, `mixedPowerSumPolynomialEquiv`, `mixedAlphabetEval`, `mixedAdams`, `mixedPlethysticEval` | Independent tensor factors with explicit generator maps and universal evaluation. Inner polynomial parameters receive Adams powers, while R-coefficients remain fixed. |
+| [Geometric alphabets](../SymmetricFunctions/Alphabets.lean) | `geometricAlphabetEval`, `geometricAlphabetEval_denominator`, `geometricAlphabetEval_unique`, `geometricAlphabetEval_p_field` | X/(1-t) evaluation requires every positive-index 1-t^k to be a unit. Denominator equations characterize it; the field formula is p_k[X]/(1-t^k). No infinite-series evaluation is asserted. |
+
+[Examples/Rational](../SymmetricFunctions/Examples/Rational.lean) checks repeated
+parts, degree zero, the zero ring, even virtual negation, formal scaling, fixed
+outer coefficients, transforming inner parameters, independent tensor images,
+an empty polynomial alphabet, and all geometric denominators in ℚ(t).
 
 ## Stable realization
 
@@ -109,8 +128,8 @@ a nonzero element killed by `2`; its `e₂` value is zero.
 
 ## Further work
 
-All initial core tasks through RELEASE are complete. PLETH has its basic integral operation and laws; its remaining obligations and
-MONOMIAL are the next research work. RATIONAL, SERIES, SCHUR, and COMPLETION
-have further prerequisites. BLUEPRINT and PLATFORM are optional tooling and
-external-work tasks. Their exact scope and status remain in
-[the registry](tasks.json); none is part of the completed initial release.
+All initial core tasks through RELEASE are complete. PLETH and MONOMIAL are
+complete; RATIONAL is complete. SERIES and SCHUR have completed
+prerequisites; COMPLETION still depends on SERIES. BLUEPRINT and PLATFORM are
+optional tooling and external-work tasks. Their exact scope and status remain
+in [the registry](tasks.json). The whole symmetric-functions project is not complete.

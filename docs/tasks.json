@@ -559,8 +559,8 @@
       "id": "RATIONAL",
       "title": "Support rational evaluation and multiple alphabets",
       "phase": "extension",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "PLETH",
         "HBASIS",
@@ -568,7 +568,9 @@
       ],
       "files": [
         "SymmetricFunctions/Plethysm/Rational.lean",
-        "SymmetricFunctions/Alphabets.lean"
+        "SymmetricFunctions/Alphabets.lean",
+        "SymmetricFunctions/Basis/PowerSum.lean",
+        "SymmetricFunctions/Examples/Rational.lean"
       ],
       "acceptance": [
         "Prove the power-sum polynomial presentation and basis over a Q-algebra.",
@@ -576,7 +578,7 @@
         "Prove sign and parameter conventions, including p_k[-X] and p_k[tX].",
         "Construct separately symmetric tensor alphabets and mixed finite-polynomial/symmetric objects; state hypotheses for X/(1-t) evaluation."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/RATIONAL.md"
     },
     {
       "id": "MONOMIAL",

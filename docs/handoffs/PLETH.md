@@ -3,7 +3,7 @@
 - Task: PLETH; owner: Codex (single worker); status: done. Complete implementation validated after LSIMP; historical partial checkpoint below.
 - Prerequisites: LFREE a71e8ee, NEWTON fde87d5, HOPF 00cc4cf.
 - Lean v4.34.1; Mathlib d13f23b723b8a846827a245b89c10fc7d3f11612.
-- Current authorized scope: `SymmetricFunctions/Plethysm/Integral.lean`, sufficient
+- Historical notation-only scope (superseded by the completed implementation below): `SymmetricFunctions/Plethysm/Integral.lean`, sufficient
   to support the user's notation/readability request. Full extension not claimed.
 
 ## Reviewed foundational contract
@@ -15,7 +15,7 @@ It is not asserted additive in the inner argument. Only integer coefficients
 are used, and the actual constructed special structure is used on the source.
 The proof of associativity is the already proved naturality of lambdaEval.
 
-## Remaining full-task obligations
+## Historical obligations at the notation-only checkpoint
 
 Adams operations and psi_k(p_n)=p_(kn) are not yet implemented. The needed
 tensor-product special lambda structure and its Hopf alphabet-addition

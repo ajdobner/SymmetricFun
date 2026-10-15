@@ -67,3 +67,7 @@ import SymmetricFunctions.Finite.Monomial
 import SymmetricFunctions.Partition.Orbits
 import SymmetricFunctions.Basis.Monomial
 import SymmetricFunctions.Examples.Monomial
+import SymmetricFunctions.Plethysm.Rational
+import SymmetricFunctions.Basis.PowerSum
+import SymmetricFunctions.Alphabets
+import SymmetricFunctions.Examples.Rational

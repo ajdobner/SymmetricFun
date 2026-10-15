@@ -114,8 +114,11 @@ more specific type `Λ[ℤ] → Λ[ℤ] → Λ[ℤ]`.
 The paper also uses coefficient-linear power-sum evaluation: for a commutative
 `ℚ`-algebra `K`, a commutative `K`-algebra `A`, and specified images of every
 positive power sum, there is a `K`-algebra evaluation. Outer coefficients in
-`K` are fixed. This API is still the RATIONAL milestone; the notation here
-does not silently assert it or assign a lambda structure to `K`.
+`K` are fixed. Use `SymmetricFunction.powerSumEval x f`, where `x : ℕ+ → A`.
+The proved `powerSumPolynomialEquiv K` sends the formal variable `X k` to `p k`;
+`powerSumEvalEquiv` expresses the unique coefficient-algebra evaluation property.
+It assigns no lambda structure to `K` or `A`. The integral double brackets
+remain integral; they are not overloaded for coefficient-linear evaluation.
 
 A parameter's role matters. When `t` occurs inside a formal alphabet, it is an
 indeterminate letter and power substitution sends it to `t^k`. When `t` is
@@ -136,14 +139,27 @@ ordinary ring specialization into a lambda morphism.
 The accepted convention examples demonstrate this distinction in degree two:
 `lambdaEval (MvPolynomial.X ()) (p 2)` is the square of the variable; setting
 that variable to `-1` gives `1`. In the same proved polynomial special lambda
-ring, `lambdaEval (-1) (p 2)` is instead `-1`. General power-sum/Adams formulas
-and parameter-alphabet APIs remain PLETH/RATIONAL obligations.
+ring, `lambdaEval (-1) (p 2)` is instead `-1`. The integral `plethysm_p` and `plethysm_p_neg` prove the general Adams and
+virtual-negative formulas. For rational coefficient-linear evaluation use
+`negativeAlphabetEval x` and `scaledAlphabetEval t x`; their p-image formulas
+hold for every positive index.
 
 Several formal alphabets in the paper mean *separate* symmetry in disjoint
 sets of variables. The core Hopf maps use tensor products over the coefficient
 ring and finite disjoint-union alphabets. They do not mean diagonal invariants.
-Mixed objects such as `K[x₁,…,xᵣ] ⊗[K] Λ[K]` need explicit coefficient and
-alphabet inclusions. The present bracket notation does not supply these APIs.
+`tensorAlphabetEval x y` assigns independent p-images to the two factors of
+`Λ[K] ⊗[K] Λ[K]`. Its composition with the coproduct is `sumAlphabetEval x y`.
+`MixedAlphabet σ K` is explicitly `MvPolynomial σ K ⊗[K] Λ[K]`;
+`mixedAlphabetEval z x` assigns the ordinary variables and symmetric p-images.
+The polynomial presentations use the disjoint variable sets `ℕ+ ⊕ ℕ+` and
+`σ ⊕ ℕ+`, respectively.
+
+For an inner mixed expression `g`, `mixedPlethysticEval g f` evaluates the outer
+function f with p_k image `mixedAdams k g`. This raises the ordinary variables
+inside g to kth powers and replaces p_n by p_(kn), fixing K throughout. Thus
+an inner parameter is stored in the polynomial tensor factor. An outer parameter
+belonging to K is fixed by the K-algebra map. The APIs use descriptive names to
+keep these roles visible; no extra alphabet syntax is required.
 
 ## Lowercase omega and completed uppercase Omega
 
@@ -156,9 +172,13 @@ and evaluating that variable at `1` is not supplied.
 
 COMPLETION must provide the completed type, its multiplication, and justified
 continuity/substitution operations before `Ω` or expressions such as `Ω[A]`
-are introduced. Likewise `X/(1-t)` requires a specified target and legitimate
-denominators or convergence conditions. No unrestricted infinite plethysm is
-asserted by this notation.
+are introduced. For bounded symmetric functions, `geometricAlphabetEval t h x`
+implements `X/(1-t)` when `h : ∀ k : ℕ+, IsUnit (1-t^k)` in the target. Its
+kth p-image is x_k times the inverse unit; in a field this is x_k/(1-t^k).
+The denominator equations uniquely determine the map. The condition is on
+**every** positive k, not merely k=1. The ℚ(t) example proves all these units.
+Only a finite polynomial in p is evaluated; no unrestricted infinite plethysm
+or convergence assertion follows.
 
 ## Checks and remaining scope
 
@@ -168,6 +188,6 @@ precedence, nesting, inference, aliases, and the sign convention with proofs.
 isolation, displayed goals, and rejection of unsupported coefficient and target
 types. It runs automatically in `python3 scripts/check_project.py`.
 
-The notation pass and the basic integral plethysm laws are complete. Full PLETH
-still requires Adams operations and the tensor lambda/Hopf compatibility proof.
-RATIONAL and COMPLETION remain unfinished; see their exact registry contracts.
+The notation pass, full integral plethysm, and tensor lambda/Hopf compatibility
+are complete. Rational evaluation and mixed alphabets have their own named API
+and convention examples. COMPLETION remains a separate unfinished milestone.

@@ -46,3 +46,15 @@ and basis. The colleague's support-fiber matching idea in
 is credited in `Partition/Orbits.lean`; proofs were reconstructed with Mathlib
 APIs, without copying colleague source or importing its replacement partitions.
 The unresolved redistribution-license caution for colleague source is unchanged.
+
+## RATIONAL implementation reuse
+
+The rational power-sum presentation reuses the local integral Newton recurrence,
+Mathlib algebra equivalences/evaluation, and the proved elementary partition
+bases. Tensor and mixed presentations reuse `MvPolynomial.tensorEquivSum` and
+`Algebra.TensorProduct.congr`; parameter Adams uses `MvPolynomial.expand`.
+The geometric example uses the pinned rational-function polynomial embedding.
+The paper's coefficient and plethystic conventions were consulted read-only.
+No colleague proof text, replacement partition definition, external proof, or
+new dependency was imported. See `handoffs/RATIONAL.md` for statement review
+and full validation.
