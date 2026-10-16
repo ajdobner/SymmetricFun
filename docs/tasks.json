@@ -712,22 +712,24 @@
       "id": "COMP-HOPF",
       "title": "Extend the coproduct to the completed tensor target",
       "phase": "extension",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "COMP-ALG",
         "COMP-OMEGA",
         "HOPF"
       ],
       "files": [
-        "SymmetricFunctions/Completion/Hopf.lean"
+        "SymmetricFunctions/Completion/Single.lean",
+        "SymmetricFunctions/Completion/Hopf.lean",
+        "SymmetricFunctions/Examples/CompletedHopf.lean"
       ],
       "acceptance": [
         "Construct a completed tensor target respecting both factor degrees and finite total-degree convolution, over arbitrary CommRing R.",
         "Extend the existing coproduct as an algebra map agreeing on bounded functions; prove component formulas and the group-like identity for Ω.",
         "Do not assert that this map lands in the ordinary algebraic tensor product of the completions."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/COMP-HOPF.md"
     },
     {
       "id": "COMP-SUBST",

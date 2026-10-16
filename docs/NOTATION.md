@@ -231,3 +231,9 @@ injective algebra map from `Λ[R]`. No new notation is needed for these operatio
 `Fin N`, with a formal power-series result. On `completionEmbedding R f` it is
 exactly the series inclusion of `rho R N f`. These operations use actual alphabet
 variables and total alphabet degree, matching weighted symmetric-function degree.
+
+For completed alphabet addition, `completedCoproduct R Ω` equals
+`completedTensorProduct R Ω Ω`. The latter is an external product in
+`CompletedTensor R`, whose nth component sums `F_i ⊗ G_j` over i+j=n.
+This target is the product of total-degree tensor pieces. No ordinary tensor
+product of two completions is used, and no extra custom tensor notation is needed.

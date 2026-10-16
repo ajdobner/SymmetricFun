@@ -135,6 +135,14 @@ and integral base-change compatibility. [Alphabets](../SymmetricFunctions/Hopf/A
 identifies the coproduct with addition of finite disjoint alphabets. Both
 counit laws, coassociativity, both antipode laws, and cocommutativity are proved.
 
+The degree-completed version lives in
+[Completion/Hopf](../SymmetricFunctions/Completion/Hopf.lean).
+`CompletedTensor R` is the product of total-degree pieces of the bounded tensor
+algebra. `completedCoproduct_embedding` proves agreement with the original
+coproduct via `tensorCompletionMap`. `completedTensorProduct F G` has component
+`∑ i+j=n, F_i ⊗ G_j`, and `completedCoproduct_completeSeries` is Ω's group-like
+identity in this completed target. It has no ordinary tensor-of-completions claim.
+
 ## Integral exterior powers and freeness
 
 | Module | Entry points | Contract |
