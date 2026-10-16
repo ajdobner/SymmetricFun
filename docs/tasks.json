@@ -607,20 +607,22 @@
       "id": "SERIES",
       "title": "Identify bounded symmetric power series",
       "phase": "extension",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "MONOMIAL"
       ],
       "files": [
-        "SymmetricFunctions/Realization/PowerSeries.lean"
+        "SymmetricFunctions/Realization/SeriesBasic.lean",
+        "SymmetricFunctions/Realization/PowerSeries.lean",
+        "SymmetricFunctions/Examples/Series.lean"
       ],
       "acceptance": [
         "Port selected homogeneous and permutation-action lemmas with attribution.",
         "Prove SymmetricFunction R is algebra-equivalent to bounded symmetric MvPowerSeries ℕ R.",
         "Prove compatibility for e, h, m and finite specializations; close all transitive holes in reused proofs."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/SERIES.md"
     },
     {
       "id": "SCHUR",
@@ -644,14 +646,122 @@
       "evidence": null
     },
     {
-      "id": "COMPLETION",
-      "title": "Support symmetric series and convergent substitutions",
+      "id": "COMP-ALG",
+      "title": "Construct the degree-completion algebra",
       "phase": "extension",
       "status": "planned",
       "owner": null,
       "depends_on": [
         "SERIES",
+        "GRADE"
+      ],
+      "files": [
+        "SymmetricFunctions/Completion/Basic.lean"
+      ],
+      "acceptance": [
+        "Construct the product of weighted homogeneous components over every CommRing R, with finite antidiagonal convolution multiplication and an R-algebra structure.",
+        "Prove component extensionality, the injective bounded-function algebra map, truncation formulas and multiplication compatibility at every finite degree."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "COMP-SERIES",
+      "title": "Identify the completion with symmetric multivariate series",
+      "phase": "extension",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "COMP-ALG",
+        "SERIES"
+      ],
+      "files": [
+        "SymmetricFunctions/Completion/Realization.lean"
+      ],
+      "acceptance": [
+        "Prove an R-algebra equivalence with permutation-invariant MvPowerSeries ℕ R over every CommRing R.",
+        "Prove compatibility with the bounded embedding, homogeneous components and finite restriction; distinguish the target from an unrestricted inverse limit of finite polynomial rings."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "COMP-OMEGA",
+      "title": "Define the completed Omega series and inverse",
+      "phase": "extension",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "COMP-ALG",
+        "COMP-SERIES",
+        "COMPLETE"
+      ],
+      "files": [
+        "SymmetricFunctions/Completion/Omega.lean",
+        "SymmetricFunctions/Notation.lean"
+      ],
+      "acceptance": [
+        "Define completeSeries with degree-n component h_n and scoped Ω notation on the completed type, distinct from ω.",
+        "Prove both e/h convolution identities and that the completed series with component (-1)^n e_n is inverse to Ω, over arbitrary commutative rings.",
+        "Check degree zero, first components and finite specialization; document activation and descriptive names."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "COMP-HOPF",
+      "title": "Extend the coproduct to the completed tensor target",
+      "phase": "extension",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "COMP-ALG",
+        "COMP-OMEGA",
+        "HOPF"
+      ],
+      "files": [
+        "SymmetricFunctions/Completion/Hopf.lean"
+      ],
+      "acceptance": [
+        "Construct a completed tensor target respecting both factor degrees and finite total-degree convolution, over arbitrary CommRing R.",
+        "Extend the existing coproduct as an algebra map agreeing on bounded functions; prove component formulas and the group-like identity for Ω.",
+        "Do not assert that this map lands in the ordinary algebraic tensor product of the completions."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "COMP-SUBST",
+      "title": "Prove justified completed evaluations",
+      "phase": "extension",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "COMP-SERIES",
+        "COMP-OMEGA",
         "RATIONAL"
+      ],
+      "files": [
+        "SymmetricFunctions/Completion/Substitution.lean"
+      ],
+      "acceptance": [
+        "State useful sufficient filtration or coefficient-finiteness hypotheses and prove evaluation of completed series is well-defined and an algebra map.",
+        "Prove agreement with existing bounded evaluation and discharge actual Mathlib HasSubst hypotheses when using substitution.",
+        "Prove positive-degree hypotheses used in examples; give meaningful Ω evaluation and finite-specialization checks.",
+        "Expose no unrestricted infinite plethysm and do not use invertibility of 1-t^k alone to evaluate Ω."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "COMPLETION",
+      "title": "Support symmetric series and convergent substitutions",
+      "phase": "extension",
+      "status": "planned",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "SERIES",
+        "RATIONAL",
+        "COMP-ALG",
+        "COMP-SERIES",
+        "COMP-OMEGA",
+        "COMP-HOPF",
+        "COMP-SUBST"
       ],
       "files": [
         "SymmetricFunctions/Completion.lean"
@@ -662,7 +772,7 @@
         "State and prove sufficient continuity/substitution conditions, including completed tensor products for coproduct extension.",
         "Do not claim arbitrary infinite plethysm exists."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/COMPLETION.md"
     },
     {
       "id": "BLUEPRINT",

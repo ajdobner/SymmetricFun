@@ -71,3 +71,6 @@ import SymmetricFunctions.Plethysm.Rational
 import SymmetricFunctions.Basis.PowerSum
 import SymmetricFunctions.Alphabets
 import SymmetricFunctions.Examples.Rational
+import SymmetricFunctions.Realization.SeriesBasic
+import SymmetricFunctions.Realization.PowerSeries
+import SymmetricFunctions.Examples.Series

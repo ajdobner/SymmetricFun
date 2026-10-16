@@ -1,10 +1,10 @@
 # Symmetric functions: declaration guide
 
 Import `SymmetricFunctions` for the accepted library. The generated
-[complete declaration index](declarations.tsv) records 1,037 noninternal
+[complete declaration index](declarations.tsv) records 1,092 noninternal
 declarations, their defining modules, and their kinds. It includes generated
 class declarations; private helpers and anonymous examples are omitted. The
-axiom audit also covers those omitted declarations (1,367 declarations total).
+axiom audit also covers those omitted declarations (1,448 declarations total).
 
 Regenerate the index after building the library:
 
@@ -81,6 +81,17 @@ All results below assume only `CommRing R`, allowing the zero ring.
 The bound is a property, not chosen mathematical data. The unrestricted inverse
 limit and the degree completion are outside this realization.
 
+## Symmetric multivariate series
+
+[SeriesBasic](../SymmetricFunctions/Realization/SeriesBasic.lean) defines permutation
+invariance and a single uniform coefficient-degree bound, both proof-irrelevant.
+[PowerSeries](../SymmetricFunctions/Realization/PowerSeries.lean) exports
+`toSeries`, `boundedSeriesEquiv`, `coeff_toSeries`, `finiteRestriction_toSeries`,
+and `toSeries_homogeneousComponent`. The algebra equivalence uses only CommRing R.
+The monomial images are actual coefficient-one exponent orbits; elementary and
+complete images recover their finite polynomials for every alphabet size.
+See [SERIES](handoffs/SERIES.md) for the separate statement review and validation.
+
 ## Hopf algebra
 
 [Hopf](../SymmetricFunctions/Hopf.lean) exports the standard Mathlib
@@ -129,7 +140,7 @@ a nonzero element killed by `2`; its `e₂` value is zero.
 ## Further work
 
 All initial core tasks through RELEASE are complete. PLETH and MONOMIAL are
-complete; RATIONAL is complete. SERIES and SCHUR have completed
-prerequisites; COMPLETION still depends on SERIES. BLUEPRINT and PLATFORM are
+complete; RATIONAL is complete. SERIES is complete. COMPLETION is being implemented through its explicit
+subtasks; SCHUR is ready by prerequisites but outside this run. BLUEPRINT and PLATFORM are
 optional tooling and external-work tasks. Their exact scope and status remain
 in [the registry](tasks.json). The whole symmetric-functions project is not complete.

@@ -58,3 +58,13 @@ The paper's coefficient and plethystic conventions were consulted read-only.
 No colleague proof text, replacement partition definition, external proof, or
 new dependency was imported. See `handoffs/RATIONAL.md` for statement review
 and full validation.
+
+## SERIES implementation reuse
+
+Consulted the colleague's Homogeneous, Symmetric, HomogeneousSymmetric and Bases
+modules read-only. Their invariant-series and proof-irrelevant bound design and
+coefficient-shape approach are credited in Realization/SeriesBasic.lean. No proof
+text or replacement partition was copied. The new equivalence uses the proved
+local monomial basis and orbit classification, pinned MvPowerSeries.rename,
+killCompl, polynomial inclusion and homogeneousComponent. All referenced
+proofs are in the accepted dependency graph and pass the axiom audit.

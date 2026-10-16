@@ -191,3 +191,14 @@ types. It runs automatically in `python3 scripts/check_project.py`.
 The notation pass, full integral plethysm, and tensor lambda/Hopf compatibility
 are complete. Rational evaluation and mixed alphabets have their own named API
 and convention examples. COMPLETION remains a separate unfinished milestone.
+
+
+## Bounded symmetric-series realization
+
+`SymmetricFunction.boundedSeriesEquiv R` identifies Λ[R] with
+`SymmetricFunctions.Series.BoundedSymmetricSeries R`. Its bound is the proposition
+`∃ D, ∀ a, coeff a F ≠ 0 → a.degree ≤ D`, not a selected bound or finite support
+in the infinitely many alphabet variables. `toSeries R` is the underlying
+algebra map; `finiteRestriction R N` sets variables outside Fin N to zero and
+recovers `rho R N`. Weighted homogeneous projections agree in both realizations.
+This does not yet supply Ω: the separate degree completion remains in progress.
