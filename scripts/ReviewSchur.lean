@@ -138,3 +138,16 @@ open SymmetricFunction
 #print axioms completedTensorSpecialization_bounded
 #print axioms SymmetricFunctions.coeff_finiteCauchyProduct
 #print axioms homogeneousComponent_finiteCauchyProduct_even
+
+#print cauchySchurComponent
+#print cauchyKernel
+#check @tensorHall_schur
+#check @tensorHall_schur_ext
+#check @cauchySchurComponent_eq_completeMonomial
+#check @component_cauchyKernel_schur
+#check @component_cauchyKernel_odd
+#check @completedTensorSpecialization_cauchyKernel
+#check @component_cauchyKernel_zero
+#check @component_cauchyKernel_two
+#print axioms cauchySchurComponent_eq_completeMonomial
+#print axioms completedTensorSpecialization_cauchyKernel

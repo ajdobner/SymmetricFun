@@ -91,3 +91,20 @@ use these public APIs and the project's existing h/e convolution; no colleague
 source was copied and both reference checkouts remain unchanged. The new finite
 upper Toeplitz ring map proves its multiplication by an explicit interval-to-
 antidiagonal bijection. A search of the pin found no Jacobi–Trudi implementation.
+
+## SCHUR completed algebraic theory
+
+The integral basis uses pinned Mathlib rearrangement, determinant, basis, and
+direct-sum APIs. Complementary minors use block determinants and the actual
+h/e Toeplitz inverse, with explicit Mathlib YoungDiagram boundary and permutation
+sign proofs. Hall theory uses the established actual monomial basis, finite
+coefficient orbits, finite margin matrices and their transposes; Schur
+orthogonality uses an integral bialternant multiplication identity, with no
+alternant division. Skewing contracts the proved finite Hopf coproduct; its
+skew determinant follows from mixed-alphabet coefficients and finite column
+separation. The Cauchy product uses pinned MvPowerSeries.invOfUnit and certified
+PowerSeries.substAlgHom, and Finsupp.image_sumElim_product_antidiagonal proves
+the joint/iterated series algebra equivalence. All infinite-looking expressions
+are handled coefficientwise by finite antidiagonals or actual HasSubst proofs.
+No colleague proof text, replacement shape definitions, dependency changes,
+external proving services, or reference-checkout edits were introduced.

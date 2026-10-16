@@ -1,6 +1,6 @@
 # Bounded adjoint skewing and actual skew Jacobi–Trudi determinants
 
-- Owner Codex (single worker); status in_progress; base e1d92b4.
+- Owner Codex (single worker); status done; base e1d92b4.
 - Prerequisites HALL-SCHUR, SCHUR-DUAL, SCHUR-PART complete.
 - Lean v4.34.1; Mathlib d13f23b723b8a846827a245b89c10fc7d3f11612 pinned.
 - Assigned Hall/Skewing.lean, Schur/Skew.lean, Hopf/MixedSpecialization.lean,

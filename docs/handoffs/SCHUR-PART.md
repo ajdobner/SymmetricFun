@@ -1,6 +1,6 @@
 # Partition rows and Young diagram adapters
 
-- Task SCHUR-PART; owner Codex (single worker); status in_progress.
+- Task SCHUR-PART; owner Codex (single worker); status done.
 - Prerequisite PART complete; base 9f0eaee; pinned environment unchanged.
 - Scope SymmetricFunctions/Partition/YoungDiagram.lean.
 

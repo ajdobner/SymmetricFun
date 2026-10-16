@@ -816,8 +816,8 @@
       "id": "SCHUR-CAUCHY",
       "title": "Schur Cauchy kernel in total-degree completion",
       "phase": "extension",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "CAUCHY-FINITE",
         "HALL-SCHUR",
@@ -825,20 +825,21 @@
       ],
       "files": [
         "SymmetricFunctions/Cauchy.lean",
-        "SymmetricFunctions/Hall.lean"
+        "SymmetricFunctions/Hall.lean",
+        "SymmetricFunctions/Examples/Cauchy.lean"
       ],
       "acceptance": [
         "Construct the Cauchy kernel in CompletedTensor and prove equality of Schur/Schur and complete/monomial expansions with degree-2*d terms and zero odd components.",
         "Prove finite specialization equals the justified product of inverses of 1-x_i*y_j; distinguish Omega[XY] from the proved coproduct identity Omega[X+Y].",
         "Integrate readable scoped APIs and meaningful negative-index, padding, (2,1), conjugation, Hall, skew and low Cauchy examples; pass full integration and transitive axiom review."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/SCHUR-CAUCHY.md"
     },
     {
       "id": "SCHUR",
       "title": "Develop Schur and Hall theory",
       "phase": "extension",
-      "status": "in_progress",
+      "status": "done",
       "owner": "Codex (single worker)",
       "depends_on": [
         "MONOMIAL",

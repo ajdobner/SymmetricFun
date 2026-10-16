@@ -376,3 +376,20 @@ product names are used, with no new bracket notation. It is distinct from
 `completedCoproduct_completeSeries`, which concerns Ω[X+Y]. The auxiliary
 `sumSeriesEquiv` reindexes coefficients into an iterated formal-series ring;
 it does not evaluate any variable at one or sum infinitely many coefficients.
+
+`cauchyKernel R : CompletedTensor R` is the completed Cauchy kernel. For instance,
+with `open scoped TensorProduct`,
+
+```lean
+example : CompletedTensor.component R (cauchyKernel R) 2 =
+    e 1 ⊗ₜ[R] e 1 := by simp
+```
+
+`component_cauchyKernel_schur d` gives the Schur sum over `Nat.Partition d` in
+component `2*d`. `component_cauchyKernel_even d` gives the equal h/m sum;
+`component_cauchyKernel_odd d` gives zero in component `2*d+1`.
+`completedTensorSpecialization_cauchyKernel M N` is the proved finite product
+identity. These names keep the bounded partition sums, their total-degree
+completion, and the finite-alphabet map explicit. No additional syntax is
+needed. The scoped `Ω` still denotes `completeSeries`, and `ω` still denotes
+the elementary–complete involution.

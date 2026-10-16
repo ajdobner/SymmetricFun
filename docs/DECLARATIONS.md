@@ -1,10 +1,10 @@
 # Symmetric functions: declaration guide
 
 Import `SymmetricFunctions` for the accepted library. The generated
-[complete declaration index](declarations.tsv) records 1,549 noninternal
+[complete declaration index](declarations.tsv) records 1,566 noninternal
 declarations, their defining modules, and their kinds. It includes generated
 class declarations; private helpers and anonymous examples are omitted. The
-axiom audit also covers those omitted declarations (2,158 declarations total).
+axiom audit also covers those omitted declarations (2,179 declarations total).
 
 Regenerate the index after building the library:
 
@@ -183,13 +183,14 @@ a nonzero element killed by `2`; its `e₂` value is zero.
 ## Further work
 
 All initial core tasks through RELEASE are complete. PLETH and MONOMIAL are
-complete; RATIONAL, SERIES and COMPLETION are complete. The latest full audit
-covers 89 accepted modules and 1,652 declarations. SCHUR is ready by prerequisites
-but outside this run. BLUEPRINT and PLATFORM are
+complete; RATIONAL, SERIES, COMPLETION and the algebraic SCHUR milestone are
+complete. The latest full audit covers 129 accepted modules and 2,179 declarations.
+SCHUR-TABLEAU is the ready deferred bridge to tableau weight sums; no tableau
+formula or positivity theorem is currently claimed. BLUEPRINT and PLATFORM are
 optional tooling and external-work tasks. Their exact scope and status remain
 in [the registry](tasks.json). The whole symmetric-functions project is not complete.
 
-## Schur foundations in progress
+## Schur, Hall, skew and Cauchy theory
 
 [Partition/YoungDiagram](../SymmetricFunctions/Partition/YoungDiagram.lean) exports
 `Partition.rowLength`, `length`, `rowLength_eq_getElem_sort`,
@@ -201,7 +202,8 @@ semistandard tableaux; the tableau generating formula is separately unproved.
 checks (2,1), extra zero padding, empty partitions, rows, and columns.
 The [SCHUR handoff](handoffs/SCHUR.md) records the full parent contract and
 subtask split; `scripts/ReviewSchur.lean` inspects accepted definitions and
-statements separately from compilation. SCHUR is not yet complete.
+statements separately from compilation. All algebraic SCHUR contracts are complete;
+the tableau bridge and positivity remain separate later work.
 
 [Schur/JacobiTrudi](../SymmetricFunctions/Schur/JacobiTrudi.lean) defines
 `completeInt`, `jacobiTrudiMatrix`, and the actual determinant `schur`.
@@ -211,7 +213,8 @@ coefficient naturality, and finite determinant specialization. Empty and one-row
 formulas are simp lemmas. [Schur/Column](../SymmetricFunctions/Schur/Column.lean)
 proves `schur_indiscrete_conjugate = e` using the finite ring map
 `SymmetricFunctions.upperToeplitzHom` and the h/e inverse identity. These results
-assume only CommRing, with no rationality or Nontrivial hypothesis. Hall pairing, skewing and Cauchy remain subsequent subtasks.
+assume only CommRing, with no rationality or Nontrivial hypothesis. The Hall,
+skewing and Cauchy results below retain that same coefficient generality.
 
 [Schur/Triangular](../SymmetricFunctions/Schur/Triangular.lean) proves the integral
 transition to the complete basis. `schurCompleteTransition_eq_delta_of_le`
@@ -297,4 +300,16 @@ algebra constructions, with actual substitution hypotheses discharged.
 `cauchyCompleteMonomialComponent R d` and proves membership in total tensor
 degree `2*d`. `homogeneousComponent_finiteCauchyProduct_even` identifies the
 finite h/m expansion; `homogeneousComponent_finiteCauchyProduct_odd` proves
-odd layers vanish. The Schur/Schur comparison and completed kernel are next.
+odd layers vanish. The Schur/Schur comparison and completed kernel are proved below.
+
+[Hall](../SymmetricFunctions/Hall.lean) supplies `tensorHall_schur` and
+`tensorHall_schur_ext`, the faithful bounded tensor coefficient test.
+[Cauchy](../SymmetricFunctions/Cauchy.lean) proves
+`cauchySchurComponent_eq_completeMonomial` and defines `cauchyKernel R` in the
+existing total-degree `CompletedTensor R`. `component_cauchyKernel_even` gives
+the h/m expansion, `component_cauchyKernel_schur` gives the Schur/Schur expansion,
+and `component_cauchyKernel_odd` gives zero. `completedTensorSpecialization_cauchyKernel`
+identifies it with the actual finite inverse product. Components 0, 1 and 2
+simplify respectively to the tensor unit, zero, and `e 1 ⊗ₜ[R] e 1`.
+No ordinary tensor product of completions, rational descent, tableau formula,
+or unrestricted completed plethysm is used.

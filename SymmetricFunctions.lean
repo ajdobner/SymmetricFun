@@ -123,3 +123,6 @@ import SymmetricFunctions.Completion.PolynomialRealization
 import SymmetricFunctions.Finite.SeriesAlphabets
 import SymmetricFunctions.Cauchy.Components
 import SymmetricFunctions.Examples.FiniteCauchy
+import SymmetricFunctions.Hall
+import SymmetricFunctions.Cauchy
+import SymmetricFunctions.Examples.Cauchy

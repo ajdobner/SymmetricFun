@@ -1,6 +1,6 @@
 # Schur, Hall, skew and Cauchy theory
 
-- Parent SCHUR; owner Codex (single worker); status in_progress.
+- Parent SCHUR; owner Codex (single worker); status done.
 - Base 9f0eaee: 89 modules, 1,652 audited declarations; SERIES/COMPLETION done.
 - Lean v4.34.1; Mathlib d13f23b723b8a846827a245b89c10fc7d3f11612; pins unchanged.
 - Module ownership/dependencies and all acceptance criteria are in tasks.json.
@@ -104,3 +104,47 @@ CAUCHY-FINITE is complete: actual completed tensor specialization, formal invers
 product, coefficient formula, h/m even components and odd vanishing. Full audit:
 126 modules and 2,158 transitive axioms; exact sources in CAUCHY-FINITE.md.
 SCHUR-CAUCHY is now the final ready parent subtask.
+
+## Parent SCHUR completion review (2026-10-16)
+
+The full requested algebraic milestone is complete. The separate review of
+scripts/ReviewSchur.lean and its printed definitions confirms:
+
+- SCHUR-PART: Mathlib partition/YoungDiagram/conjugation/tableau interfaces,
+  decreasing rows, zero padding, length, size and containment; no replacement shape type.
+- SCHUR-JT: actual integer-index determinant, negative indices zero and index
+  zero one; every sufficient padding, weighted homogeneity, coefficient
+  naturality, finite specialization, empty/row/column cases.
+- SCHUR-BASIS: genuine integral unitriangular complete-basis transition and
+  determinant one; homogeneous and full graded Schur bases over arbitrary rings.
+- SCHUR-DUAL: actual dual determinant and omega/conjugation, with complementary
+  minors and signs proved integrally, including empty shapes.
+- HALL-CORE and HALL-SCHUR: one R-bilinear classical form with h/m duality AND
+  Schur orthonormality, symmetry, distinct-degree orthogonality, both
+  nondegeneracy directions, degreewise perfectness, explicit tensor pairing,
+  and multiplication/coproduct adjunction. No infinite-dual identification.
+- SCHUR-SKEW: bounded multiplication adjoint, uniqueness and degree behavior,
+  adjoint-defined skew Schur functions, general integer-index skew determinant,
+  all empty/equal/noncontained conventions and finite skew coproduct expansion.
+- CAUCHY-FINITE and SCHUR-CAUCHY: total-degree completed tensor kernel with
+  equal h/m and Schur/Schur sums, size-d terms in degree 2*d, odd components
+  zero, actual finite specialization algebra map, and the justified formal
+  product of inverses of 1-x_i*y_j. Ω[XY] is distinct from Ω[X+Y].
+
+No parent criterion was weakened. All general ring results remain valid with
+additive torsion and over the zero ring. The polynomial foundation, weighted
+grading, bounded/completed distinction, and dependency pins are preserved.
+The Mathlib SemistandardYoungTableau adapter is available, but its determinant
+weight-sum identification is explicitly unproved under SCHUR-TABLEAU. No tableau
+positivity, Littlewood–Richardson rule, flagged/LLT theorem or external publication
+is claimed. The overall symmetric-functions research project is not complete.
+
+Final full validation: 129 accepted modules, 2,179 transitive axiom audits,
+1,566 noninternal indexed declarations; checker tests (five), notation/lambda
+regressions, Lean MCP diagnostics, and independent statement review all pass.
+Commands/logs and exact final source hashes are in SCHUR-CAUCHY.md. Earlier
+subtask source hashes and checkpoint validations remain in their handoffs.
+Final source base 371f79c plus Hall.lean, Cauchy.lean and Examples/Cauchy.lean;
+all accepted sources were rechecked together. No uncommitted Lean obligations
+remain. The next independent theory task is the deferred SCHUR-TABLEAU bridge,
+outside this requested run. Optional BLUEPRINT/PLATFORM work is also deferred.

@@ -1,6 +1,6 @@
 # Dual Jacobi–Trudi and conjugation
 
-Task SCHUR-DUAL, owner Codex (single worker), status in_progress. Dependencies
+Task SCHUR-DUAL, owner Codex (single worker), status done. Dependencies
 SCHUR-JT and OMEGA complete; integral Schur bases now complete at 4ba39c0.
 Pins unchanged. Ownership Schur/Dual.lean and helper
 Schur/ComplementaryMinors.lean; additional shape-boundary helpers will be recorded

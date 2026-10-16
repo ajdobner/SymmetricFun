@@ -1,6 +1,6 @@
 # Integral Schur bases
 
-- Task SCHUR-BASIS; owner Codex (single worker); status in_progress.
+- Task SCHUR-BASIS; owner Codex (single worker); status done.
 - Prerequisites SCHUR-JT (b67fc85), HBASIS, MONOMIAL complete.
 - Assigned Schur/Triangular.lean, Basis/Schur.lean; pins unchanged.
 

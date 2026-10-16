@@ -1,6 +1,6 @@
 # Completed tensor specialization and finite Cauchy product
 
-Owner Codex, single worker; in_progress; base b0c9ab4. Prerequisites COMPLETION
+Owner Codex, single worker; done; base b0c9ab4. Prerequisites COMPLETION
 and HALL-CORE are done. Pins unchanged. Module ownership is recorded in tasks.json.
 
 ## Precise declarations and pre-proof mathematical review
