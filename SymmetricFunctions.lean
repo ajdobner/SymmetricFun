@@ -83,3 +83,6 @@ import SymmetricFunctions.Examples.Omega
 import SymmetricFunctions.Completion.Single
 import SymmetricFunctions.Completion.Hopf
 import SymmetricFunctions.Examples.CompletedHopf
+import SymmetricFunctions.Completion.Substitution
+import SymmetricFunctions.Completion
+import SymmetricFunctions.Examples.CompletedSubstitution

@@ -1,0 +1,19 @@
+import SymmetricFunctions
+open SymmetricFunction
+#print completedSubstitution
+#print completedFiniteEval
+#check @hasSubst_of_positive_locallyFinite
+#check @hasSubst_positivePowers
+#check @completedSubstitution_coefficient_finite
+#check @coeff_completedSubstitution
+#check @completedSubstitution_embedding
+#check @completedFiniteEval_embedding
+#check @completedFiniteEval_embedding_eq_eval
+#check @truncTotal_completedSubstitution
+#check @truncTotal_completedFiniteEval
+#check @completedFiniteEval_complete_one_mul
+#print axioms completedSubstitution
+#print axioms completedSubstitution_coefficient_finite
+#print axioms truncTotal_completedSubstitution
+#print axioms completedFiniteEval_embedding_eq_eval
+#print axioms completedFiniteEval_complete_one_mul

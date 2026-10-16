@@ -735,15 +735,16 @@
       "id": "COMP-SUBST",
       "title": "Prove justified completed evaluations",
       "phase": "extension",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "COMP-SERIES",
         "COMP-OMEGA",
         "RATIONAL"
       ],
       "files": [
-        "SymmetricFunctions/Completion/Substitution.lean"
+        "SymmetricFunctions/Completion/Substitution.lean",
+        "SymmetricFunctions/Examples/CompletedSubstitution.lean"
       ],
       "acceptance": [
         "State useful sufficient filtration or coefficient-finiteness hypotheses and prove evaluation of completed series is well-defined and an algebra map.",
@@ -751,13 +752,13 @@
         "Prove positive-degree hypotheses used in examples; give meaningful Ω evaluation and finite-specialization checks.",
         "Expose no unrestricted infinite plethysm and do not use invertibility of 1-t^k alone to evaluate Ω."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/COMP-SUBST.md"
     },
     {
       "id": "COMPLETION",
       "title": "Support symmetric series and convergent substitutions",
       "phase": "extension",
-      "status": "in_progress",
+      "status": "done",
       "owner": "Codex (single worker)",
       "depends_on": [
         "SERIES",

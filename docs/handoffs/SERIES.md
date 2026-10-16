@@ -52,10 +52,10 @@ licensing for colleague-authored proof text remains unresolved. New proofs use
 pinned Mathlib and the accepted local orbit/basis APIs. Reference checkouts stay
 unchanged. No accepted draft imports or proof holes are permitted.
 
-## Validation
+## Initial validation plan (completed below)
 
-Pending implementation, separate statement review, full integration/axiom checks,
-checker tests, declaration index and coherent commit. No SERIES result claimed yet.
+The initial plan required implementation, separate statement review, full
+integration/axiom checks, checker tests, a declaration index and coherent commit.
 
 
 ## Completed implementation and independent statement review

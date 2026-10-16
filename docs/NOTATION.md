@@ -204,7 +204,8 @@ types. It runs automatically in `python3 scripts/check_project.py`.
 
 The notation pass, full integral plethysm, and tensor lambda/Hopf compatibility
 are complete. Rational evaluation and mixed alphabets have their own named API
-and convention examples. COMPLETION remains a separate unfinished milestone.
+and convention examples. SERIES and COMPLETION are complete with the certified
+operations documented below; SCHUR remains subsequent work.
 
 
 ## Bounded symmetric-series realization
@@ -237,3 +238,53 @@ For completed alphabet addition, `completedCoproduct R Ω` equals
 `CompletedTensor R`, whose nth component sums `F_i ⊗ G_j` over i+j=n.
 This target is the product of total-degree tensor pieces. No ordinary tensor
 product of two completions is used, and no extra custom tensor notation is needed.
+
+## Certified completed evaluation
+
+Import `SymmetricFunctions.Completion` for the completed operations, and
+`SymmetricFunctions.Notation` plus `open scoped SymmetricFunctionNotation` for Ω.
+The root import includes both modules without opening the scope.
+
+- `completedSubstitution a ha` substitutes actual alphabet letters
+  `a : ℕ → MvPowerSeries τ R`. The certificate `ha : MvPowerSeries.HasSubst a`
+  requires nilpotent constant terms and a coefficientwise finite family.
+- `hasSubst_of_positive_locallyFinite a h0 hfinite` supplies that certificate
+  from zero constant terms and finiteness of each set of letters contributing
+  a nonzero specified coefficient. Infinitely many identical nonzero letters
+  fail the latter condition, even if all have positive degree.
+- `completedFiniteEval a h0` uses `a : Fin N → MvPowerSeries τ R`. Here zero
+  constant terms suffice because the family is finite. It first restricts the
+  alphabet to Fin N, then applies Mathlib's certified substitution algebra map.
+
+Each operation fixes outer R-coefficients. On bounded inputs,
+`completedFiniteEval_embedding_eq_eval` identifies it with the existing elementary
+image evaluator; `completedFiniteEval_embedding` gives the concrete polynomial
+formula `MvPolynomial.aeval a (rho R N f).val`.
+
+`completedSubstitution_coefficient_finite` proves finiteness of the terms in each
+output coefficient, and `coeff_completedSubstitution` states the finite-support
+sum. With zero constant terms, `truncTotal_completedSubstitution` and
+`truncTotal_completedFiniteEval` prove that output degrees through D depend only
+on input components through D. These polynomial-valued truncation theorems use
+`Finite τ`, as required by Mathlib; evaluation itself allows arbitrary τ.
+
+```lean
+open SymmetricFunction
+open scoped SymmetricFunctionNotation
+example : completedFiniteEval
+    (fun _ : Fin 1 => (MvPowerSeries.X (0 : Fin 1) : MvPowerSeries (Fin 1) ℤ))
+    (by simp) Ω * (1 - MvPowerSeries.X 0) = 1 :=
+  completedFiniteEval_complete_one_mul _ (by simp)
+```
+
+Thus one positive-degree letter evaluates Ω to the geometric inverse of `1-a`.
+`hasSubst_positivePowers s` certifies the infinite alphabet `X_s, X_s², X_s³, …`:
+at exponent d only indices at most d.degree can contribute. This is an actual
+finiteness proof, independent of merely having units `1-t^k`.
+
+The `completedSubstitution_apply` and `completedFiniteEval_apply` bridges are
+explicit rewrites, not automatic simp rules. Public identity, bounded-input and
+one-letter simp lemmas therefore remain visible. No `Ω[A]` or unrestricted
+completed plethysm syntax is introduced. These coefficient-linear alphabet maps
+do not conflate virtual negation with replacing each letter by its negative,
+and do not manufacture an Adams action on arbitrary outer parameters.

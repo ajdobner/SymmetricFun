@@ -68,3 +68,17 @@ text or replacement partition was copied. The new equivalence uses the proved
 local monomial basis and orbit classification, pinned MvPowerSeries.rename,
 killCompl, polynomial inclusion and homogeneousComponent. All referenced
 proofs are in the accepted dependency graph and pass the axiom audit.
+
+## COMPLETION implementation reuse
+
+Completion uses the pinned Mathlib PowerSeries algebra to establish finite
+antidiagonal convolution on the product of the existing weighted homogeneous
+pieces. Equiv transport transfers proved algebra laws; no new algebra axiom is
+postulated. The symmetric-series equivalence reuses this project's monomial-basis
+SERIES realization. Completed coproduct reuses the proved total tensorDegree and
+comultiplication homogeneity. The e/h inverse identities reuse COMPLETE's finite
+convolutions. Certified evaluations use Mathlib HasSubst, substAlgHom,
+coeff_subst_finite and truncTotal_subst_eq_truncTotal_subst_sum, discharging all
+actual hypotheses, including coefficientwise finiteness for infinite alphabets.
+No new colleague implementation text was copied, no reference checkout was
+modified, and the pinned dependencies are unchanged.

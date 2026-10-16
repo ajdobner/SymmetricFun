@@ -1,10 +1,10 @@
 # Symmetric functions: declaration guide
 
 Import `SymmetricFunctions` for the accepted library. The generated
-[complete declaration index](declarations.tsv) records 1,092 noninternal
+[complete declaration index](declarations.tsv) records 1,233 noninternal
 declarations, their defining modules, and their kinds. It includes generated
 class declarations; private helpers and anonymous examples are omitted. The
-axiom audit also covers those omitted declarations (1,448 declarations total).
+axiom audit also covers those omitted declarations (1,652 declarations total).
 
 Regenerate the index after building the library:
 
@@ -18,11 +18,12 @@ major contracts, their referenced definitions, and representative axiom
 dependencies. Run it with `lake env lean scripts/ReviewRelease.lean`.
 The [release handoff](handoffs/RELEASE.md) records the separate mathematical
 review and initial validation. The [notation handoff](handoffs/NOTATION.md)
-records the subsequent readability work. The [lambda simplification repair](handoffs/LSIMP.md) records the public normal-form policy. The latest extension validation is recorded in the [RATIONAL handoff](handoffs/RATIONAL.md).
+records the subsequent readability work. The [lambda simplification repair](handoffs/LSIMP.md) records the public normal-form policy. The latest extension validation and parent contract review are recorded in the
+[COMPLETION handoff](handoffs/COMPLETION.md).
 
 ## Optional notation and descriptive aliases
 
-Import `SymmetricFunctions.Notation` and activate `open scoped SymmetricFunctionNotation` for `Λ[R]`, `ω f`, `λ[n] a`, and integral `f⟦g⟧`. The [notation guide](NOTATION.md) maps every symbol to its declaration and records precedence and alphabet/coefficient conventions. `Names.lean` supplies `elementary`, `complete`, `powerSum`, and `elementaryCompleteInvolution` as aliases without changing e/h/p/omega callers.
+Import `SymmetricFunctions.Notation` and activate `open scoped SymmetricFunctionNotation` for `Λ[R]`, `ω f`, `λ[n] a`, integral `f⟦g⟧`, and completed `Ω`. The [notation guide](NOTATION.md) maps every symbol to its declaration and records precedence and alphabet/coefficient conventions. `Names.lean` supplies `elementary`, `complete`, `powerSum`, and `elementaryCompleteInvolution` as aliases without changing e/h/p/omega callers.
 
 [Integral plethysm](../SymmetricFunctions/Plethysm/Integral.lean) exports `plethysm`, `plethysm_e`, both e_1 identity laws, `plethysm_assoc`, `add_plethysm`, `mul_plethysm`, and `lambda_plethysm`. Both operands have integer coefficients. [Adams](../SymmetricFunctions/Plethysm/Adams.lean) proves `plethysm_p`,
 `adams_p`, composition, and finite-variable expansion, integrally.
@@ -116,6 +117,16 @@ specialization takes values in formal power series, not necessarily polynomials.
 degree projections and sends Ω's nth layer to the finite complete polynomial.
 The opt-in `Ω` notation has completed type; `ω` retains its bounded involution.
 
+[Certified substitution](../SymmetricFunctions/Completion/Substitution.lean)
+exports `completedSubstitution` with an explicit `MvPowerSeries.HasSubst`
+certificate and `completedFiniteEval` for a finite zero-constant alphabet.
+The coefficient formula includes a proved finite-support assertion. Both maps
+agree with bounded evaluation. Zero constants give finite-degree dependence via
+`truncTotal_completedSubstitution` and `truncTotal_completedFiniteEval`.
+`hasSubst_positivePowers` certifies a useful infinite alphabet;
+`completedFiniteEval_complete_one_mul` evaluates Ω in one positive letter as the
+inverse of 1-a. No rationality hypothesis or unrestricted infinite plethysm is used.
+
 ## Hopf algebra
 
 [Hopf](../SymmetricFunctions/Hopf.lean) exports the standard Mathlib
@@ -172,7 +183,8 @@ a nonzero element killed by `2`; its `e₂` value is zero.
 ## Further work
 
 All initial core tasks through RELEASE are complete. PLETH and MONOMIAL are
-complete; RATIONAL is complete. SERIES is complete. COMPLETION is being implemented through its explicit
-subtasks; SCHUR is ready by prerequisites but outside this run. BLUEPRINT and PLATFORM are
+complete; RATIONAL, SERIES and COMPLETION are complete. The latest full audit
+covers 89 accepted modules and 1,652 declarations. SCHUR is ready by prerequisites
+but outside this run. BLUEPRINT and PLATFORM are
 optional tooling and external-work tasks. Their exact scope and status remain
 in [the registry](tasks.json). The whole symmetric-functions project is not complete.
