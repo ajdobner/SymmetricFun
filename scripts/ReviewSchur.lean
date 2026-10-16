@@ -32,3 +32,17 @@ open SymmetricFunction
 #check @SymmetricFunctions.upperToeplitzHom
 #print axioms isHomogeneous_schur
 #print axioms schur_indiscrete_conjugate
+
+#print squareWeight
+#print schurCompleteTransition
+#check @sum_sq_jacobiTrudiIndex_gt
+#check @schurCompleteTransition_eq_delta_of_le
+#check @det_schurCompleteTransition
+#check @schurBasis
+#check @schurBasis_apply
+#check @schurBasisAll
+#check @schurBasisAll_apply
+#check @sum_schurBasisAll_repr
+#check @ext_schur_coefficients
+#print axioms schurBasis
+#print axioms schurBasisAll

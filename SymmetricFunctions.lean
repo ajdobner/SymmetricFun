@@ -92,3 +92,6 @@ import SymmetricFunctions.Schur.JacobiTrudi
 import SymmetricFunctions.Schur.Toeplitz
 import SymmetricFunctions.Schur.Column
 import SymmetricFunctions.Examples.JacobiTrudi
+import SymmetricFunctions.Schur.Triangular
+import SymmetricFunctions.Basis.Schur
+import SymmetricFunctions.Examples.SchurBasis

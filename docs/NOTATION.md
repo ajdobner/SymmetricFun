@@ -310,3 +310,9 @@ No new partition syntax or replacement partition type is introduced.
 finite complete polynomials. For the partition (2,1), the accepted example
 computes `schur ξ = h 2 * h 1 - h 3`. The column identity uses Mathlib's
 `(Nat.Partition.indiscrete n).conjugate`. No additional custom syntax is needed.
+
+`schurBasis R d ξ` is a vector in the degree-d homogeneous submodule;
+`schurBasisAll R ⟨d, ξ⟩` is its bounded-ring value. Both coerce/simplify to
+`schur ξ`. Their `repr` maps give Schur coefficients. The proof-only ordering
+statistic `Partition.squareWeight` is the sum of squared parts: for (2,2) it is
+8, while the symmetric-function degree remains 4.

@@ -671,8 +671,8 @@
       "id": "SCHUR-BASIS",
       "title": "Integral homogeneous and full Schur bases",
       "phase": "extension",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "SCHUR-JT",
         "HBASIS",
@@ -680,13 +680,14 @@
       ],
       "files": [
         "SymmetricFunctions/Schur/Triangular.lean",
-        "SymmetricFunctions/Basis/Schur.lean"
+        "SymmetricFunctions/Basis/Schur.lean",
+        "SymmetricFunctions/Examples/SchurBasis.lean"
       ],
       "acceptance": [
         "Prove an integral unitriangular transition from the actual Jacobi\u2013Trudi family to an established partition basis, with explicit order and diagonal coefficient one.",
         "Construct homogeneous partition-indexed and full graded Schur bases over arbitrary CommRing R, including torsion and zero rings; prove their values and coordinate interfaces without rational descent."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/SCHUR-BASIS.md"
     },
     {
       "id": "SCHUR-DUAL",

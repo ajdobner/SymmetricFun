@@ -1,10 +1,10 @@
 # Symmetric functions: declaration guide
 
 Import `SymmetricFunctions` for the accepted library. The generated
-[complete declaration index](declarations.tsv) records 1,294 noninternal
+[complete declaration index](declarations.tsv) records 1,332 noninternal
 declarations, their defining modules, and their kinds. It includes generated
 class declarations; private helpers and anonymous examples are omitted. The
-axiom audit also covers those omitted declarations (1,751 declarations total).
+axiom audit also covers those omitted declarations (1,810 declarations total).
 
 Regenerate the index after building the library:
 
@@ -213,3 +213,14 @@ proves `schur_indiscrete_conjugate = e` using the finite ring map
 `SymmetricFunctions.upperToeplitzHom` and the h/e inverse identity. These results
 assume only CommRing, with no rationality or Nontrivial hypothesis. Schur bases,
 general conjugation, Hall pairing, skewing and Cauchy remain subsequent subtasks.
+
+[Schur/Triangular](../SymmetricFunctions/Schur/Triangular.lean) proves the integral
+transition to the complete basis. `schurCompleteTransition_eq_delta_of_le`
+specifies identity blocks ordered by `Partition.squareWeight`, the sum of squared
+parts. `det_schurCompleteTransition = 1` is proved over every CommRing.
+[Basis/Schur](../SymmetricFunctions/Basis/Schur.lean) exports `schurBasis` and
+`schurBasisAll`, with values equal to the actual determinant `schur`.
+`sum_schurBasis_repr`, `sum_schurBasisAll_repr`, and `ext_schur_coefficients`
+express expansion and uniqueness. The square statistic orders the transition;
+it does not change weighted degree. These basis results do not yet assert
+Schur orthogonality, general conjugation, or tableau positivity.
