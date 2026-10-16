@@ -1,10 +1,10 @@
 # Symmetric functions: declaration guide
 
 Import `SymmetricFunctions` for the accepted library. The generated
-[complete declaration index](declarations.tsv) records 1,332 noninternal
+[complete declaration index](declarations.tsv) records 1,372 noninternal
 declarations, their defining modules, and their kinds. It includes generated
 class declarations; private helpers and anonymous examples are omitted. The
-axiom audit also covers those omitted declarations (1,810 declarations total).
+axiom audit also covers those omitted declarations (1,893 declarations total).
 
 Regenerate the index after building the library:
 
@@ -211,8 +211,7 @@ coefficient naturality, and finite determinant specialization. Empty and one-row
 formulas are simp lemmas. [Schur/Column](../SymmetricFunctions/Schur/Column.lean)
 proves `schur_indiscrete_conjugate = e` using the finite ring map
 `SymmetricFunctions.upperToeplitzHom` and the h/e inverse identity. These results
-assume only CommRing, with no rationality or Nontrivial hypothesis. Schur bases,
-general conjugation, Hall pairing, skewing and Cauchy remain subsequent subtasks.
+assume only CommRing, with no rationality or Nontrivial hypothesis. Hall pairing, skewing and Cauchy remain subsequent subtasks.
 
 [Schur/Triangular](../SymmetricFunctions/Schur/Triangular.lean) proves the integral
 transition to the complete basis. `schurCompleteTransition_eq_delta_of_le`
@@ -223,4 +222,12 @@ parts. `det_schurCompleteTransition = 1` is proved over every CommRing.
 `sum_schurBasis_repr`, `sum_schurBasisAll_repr`, and `ext_schur_coefficients`
 express expansion and uniqueness. The square statistic orders the transition;
 it does not change weighted degree. These basis results do not yet assert
-Schur orthogonality, general conjugation, or tableau positivity.
+Schur orthogonality or tableau positivity.
+
+[Schur/Dual](../SymmetricFunctions/Schur/Dual.lean) exports `elementaryInt`,
+`elementaryJacobiTrudiMatrix`, `dual_jacobiTrudi`, and `omega_schur`. The dual
+formula uses the conjugate shape and any sufficient zero padding, over every
+CommRing. The proof includes explicit complementary minors, a Young diagram
+boundary bijection, and its permutation sign. `Partition.boundaryEquiv` and
+`sign_boundary_relative_tail` record the shape interface without redefining
+conjugation. No tableau formula or positivity is inferred from these identities.

@@ -693,20 +693,25 @@
       "id": "SCHUR-DUAL",
       "title": "Dual Jacobi\u2013Trudi and conjugation",
       "phase": "extension",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "SCHUR-JT",
         "OMEGA"
       ],
       "files": [
-        "SymmetricFunctions/Schur/Dual.lean"
+        "SymmetricFunctions/Schur/Dual.lean",
+        "SymmetricFunctions/Schur/ComplementaryMinors.lean",
+        "SymmetricFunctions/Partition/Boundary.lean",
+        "SymmetricFunctions/Schur/ShuffleSign.lean",
+        "SymmetricFunctions/Schur/BoundarySign.lean",
+        "SymmetricFunctions/Examples/SchurDual.lean"
       ],
       "acceptance": [
         "Prove dual Jacobi\u2013Trudi using integer-index elementary functions and Mathlib partition conjugation, with sufficient-padding independence.",
         "Prove omega(schur \u03bb)=schur \u03bb.conjugate over arbitrary CommRing R; retain explicit YoungDiagram and tableau-interface references without claiming an unproved tableau formula."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/SCHUR-DUAL.md"
     },
     {
       "id": "HALL-CORE",

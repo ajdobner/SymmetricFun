@@ -66,3 +66,17 @@ found in the pin. Reuse determinant, finite permutation, graded basis and tensor
 APIs before adding infrastructure. Each implementation subtask records exact
 interfaces, separate mathematical review, compiler/MCP checks, full integration,
 checker tests and transitive axiom audit. No SCHUR result is yet claimed complete.
+
+## Progress checkpoints
+
+- 5a9ca9d: SCHUR-PART complete, existing Mathlib rows/containment/tableau adapters.
+- b67fc85: SCHUR-JT complete, actual determinant, padding, degree, naturality,
+  finite specialization, empty/row/column formulas.
+- 4ba39c0: SCHUR-BASIS complete, integral unit-determinant transition and
+  homogeneous/full graded Schur bases, including torsion and zero rings.
+- SCHUR-DUAL checkpoint: complete dual determinant and omega/conjugation with
+  explicit complementary-minor and boundary-sign proofs; see its source hashes.
+
+The next task is HALL-CORE. HALL-SCHUR, SCHUR-SKEW, CAUCHY-FINITE and
+SCHUR-CAUCHY remain open; the parent SCHUR goal is not complete. No tableau or
+Littlewood–Richardson positivity claim is made.

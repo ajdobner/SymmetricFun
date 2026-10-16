@@ -95,3 +95,9 @@ import SymmetricFunctions.Examples.JacobiTrudi
 import SymmetricFunctions.Schur.Triangular
 import SymmetricFunctions.Basis.Schur
 import SymmetricFunctions.Examples.SchurBasis
+import SymmetricFunctions.Partition.Boundary
+import SymmetricFunctions.Schur.ComplementaryMinors
+import SymmetricFunctions.Schur.ShuffleSign
+import SymmetricFunctions.Schur.BoundarySign
+import SymmetricFunctions.Schur.Dual
+import SymmetricFunctions.Examples.SchurDual

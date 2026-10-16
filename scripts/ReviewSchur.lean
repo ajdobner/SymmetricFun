@@ -46,3 +46,14 @@ open SymmetricFunction
 #check @ext_schur_coefficients
 #print axioms schurBasis
 #print axioms schurBasisAll
+
+#print elementaryInt
+#print elementaryJacobiTrudiMatrix
+#check @SymmetricFunctions.det_block_eq_det_mul_complement
+#check @boundaryEquiv
+#check @sign_boundary_relative_tail
+#check @schur_eq_det_elementary_conjugate
+#check @dual_jacobiTrudi
+#check @omega_schur
+#print axioms dual_jacobiTrudi
+#print axioms omega_schur

@@ -316,3 +316,11 @@ computes `schur ξ = h 2 * h 1 - h 3`. The column identity uses Mathlib's
 `schur ξ`. Their `repr` maps give Schur coefficients. The proof-only ordering
 statistic `Partition.squareWeight` is the sum of squared parts: for (2,2) it is
 8, while the symmetric-function degree remains 4.
+
+`ω (schur ξ)` simplifies to `schur ξ.conjugate`. For the dual determinant,
+use `elementaryJacobiTrudiMatrix ξ.conjugate L`; `dual_jacobiTrudi` requires
+`Partition.length ξ.conjugate ≤ L`. Supplying ξ itself instead gives
+`ω (schur ξ)` via `det_elementaryJacobiTrudiMatrix`. As with `completeInt`,
+`elementaryInt` uses integer indices, zero below zero and one at index zero.
+The (2,1) example proves the shape self-conjugate and omega fixes its Schur
+function over ZMod 6.
