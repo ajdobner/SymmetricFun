@@ -360,3 +360,19 @@ arbitrary rings; extra padding is also checked over ZMod 6.
 `sumAlphabetSpecialization R N` means left plus right alphabets, with the left
 bounded symmetric functions as coefficients. It is an actual algebra map.
 No new bracket notation or infinite plethysm is introduced.
+
+`completedTensorSpecialization R M N` evaluates the total-degree completed
+tensor in the independent variables `Sum.inl i` and `Sum.inr j`; its target
+is `MvPowerSeries (Fin M ⊕ Fin N) R`. Every coefficient reads one total-degree
+component, and bounded inputs agree with `tensorAlphabetSpecialization`.
+`finiteCauchyProduct (Fin M) (Fin N) R` is the finite product of genuine inverses
+of `1-X(inl i)*X(inr j)`. Its degree-`2*d` layer is the h/m partition sum of
+size d, and every odd layer is zero. For example, the coefficient of x²y²
+in one variable in each alphabet is one, including over ZMod 6; x*y³ has
+coefficient zero. Empty alphabets give one.
+
+This product alphabet is conventionally Ω[XY]. Here the descriptive map and
+product names are used, with no new bracket notation. It is distinct from
+`completedCoproduct_completeSeries`, which concerns Ω[X+Y]. The auxiliary
+`sumSeriesEquiv` reindexes coefficients into an iterated formal-series ring;
+it does not evaluate any variable at one or sum infinitely many coefficients.

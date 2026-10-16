@@ -1,10 +1,10 @@
 # Symmetric functions: declaration guide
 
 Import `SymmetricFunctions` for the accepted library. The generated
-[complete declaration index](declarations.tsv) records 1,501 noninternal
+[complete declaration index](declarations.tsv) records 1,549 noninternal
 declarations, their defining modules, and their kinds. It includes generated
 class declarations; private helpers and anonymous examples are omitted. The
-axiom audit also covers those omitted declarations (2,095 declarations total).
+axiom audit also covers those omitted declarations (2,158 declarations total).
 
 Regenerate the index after building the library:
 
@@ -278,3 +278,23 @@ exports the actual `rightAlphabetSpecialization` and `sumAlphabetSpecialization`
 into polynomials in the right alphabet with bounded left coefficients.
 `skewSchur_eq_mixed_coeff` and `mixed_bialternant_schur` describe the integral
 coefficient argument; no alternant division is used.
+
+[Completion/PolynomialRealization](../SymmetricFunctions/Completion/PolynomialRealization.lean)
+extends any degree-preserving polynomial algebra map to a graded completion by
+reading only the exponent's total degree. [Completion/TensorSpecialization](../SymmetricFunctions/Completion/TensorSpecialization.lean)
+applies it to `CompletedTensor`; `completedTensorSpecialization_bounded` and
+`homogeneousComponent_completedTensorSpecialization` prove bounded and layer
+compatibility. Both finite alphabet sizes may be zero.
+
+[Cauchy/Finite](../SymmetricFunctions/Cauchy/Finite.lean) defines
+`finiteCauchyProduct` using genuine `invOfUnit` factors and proves their product
+inverse, the complete-product coefficient formula, and the equivalent finite
+margin-matrix count. [Finite/SeriesAlphabets](../SymmetricFunctions/Finite/SeriesAlphabets.lean)
+provides the proved `sumSeriesEquiv` between joint and iterated formal alphabets,
+and `coeff_prod_subst_X` for independent columns. These are coefficientwise
+algebra constructions, with actual substitution hypotheses discharged.
+[Cauchy/Components](../SymmetricFunctions/Cauchy/Components.lean) defines
+`cauchyCompleteMonomialComponent R d` and proves membership in total tensor
+degree `2*d`. `homogeneousComponent_finiteCauchyProduct_even` identifies the
+finite h/m expansion; `homogeneousComponent_finiteCauchyProduct_odd` proves
+odd layers vanish. The Schur/Schur comparison and completed kernel are next.

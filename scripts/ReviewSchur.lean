@@ -123,3 +123,18 @@ open SymmetricFunction
 #check @skewSchur_eq_zero_of_not_contained
 #print axioms skew_jacobiTrudi
 #print axioms skewSchur_eq_zero_of_not_contained
+
+#print SymmetricFunctions.GradedCompletion.polynomialRealization
+#print completedTensorSpecialization
+#print SymmetricFunctions.finiteCauchyProduct
+#print cauchyCompleteMonomialComponent
+#check @coeff_completedTensorSpecialization
+#check @completedTensorSpecialization_bounded
+#check @SymmetricFunctions.finiteCauchyProduct_mul_denominator
+#check @SymmetricFunctions.coeff_finiteCauchyProduct
+#check @cauchyCompleteMonomialComponent_mem
+#check @homogeneousComponent_finiteCauchyProduct_even
+#check @homogeneousComponent_finiteCauchyProduct_odd
+#print axioms completedTensorSpecialization_bounded
+#print axioms SymmetricFunctions.coeff_finiteCauchyProduct
+#print axioms homogeneousComponent_finiteCauchyProduct_even

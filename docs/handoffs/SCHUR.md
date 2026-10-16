@@ -99,3 +99,8 @@ sufficiently padded integer-index determinant, and YoungDiagram noncontainment
 implies zero. Full checkpoint: 120 modules, 2,095 transitive axiom checks;
 see SCHUR-SKEW.md for exact source hashes and independent statement review.
 Next: CAUCHY-FINITE and SCHUR-CAUCHY; parent SCHUR remains in_progress.
+
+CAUCHY-FINITE is complete: actual completed tensor specialization, formal inverse
+product, coefficient formula, h/m even components and odd vanishing. Full audit:
+126 modules and 2,158 transitive axioms; exact sources in CAUCHY-FINITE.md.
+SCHUR-CAUCHY is now the final ready parent subtask.

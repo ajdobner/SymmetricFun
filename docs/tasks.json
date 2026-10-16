@@ -791,22 +791,26 @@
       "id": "CAUCHY-FINITE",
       "title": "Completed tensor specialization and finite Cauchy product",
       "phase": "extension",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "COMPLETION",
         "HALL-CORE"
       ],
       "files": [
         "SymmetricFunctions/Completion/TensorSpecialization.lean",
-        "SymmetricFunctions/Cauchy/Finite.lean"
+        "SymmetricFunctions/Cauchy/Finite.lean",
+        "SymmetricFunctions/Completion/PolynomialRealization.lean",
+        "SymmetricFunctions/Finite/SeriesAlphabets.lean",
+        "SymmetricFunctions/Cauchy/Components.lean",
+        "SymmetricFunctions/Examples/FiniteCauchy.lean"
       ],
       "acceptance": [
         "Construct justified finite-alphabet specialization from the total-degree CompletedTensor; prove bounded and homogeneous compatibility.",
         "Construct the finite product of inverses of 1-x_i*y_j in the appropriate formal-series ring with actual unit or substitution proofs.",
         "Prove its complete/monomial expansion and total-degree placement: partition size d contributes degree 2*d and odd components vanish."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/CAUCHY-FINITE.md"
     },
     {
       "id": "SCHUR-CAUCHY",

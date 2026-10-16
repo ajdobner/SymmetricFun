@@ -117,3 +117,9 @@ import SymmetricFunctions.Examples.SkewSchur
 import SymmetricFunctions.Finite.SeparatedColumns
 import SymmetricFunctions.Hopf.MixedSpecialization
 import SymmetricFunctions.Schur.SkewDeterminant
+import SymmetricFunctions.Completion.TensorSpecialization
+import SymmetricFunctions.Cauchy.Finite
+import SymmetricFunctions.Completion.PolynomialRealization
+import SymmetricFunctions.Finite.SeriesAlphabets
+import SymmetricFunctions.Cauchy.Components
+import SymmetricFunctions.Examples.FiniteCauchy
