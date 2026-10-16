@@ -1,10 +1,10 @@
 # Symmetric functions: declaration guide
 
 Import `SymmetricFunctions` for the accepted library. The generated
-[complete declaration index](declarations.tsv) records 1,479 noninternal
+[complete declaration index](declarations.tsv) records 1,501 noninternal
 declarations, their defining modules, and their kinds. It includes generated
 class declarations; private helpers and anonymous examples are omitted. The
-axiom audit also covers those omitted declarations (2,057 declarations total).
+axiom audit also covers those omitted declarations (2,095 declarations total).
 
 Regenerate the index after building the library:
 
@@ -270,5 +270,11 @@ It contracts the finite algebraic coproduct, not an infinite dual vector.
 [Schur/Skew](../SymmetricFunctions/Schur/Skew.lean) defines `skewSchur` by this
 adjoint and exports empty/equal/size-vanishing conventions and the finite
 `comultiplication_schur` expansion. `skewJacobiTrudiMatrix` has the intended
-integer indices, but its general determinant formula and noncontained-shape
-vanishing remain open under SCHUR-SKEW. The task is not marked complete.
+integer indices. [Schur/SkewDeterminant](../SymmetricFunctions/Schur/SkewDeterminant.lean)
+proves `skew_jacobiTrudi` for every common sufficient padding and
+`skewSchur_eq_zero_of_not_contained` using YoungDiagram containment.
+[Hopf/MixedSpecialization](../SymmetricFunctions/Hopf/MixedSpecialization.lean)
+exports the actual `rightAlphabetSpecialization` and `sumAlphabetSpecialization`
+into polynomials in the right alphabet with bounded left coefficients.
+`skewSchur_eq_mixed_coeff` and `mixed_bialternant_schur` describe the integral
+coefficient argument; no alternant division is used.

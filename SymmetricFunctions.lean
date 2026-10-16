@@ -114,3 +114,6 @@ import SymmetricFunctions.Examples.HallSchur
 import SymmetricFunctions.Hall.Skewing
 import SymmetricFunctions.Schur.Skew
 import SymmetricFunctions.Examples.SkewSchur
+import SymmetricFunctions.Finite.SeparatedColumns
+import SymmetricFunctions.Hopf.MixedSpecialization
+import SymmetricFunctions.Schur.SkewDeterminant

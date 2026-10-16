@@ -93,3 +93,9 @@ SCHUR-SKEW first checkpoint: bounded adjoints, degree behavior, empty/equal
 shapes and finite skew coproduct expansion accepted (117 modules, 2,057 axioms
 checked). The general skew determinant and noncontained-shape vanishing remain
 open; SCHUR-SKEW and parent SCHUR remain in_progress.
+
+SCHUR-SKEW is now complete: the actual Hall-adjoint skew function equals every
+sufficiently padded integer-index determinant, and YoungDiagram noncontainment
+implies zero. Full checkpoint: 120 modules, 2,095 transitive axiom checks;
+see SCHUR-SKEW.md for exact source hashes and independent statement review.
+Next: CAUCHY-FINITE and SCHUR-CAUCHY; parent SCHUR remains in_progress.

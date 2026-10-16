@@ -1,4 +1,4 @@
-import SymmetricFunctions.Schur.Skew
+import SymmetricFunctions.Schur.SkewDeterminant
 import Mathlib.Data.ZMod.Basic
 
 /-! # Bounded skewing conventions and the finite coproduct expansion -/
@@ -29,5 +29,28 @@ example {d : ℕ} (ξ : Nat.Partition d) :
     comultiplication (schur (R := R) ξ) =
       ∑ n ∈ Finset.range (d + 1), ∑ μ : Nat.Partition n, skewSchur ξ μ ⊗ₜ[R] schur μ :=
   comultiplication_schur ξ
+
+-- The determinant identity permits independent extra padding of both shapes.
+example {d e : ℕ} (ξ : Nat.Partition d) (μ : Nat.Partition e) :
+    (skewJacobiTrudiMatrix (R := ZMod 6) ξ μ
+      (SymmetricFunctions.Partition.length ξ + SymmetricFunctions.Partition.length μ + 3)).det =
+      skewSchur ξ μ := skew_jacobiTrudi ξ μ (by omega) (by omega)
+
+-- A nonempty skew row gives the expected complete function.
+example : skewSchur (R := R) (Nat.Partition.indiscrete 3) (Nat.Partition.indiscrete 1) = h 2 := by
+  rw [← skew_jacobiTrudi (N := 1) _ _ (by decide) (by decide), Matrix.det_fin_one]
+  norm_num [skewJacobiTrudiMatrix, SymmetricFunctions.Partition.rowLength_indiscrete, completeInt]
+
+-- Size 2 is smaller than size 3, but the two-row inner diagram does not fit a row.
+private def skewShape11 : Nat.Partition 2 := Nat.Partition.ofSums 2 {1, 1} (by decide)
+
+example : skewSchur (R := R) (Nat.Partition.indiscrete 3) skewShape11 = 0 := by
+  apply skewSchur_eq_zero_of_not_contained
+  intro hc
+  have hrow := (SymmetricFunctions.Partition.contained_iff_rowLength _ _).mp hc 1
+  have hp : 0 < SymmetricFunctions.Partition.rowLength skewShape11 1 :=
+    (SymmetricFunctions.Partition.rowLength_pos_iff _ _).mpr (by decide)
+  simp only [SymmetricFunctions.Partition.rowLength_indiscrete, Nat.one_ne_zero, ite_false] at hrow
+  omega
 
 end SymmetricFunction.Examples

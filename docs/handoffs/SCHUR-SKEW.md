@@ -92,3 +92,45 @@ specialization into MvPolynomial (Fin L) (SF R), prove its complete-series
 identity and alternating coefficient contraction. Then the column-separated
 matrix coefficient calculation gives the general skew determinant, followed
 by YoungDiagram noncontainment vanishing and full validation.
+
+Additional reviewed helper scope: Finite/SeparatedColumns.lean proves, for any
+finite variable type σ and CommRing A, the coefficient at a : σ→₀ℕ of
+Π_i Σ_{r:Fin(B_i+1)} C(c_i(r))*X_i^r equals
+Π_i (if a_i≤B_i then c_i(a_i) else 0). Each factor uses its own actual variable;
+this is the coefficientwise finiteness and separation needed in the mixed
+determinant. Empty variable types and zero coefficients are included.
+
+## Completed determinant checkpoint (2026-10-16)
+
+SCHUR-SKEW is complete. Added actual rightAlphabetSpecialization and
+sumAlphabetSpecialization algebra maps, the mapped complete-series convolution,
+alternating coefficient contraction, finite separated-column product/determinant
+coefficient formulas, mixed_bialternant_schur, skew_jacobiTrudi, and
+skewSchur_eq_zero_of_not_contained. The matching lemma antitone_le_of_perm uses
+finite initial-segment cardinalities. It makes every noncontained determinant
+term contain a negative integer complete index.
+
+Separate statement review: skewSchur remains the bounded Hall adjoint, not a
+redefined determinant. The theorem accepts independent sizes and all common
+sufficient padding, with no containment or Nontrivial hypothesis. Integer casts
+precede both subtractions. Noncontainment uses the existing YoungDiagram adapter
+and includes smaller inner size; no rational division, tableau bridge, or
+positivity is used. All parent skew acceptance criteria are now discharged.
+
+Validation, all exit 0: scripts/check_project.py (120 accepted modules, 2,095
+transitive axiom checks; only ordinary Lean foundations), scripts/test_check_project.py
+(five guards), scripts/ReviewSchur.lean (printed definitions and contracts
+independently reviewed), scripts/DeclarationIndex.lean (1,501 noninternal entries),
+and git diff --check. MCP SkewDeterminant diagnostics clean. Examples cover extra
+padding over ZMod 6, (3)/(1)=h_2, and (3)/(1,1)=0 despite smaller inner size.
+Logs /tmp/skew-det-{check,review}.log. Pins and reference repositories unchanged.
+
+Exact checked source SHA-256:
+- `SymmetricFunctions/Hall/Skewing.lean`: `c9dbaa0d05bfc945dbbff7c0504477edc9ece10efdf29ba46971d4f7971e33f4`
+- `SymmetricFunctions/Schur/Skew.lean`: `b05687ab1b94e620e36ba38daba1a4ed45ac1eb8a59fdd324fd6dc3ce824b2db`
+- `SymmetricFunctions/Hopf/MixedSpecialization.lean`: `4b33d51dfc308837f7d85ddd6c27a86fd996e25c78335783de697165f8edc85a`
+- `SymmetricFunctions/Schur/SkewDeterminant.lean`: `757ded453416cb9bb7bf7824b8a652eb93d1cba081cfb0899034100c9944de64`
+- `SymmetricFunctions/Examples/SkewSchur.lean`: `b1745dbd23fcca3a15b3213e574ebe4544217aa575c783d6666c1f4192c36400`
+- `SymmetricFunctions/Finite/SeparatedColumns.lean`: `8698780646ccd8843bc493a6cea0da1edd1faad138c6f13e558754e59b198b6b`
+
+Next core task: CAUCHY-FINITE, then SCHUR-CAUCHY. Parent SCHUR remains in_progress.

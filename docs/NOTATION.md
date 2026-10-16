@@ -352,5 +352,11 @@ uses `skewing_one` and `skewing_zero`; `skewing_apply` is deliberately not a
 simp lemma because it exposes the finite contraction implementation.
 No new postfix syntax is required. `skewJacobiTrudiMatrix ξ μ L` uses
 `(rowLength ξ i : ℤ) - (rowLength μ j : ℤ) - (i : ℤ) + (j : ℤ)`.
-Its general determinant identification is still under construction; examples
-currently check negative entries, bounded adjunction and shape conventions.
+`skew_jacobiTrudi` identifies its determinant with `skewSchur ξ μ` whenever
+L bounds both lengths, including noncontained shapes. For example, the skew
+row (3)/(1) equals h 2, whereas a two-row inner shape (1,1) inside a single
+row (3) gives zero despite its smaller size. These are checked examples over
+arbitrary rings; extra padding is also checked over ZMod 6.
+`sumAlphabetSpecialization R N` means left plus right alphabets, with the left
+bounded symmetric functions as coefficients. It is an actual algebra map.
+No new bracket notation or infinite plethysm is introduced.

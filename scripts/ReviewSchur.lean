@@ -113,3 +113,13 @@ open SymmetricFunction
 #print axioms hall_skewing
 #print axioms isHomogeneous_skewing
 #print axioms comultiplication_schur
+
+#print rightAlphabetSpecialization
+#print sumAlphabetSpecialization
+#check @sumAlphabetSpecialization_h
+#check @coeff_rightAlphabetSpecialization_schur
+#check @mixed_bialternant_schur
+#check @skew_jacobiTrudi
+#check @skewSchur_eq_zero_of_not_contained
+#print axioms skew_jacobiTrudi
+#print axioms skewSchur_eq_zero_of_not_contained
