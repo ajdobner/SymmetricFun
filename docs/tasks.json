@@ -649,20 +649,22 @@
       "id": "COMP-ALG",
       "title": "Construct the degree-completion algebra",
       "phase": "extension",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "SERIES",
         "GRADE"
       ],
       "files": [
-        "SymmetricFunctions/Completion/Basic.lean"
+        "SymmetricFunctions/Completion/Graded.lean",
+        "SymmetricFunctions/Completion/Basic.lean",
+        "SymmetricFunctions/Examples/Completion.lean"
       ],
       "acceptance": [
         "Construct the product of weighted homogeneous components over every CommRing R, with finite antidiagonal convolution multiplication and an R-algebra structure.",
         "Prove component extensionality, the injective bounded-function algebra map, truncation formulas and multiplication compatibility at every finite degree."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/COMP-ALG.md"
     },
     {
       "id": "COMP-SERIES",
@@ -752,7 +754,7 @@
       "id": "COMPLETION",
       "title": "Support symmetric series and convergent substitutions",
       "phase": "extension",
-      "status": "planned",
+      "status": "in_progress",
       "owner": "Codex (single worker)",
       "depends_on": [
         "SERIES",

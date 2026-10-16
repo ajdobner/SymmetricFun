@@ -1,7 +1,7 @@
 # Degree completion, Omega, and valid evaluation
 
-- Parent task COMPLETION; owner Codex (single worker); status planned.
-- Base 145fc05, with SERIES in progress. Pins unchanged.
+- Parent task COMPLETION; owner Codex (single worker); status in_progress.
+- SERIES complete at 2fa2390; COMP-ALG complete in the following checkpoint. Pins unchanged.
 - Subtasks COMP-ALG, COMP-SERIES, COMP-OMEGA, COMP-HOPF, COMP-SUBST preserve
   every original parent acceptance criterion; see docs/tasks.json.
 

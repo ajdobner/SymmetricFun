@@ -202,3 +202,12 @@ in the infinitely many alphabet variables. `toSeries R` is the underlying
 algebra map; `finiteRestriction R N` sets variables outside Fin N to zero and
 recovers `rho R N`. Weighted homogeneous projections agree in both realizations.
 This does not yet supply Ω: the separate degree completion remains in progress.
+
+## Degree-completion names
+
+`SymmetricFunction.DegreeCompletion R` is the product of weighted homogeneous
+pieces. `DegreeCompletion.component R F n` returns a bounded homogeneous function;
+`DegreeCompletion.truncate R D F` sums degrees zero through D. Qualify `truncate`
+when both bounded and completed APIs are in scope. `completionEmbedding R` is the
+injective algebra map from `Λ[R]`. No new notation is needed for these operations.
+Ω remains reserved until its completed definition and generating identities pass.

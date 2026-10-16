@@ -74,3 +74,6 @@ import SymmetricFunctions.Examples.Rational
 import SymmetricFunctions.Realization.SeriesBasic
 import SymmetricFunctions.Realization.PowerSeries
 import SymmetricFunctions.Examples.Series
+import SymmetricFunctions.Completion.Graded
+import SymmetricFunctions.Completion.Basic
+import SymmetricFunctions.Examples.Completion

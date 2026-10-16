@@ -92,6 +92,17 @@ The monomial images are actual coefficient-one exponent orbits; elementary and
 complete images recover their finite polynomials for every alphabet size.
 See [SERIES](handoffs/SERIES.md) for the separate statement review and validation.
 
+## Degree completion
+
+[Graded completion](../SymmetricFunctions/Completion/Graded.lean) constructs a
+product of graded pieces with finite antidiagonal multiplication. Its generic
+`GradedCompletion.map` extends degree-preserving algebra maps.
+[Symmetric completion](../SymmetricFunctions/Completion/Basic.lean) specializes
+to weighted homogeneous pieces, provides `completionEmbedding` with injectivity,
+and `DegreeCompletion.truncate` with component and product compatibility.
+The cutoff is inclusive; no uniform degree bound is imposed on completed elements.
+See [COMP-ALG](handoffs/COMP-ALG.md) for the statement review and validation.
+
 ## Hopf algebra
 
 [Hopf](../SymmetricFunctions/Hopf.lean) exports the standard Mathlib
