@@ -1,10 +1,10 @@
 # Symmetric functions: declaration guide
 
 Import `SymmetricFunctions` for the accepted library. The generated
-[complete declaration index](declarations.tsv) records 1,233 noninternal
+[complete declaration index](declarations.tsv) records 1,263 noninternal
 declarations, their defining modules, and their kinds. It includes generated
 class declarations; private helpers and anonymous examples are omitted. The
-axiom audit also covers those omitted declarations (1,652 declarations total).
+axiom audit also covers those omitted declarations (1,694 declarations total).
 
 Regenerate the index after building the library:
 
@@ -188,3 +188,17 @@ covers 89 accepted modules and 1,652 declarations. SCHUR is ready by prerequisit
 but outside this run. BLUEPRINT and PLATFORM are
 optional tooling and external-work tasks. Their exact scope and status remain
 in [the registry](tasks.json). The whole symmetric-functions project is not complete.
+
+## Schur foundations in progress
+
+[Partition/YoungDiagram](../SymmetricFunctions/Partition/YoungDiagram.lean) exports
+`Partition.rowLength`, `length`, `rowLength_eq_getElem_sort`,
+`sum_rowLength_padded`, `Contained`, `contained_iff_rowLength`, and
+`ofPartition_conjugate`. These use Mathlib partitions, conjugation, and Young
+ diagrams directly. `FiniteTableau` is a finite-alphabet subtype of Mathlib's
+semistandard tableaux; the tableau generating formula is separately unproved.
+[Examples/PartitionRows](../SymmetricFunctions/Examples/PartitionRows.lean)
+checks (2,1), extra zero padding, empty partitions, rows, and columns.
+The [SCHUR handoff](handoffs/SCHUR.md) records the full parent contract and
+subtask split; `scripts/ReviewSchur.lean` inspects accepted definitions and
+statements separately from compilation. SCHUR is not yet complete.

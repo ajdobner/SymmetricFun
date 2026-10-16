@@ -86,3 +86,5 @@ import SymmetricFunctions.Examples.CompletedHopf
 import SymmetricFunctions.Completion.Substitution
 import SymmetricFunctions.Completion
 import SymmetricFunctions.Examples.CompletedSubstitution
+import SymmetricFunctions.Partition.YoungDiagram
+import SymmetricFunctions.Examples.PartitionRows

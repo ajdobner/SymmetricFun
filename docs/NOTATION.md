@@ -288,3 +288,17 @@ one-letter simp lemmas therefore remain visible. No `Ω[A]` or unrestricted
 completed plethysm syntax is introduced. These coefficient-linear alphabet maps
 do not conflate virtual negation with replacing each letter by its negative,
 and do not manufacture an Adams action on arbitrary outer parameters.
+
+## Partition rows and determinant indices
+
+`SymmetricFunctions.Partition.rowLength ξ i` numbers rows from zero in decreasing
+order and returns zero after `Partition.length ξ`. Its source is Mathlib's
+`YoungDiagram.ofPartition ξ`, and `ξ.conjugate` is Mathlib's conjugation.
+`Partition.Contained μ ξ` is Young diagram containment; the sizes may differ.
+`Partition.FiniteTableau ξ N` bounds the entries of Mathlib's semistandard
+tableau on shape cells by N. No tableau generating formula is asserted yet.
+
+Lean reserves bare `λ` for anonymous functions, so declarations use `ξ` or `μ`
+for partitions. Jacobi–Trudi indices will have the form
+`(rowLength ξ i : ℤ) - (i : ℤ) + (j : ℤ)`: all casts precede subtraction.
+No new partition syntax or replacement partition type is introduced.
