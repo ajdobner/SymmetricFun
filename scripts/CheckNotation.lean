@@ -8,7 +8,7 @@ diagnostics are suppressed; an unexpectedly successful check still fails.
 
 noncomputable section
 
--- Importing the root does not activate the scope or introduce uppercase Omega.
+-- Importing the root does not activate any of the optional notation.
 #guard_msgs (drop info) in
 #check_failure Λ[ℤ]
 #guard_msgs (drop info) in
@@ -67,3 +67,23 @@ end
 #check SymmetricFunction.plethysm_assoc
 #check SymmetricFunction.elementaryCompleteInvolution
 #print axioms SymmetricFunction.plethysm_assoc
+
+section
+open SymmetricFunction
+open scoped SymmetricFunctionNotation
+
+/-- trace: ⊢ DegreeCompletion.component ℤ Ω 2 = h 2 -/
+#guard_msgs in
+example : DegreeCompletion.component ℤ Ω 2 = h 2 := by
+  trace_state
+  simp
+
+-- Uppercase Omega cannot inhabit the bounded ring or integral plethysm inputs.
+#guard_msgs (drop info) in
+#check_failure (Ω : Λ[ℤ])
+#guard_msgs (drop info) in
+#check_failure (Ω⟦e (R := ℤ) 1⟧)
+
+example {R : Type*} [CommRing R] : (Ω : DegreeCompletion R) + Ω * Ω =
+    completeSeries + completeSeries * completeSeries := rfl
+end

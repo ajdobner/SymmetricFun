@@ -109,6 +109,13 @@ uniform bound. `completionToSeries_component` identifies homogeneous layers;
 preserve the bounded and finite-alphabet realizations. Completed finite
 specialization takes values in formal power series, not necessarily polynomials.
 
+[Completed Omega](../SymmetricFunctions/Completion/Omega.lean) defines
+`completeSeries`, `elementarySeries`, `signedElementarySeries` and
+`signedCompleteSeries`. Both signed generating identities hold in either order.
+`completeSeriesUnit` exhibits Ω as a unit. Finite specialization commutes with
+degree projections and sends Ω's nth layer to the finite complete polynomial.
+The opt-in `Ω` notation has completed type; `ω` retains its bounded involution.
+
 ## Hopf algebra
 
 [Hopf](../SymmetricFunctions/Hopf.lean) exports the standard Mathlib

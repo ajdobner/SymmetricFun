@@ -34,6 +34,7 @@ use the descriptive declarations if simultaneously opened scopes conflict.
 | Notation | Underlying declaration | Scope of the operation |
 | --- | --- | --- |
 | `Λ[R]` | `SymmetricFunction R` | Bounded, polynomial-backed symmetric functions. The type supports `CommSemiring R`; the ring and Hopf results use `CommRing R`. |
+| `Ω` | `SymmetricFunction.completeSeries` | Degree-completed symmetric functions, with component n equal to h_n; coefficient ring inferred from context. |
 | `ω f` | `SymmetricFunction.omega f` | The elementary-complete involution over any commutative coefficient ring. `ω` itself is an algebra equivalence. |
 | `λ[n] a` | `LambdaRing.lambda n a` | Exterior powers on any `CommRing A` with a specified `PreLambdaRing A`; natural index, including zero. |
 | `f⟦g⟧` | `SymmetricFunction.plethysm f g` | Both arguments are in `Λ[ℤ]`, outer argument first; definitionally `lambdaEval g f`. |
@@ -163,16 +164,29 @@ keep these roles visible; no extra alphabet syntax is required.
 
 ## Lowercase omega and completed uppercase Omega
 
-Lowercase `ω` exchanges elementary and complete functions. Uppercase `Ω` is
-reserved for the completed series `∑ₙ hₙ` from the paper. It has no declaration
-or notation in the current bounded ring. The existing
-`completeGeneratingSeries : PowerSeries (SymmetricFunction R)` has an auxiliary
-series variable; it is not silently identified with the degree completion,
-and evaluating that variable at `1` is not supplied.
+Lowercase `ω` exchanges elementary and complete functions in the bounded ring.
+Uppercase `Ω` denotes `completeSeries : DegreeCompletion R`, with degree-n
+component `h n`. It is available in the same opt-in scope and has no bounded
+interpretation. `signedElementarySeries` has component `(-1)^n • e n` and is
+its two-sided inverse; `completeSeriesUnit` packages this inverse explicitly.
+`elementarySeries` and `signedCompleteSeries` satisfy the other signed identity.
 
-COMPLETION must provide the completed type, its multiplication, and justified
-continuity/substitution operations before `Ω` or expressions such as `Ω[A]`
-are introduced. For bounded symmetric functions, `geometricAlphabetEval t h x`
+```lean
+open SymmetricFunction
+open scoped SymmetricFunctionNotation
+example : DegreeCompletion.component ℤ Ω 2 = h 2 := by simp
+example : (Ω : DegreeCompletion ℤ) * signedElementarySeries = 1 := by simp
+example : completedFiniteSpecialization ℤ 0 Ω = 1 := by simp
+```
+
+`completedFiniteSpecialization R N Ω` is a justified restriction of the actual
+alphabet to Fin N. Its degree-n projection is the series inclusion of the finite
+complete polynomial h_n. The old `completeGeneratingSeries` has an auxiliary
+bookkeeping variable; no operation substitutes 1 into an arbitrary formal series.
+General completed substitutions require separate proved finiteness hypotheses;
+Ω cannot be passed to the bounded integral `f⟦g⟧` operation.
+
+For bounded symmetric functions, `geometricAlphabetEval t h x`
 implements `X/(1-t)` when `h : ∀ k : ℕ+, IsUnit (1-t^k)` in the target. Its
 kth p-image is x_k times the inverse unit; in a field this is x_k/(1-t^k).
 The denominator equations uniquely determine the map. The condition is on
@@ -201,7 +215,7 @@ and convention examples. COMPLETION remains a separate unfinished milestone.
 in the infinitely many alphabet variables. `toSeries R` is the underlying
 algebra map; `finiteRestriction R N` sets variables outside Fin N to zero and
 recovers `rho R N`. Weighted homogeneous projections agree in both realizations.
-This does not yet supply Ω: the separate degree completion remains in progress.
+The degree completion now supplies Ω, with its certified finite restrictions.
 
 ## Degree-completion names
 
@@ -210,7 +224,7 @@ pieces. `DegreeCompletion.component R F n` returns a bounded homogeneous functio
 `DegreeCompletion.truncate R D F` sums degrees zero through D. Qualify `truncate`
 when both bounded and completed APIs are in scope. `completionEmbedding R` is the
 injective algebra map from `Λ[R]`. No new notation is needed for these operations.
-Ω remains reserved until its completed definition and generating identities pass.
+Ω uses this completed type; its component and inverse identities are proved.
 
 `completionSeriesEquiv R` identifies the degree completion with all symmetric
 `MvPowerSeries ℕ R`. `completedFiniteSpecialization R N` restricts an alphabet to

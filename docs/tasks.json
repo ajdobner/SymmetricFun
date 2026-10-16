@@ -689,8 +689,8 @@
       "id": "COMP-OMEGA",
       "title": "Define the completed Omega series and inverse",
       "phase": "extension",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "COMP-ALG",
         "COMP-SERIES",
@@ -698,14 +698,15 @@
       ],
       "files": [
         "SymmetricFunctions/Completion/Omega.lean",
-        "SymmetricFunctions/Notation.lean"
+        "SymmetricFunctions/Notation.lean",
+        "SymmetricFunctions/Examples/Omega.lean"
       ],
       "acceptance": [
         "Define completeSeries with degree-n component h_n and scoped Ω notation on the completed type, distinct from ω.",
         "Prove both e/h convolution identities and that the completed series with component (-1)^n e_n is inverse to Ω, over arbitrary commutative rings.",
         "Check degree zero, first components and finite specialization; document activation and descriptive names."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/COMP-OMEGA.md"
     },
     {
       "id": "COMP-HOPF",
