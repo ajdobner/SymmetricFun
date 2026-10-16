@@ -302,3 +302,11 @@ Lean reserves bare `λ` for anonymous functions, so declarations use `ξ` or `μ
 for partitions. Jacobi–Trudi indices will have the form
 `(rowLength ξ i : ℤ) - (i : ℤ) + (j : ℤ)`: all casts precede subtraction.
 No new partition syntax or replacement partition type is introduced.
+
+`SymmetricFunction.schur ξ` is the descriptive Schur function API.
+`completeInt (-1) = 0`, while `completeInt 0 = 1`; in a determinant use
+`jacobiTrudiMatrix ξ L` and provide `Partition.length ξ ≤ L` to
+`det_jacobiTrudiMatrix`. `finiteCompleteInt N` uses the identical convention for
+finite complete polynomials. For the partition (2,1), the accepted example
+computes `schur ξ = h 2 * h 1 - h 3`. The column identity uses Mathlib's
+`(Nat.Partition.indiscrete n).conjugate`. No additional custom syntax is needed.

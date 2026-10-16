@@ -1,10 +1,10 @@
 # Symmetric functions: declaration guide
 
 Import `SymmetricFunctions` for the accepted library. The generated
-[complete declaration index](declarations.tsv) records 1,263 noninternal
+[complete declaration index](declarations.tsv) records 1,294 noninternal
 declarations, their defining modules, and their kinds. It includes generated
 class declarations; private helpers and anonymous examples are omitted. The
-axiom audit also covers those omitted declarations (1,694 declarations total).
+axiom audit also covers those omitted declarations (1,751 declarations total).
 
 Regenerate the index after building the library:
 
@@ -202,3 +202,14 @@ checks (2,1), extra zero padding, empty partitions, rows, and columns.
 The [SCHUR handoff](handoffs/SCHUR.md) records the full parent contract and
 subtask split; `scripts/ReviewSchur.lean` inspects accepted definitions and
 statements separately from compilation. SCHUR is not yet complete.
+
+[Schur/JacobiTrudi](../SymmetricFunctions/Schur/JacobiTrudi.lean) defines
+`completeInt`, `jacobiTrudiMatrix`, and the actual determinant `schur`.
+`det_jacobiTrudiMatrix` proves independence of sufficient padding;
+`isHomogeneous_schur`, `map_schur`, and `rho_schur` prove weighted degree,
+coefficient naturality, and finite determinant specialization. Empty and one-row
+formulas are simp lemmas. [Schur/Column](../SymmetricFunctions/Schur/Column.lean)
+proves `schur_indiscrete_conjugate = e` using the finite ring map
+`SymmetricFunctions.upperToeplitzHom` and the h/e inverse identity. These results
+assume only CommRing, with no rationality or Nontrivial hypothesis. Schur bases,
+general conjugation, Hall pairing, skewing and Cauchy remain subsequent subtasks.

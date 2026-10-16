@@ -88,3 +88,7 @@ import SymmetricFunctions.Completion
 import SymmetricFunctions.Examples.CompletedSubstitution
 import SymmetricFunctions.Partition.YoungDiagram
 import SymmetricFunctions.Examples.PartitionRows
+import SymmetricFunctions.Schur.JacobiTrudi
+import SymmetricFunctions.Schur.Toeplitz
+import SymmetricFunctions.Schur.Column
+import SymmetricFunctions.Examples.JacobiTrudi

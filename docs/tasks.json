@@ -647,7 +647,7 @@
       "id": "SCHUR-JT",
       "title": "Actual integral Jacobi\u2013Trudi Schur functions",
       "phase": "extension",
-      "status": "in_progress",
+      "status": "done",
       "owner": "Codex (single worker)",
       "depends_on": [
         "SCHUR-PART",
@@ -655,7 +655,10 @@
         "SPEC"
       ],
       "files": [
-        "SymmetricFunctions/Schur/JacobiTrudi.lean"
+        "SymmetricFunctions/Schur/JacobiTrudi.lean",
+        "SymmetricFunctions/Schur/Toeplitz.lean",
+        "SymmetricFunctions/Schur/Column.lean",
+        "SymmetricFunctions/Examples/JacobiTrudi.lean"
       ],
       "acceptance": [
         "Define the integer-index complete extension with h_k=0 for k<0 and h_0=1; cast all determinant indices to integers before subtracting.",

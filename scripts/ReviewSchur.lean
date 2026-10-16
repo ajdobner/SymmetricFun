@@ -15,3 +15,20 @@ open SymmetricFunctions.Partition
 #check @rowLength_indiscrete_conjugate
 #print axioms sum_rowLength_padded
 #print axioms rowLength_indiscrete_conjugate
+
+open SymmetricFunction
+#print completeInt
+#print jacobiTrudiMatrix
+#print schur
+#print finiteCompleteInt
+#print SymmetricFunctions.upperToeplitz
+#check @det_jacobiTrudiMatrix
+#check @isHomogeneous_schur
+#check @map_schur
+#check @rho_schur
+#check @schur_zero
+#check @schur_indiscrete
+#check @schur_indiscrete_conjugate
+#check @SymmetricFunctions.upperToeplitzHom
+#print axioms isHomogeneous_schur
+#print axioms schur_indiscrete_conjugate

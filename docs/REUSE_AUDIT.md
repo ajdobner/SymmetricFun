@@ -82,3 +82,12 @@ coeff_subst_finite and truncTotal_subst_eq_truncTotal_subst_sum, discharging all
 actual hypotheses, including coefficientwise finiteness for infinite alphabets.
 No new colleague implementation text was copied, no reference checkout was
 modified, and the pinned dependencies are unchanged.
+
+## SCHUR checkpoints: partition and determinant foundations
+
+Reuse pinned Mathlib `YoungDiagram.ofPartition`, `Nat.Partition.conjugate`,
+`SemistandardYoungTableau`, finite determinant expansion and adjugates. New proofs
+use these public APIs and the project's existing h/e convolution; no colleague
+source was copied and both reference checkouts remain unchanged. The new finite
+upper Toeplitz ring map proves its multiplication by an explicit interval-to-
+antidiagonal bijection. A search of the pin found no Jacobi–Trudi implementation.
