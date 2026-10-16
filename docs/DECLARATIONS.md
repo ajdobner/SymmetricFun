@@ -1,10 +1,10 @@
 # Symmetric functions: declaration guide
 
 Import `SymmetricFunctions` for the accepted library. The generated
-[complete declaration index](declarations.tsv) records 1,421 noninternal
+[complete declaration index](declarations.tsv) records 1,453 noninternal
 declarations, their defining modules, and their kinds. It includes generated
 class declarations; private helpers and anonymous examples are omitted. The
-axiom audit also covers those omitted declarations (1,970 declarations total).
+axiom audit also covers those omitted declarations (2,021 declarations total).
 
 Regenerate the index after building the library:
 
@@ -246,4 +246,19 @@ counts complete coefficients by finite nonnegative matrices with both margins;
 transposition proves `hall_symm` in [Hall/Symmetry](../SymmetricFunctions/Hall/Symmetry.lean).
 `hall_mul_right`, `hall_h_eq_coeff`, and `hall_h_h` supply useful consequences.
 All results assume only CommRing on coefficients; no rational descent is used.
-Schur orthonormality remains the separate HALL-SCHUR obligation.
+Schur orthonormality is proved in HALL-SCHUR below.
+
+[Finite/Bialternant](../SymmetricFunctions/Finite/Bialternant.lean) proves
+`bialternant_schur`: finite specialization times `staircaseAlternant` equals
+`partitionAlternant` at every alphabet size at least the number of rows.
+This is a multiplication identity over arbitrary rings, not division by a
+Vandermonde. [Schur/AlternantPairing](../SymmetricFunctions/Schur/AlternantPairing.lean)
+exports `hall_schur_eq_alternating_coeff`, extracting the coefficient at
+`Partition.shiftedRows`; negative integer determinant indices correspond to
+impossible monomial divisibility. Strictly decreasing shifted rows prove the
+Kronecker coefficient `coeff_partitionAlternant`.
+[Hall/Schur](../SymmetricFunctions/Hall/Schur.lean) exports `hall_schur_schur`,
+`hall_schur`, `hall_schur_right`, `hall_schur_homogeneous` and
+`hallHomogeneous_schurBasis`. These prove the Schur normalization for the same
+classical h/m Hall form, integrally including torsion and zero rings.
+No tableau enumeration or positivity has been claimed.

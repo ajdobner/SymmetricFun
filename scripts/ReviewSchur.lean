@@ -79,3 +79,21 @@ open SymmetricFunction
 #print axioms hall_symm
 #print axioms hallHomogeneous_isPerfPair
 #print axioms hall_mul
+
+#print SymmetricFunctions.elementaryWithout
+#print SymmetricFunctions.completeEvaluationMatrix
+#print SymmetricFunctions.alternantMatrix
+#print SymmetricFunctions.staircaseAlternant
+#print SymmetricFunctions.partitionAlternant
+#print shiftedRows
+#check @SymmetricFunctions.complete_matrix_mul
+#check @bialternant_schur
+#check @hall_completeInt_product
+#check @hall_schur_eq_alternating_coeff
+#check @coeff_partitionAlternant
+#check @hall_schur_schur
+#check @hall_schur
+#check @hallHomogeneous_schurBasis
+#print axioms bialternant_schur
+#print axioms hall_schur_eq_alternating_coeff
+#print axioms hall_schur_schur

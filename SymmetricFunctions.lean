@@ -107,3 +107,7 @@ import SymmetricFunctions.Hall.FiniteCoefficient
 import SymmetricFunctions.Hall.Hopf
 import SymmetricFunctions.Hall.Symmetry
 import SymmetricFunctions.Examples.Hall
+import SymmetricFunctions.Finite.Bialternant
+import SymmetricFunctions.Schur.AlternantPairing
+import SymmetricFunctions.Hall.Schur
+import SymmetricFunctions.Examples.HallSchur

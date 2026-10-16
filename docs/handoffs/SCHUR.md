@@ -81,6 +81,10 @@ HALL-CORE is complete: classical duality, symmetry by matrix transposition,
 degreewise perfectness, and multiplication/coproduct adjunction (110 modules,
 1,970 audited declarations). See HALL-CORE.md for exact source hashes.
 
-The next task is HALL-SCHUR. SCHUR-SKEW, CAUCHY-FINITE and
+HALL-SCHUR is complete: integral bialternants and alternating coefficient
+extraction prove orthonormality for the existing Hall form (114 modules, 2,021
+audited declarations). See HALL-SCHUR.md for exact checked source hashes.
+
+The next task is SCHUR-SKEW. CAUCHY-FINITE and
 SCHUR-CAUCHY remain open; the parent SCHUR goal is not complete. No tableau or
 Littlewood–Richardson positivity claim is made.

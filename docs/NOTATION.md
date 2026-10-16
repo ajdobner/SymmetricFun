@@ -334,3 +334,13 @@ is the perfect pairing on degree d only. For example, over ZMod 6,
 Here `(2,2)` is explanatory shape notation; Lean uses Nat.Partition.ofSums.
 `hall_h_eq_coeff` is a coefficient in one actual alphabet variable, not a
 virtual-alphabet substitution. See Examples/Hall.lean for fully elaborated examples.
+
+`hall (schur ξ) (schur μ)` is the classical Schur Kronecker pairing; use
+`hall_schur_schur` with sized sigma indices to include unequal degrees.
+`hall_schur` reads the full Schur coefficient. The finite polynomial
+`staircaseAlternant N` uses decreasing exponents N-1-i, and
+`partitionAlternant ξ N` adds the row lengths. `Partition.shiftedRows ξ N`
+is its coefficient exponent vector. Bialternant statements are multiplication
+identities, so they remain meaningful over arbitrary rings without a notation
+for dividing by the staircase. Examples/HallSchur.lean checks (2,1), torsion,
+zero rings, empty alphabets, extra padding, and negative-index coefficients.

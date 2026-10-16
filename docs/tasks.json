@@ -743,20 +743,23 @@
       "id": "HALL-SCHUR",
       "title": "Schur orthonormality for the classical Hall pairing",
       "phase": "extension",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "HALL-CORE",
         "SCHUR-BASIS",
         "SCHUR-DUAL"
       ],
       "files": [
-        "SymmetricFunctions/Hall/Schur.lean"
+        "SymmetricFunctions/Finite/Bialternant.lean",
+        "SymmetricFunctions/Schur/AlternantPairing.lean",
+        "SymmetricFunctions/Hall/Schur.lean",
+        "SymmetricFunctions/Examples/HallSchur.lean"
       ],
       "acceptance": [
         "Prove Hall orthonormality of the actual Jacobi\u2013Trudi Schur basis, for arbitrary CommRing R and all partitions, with the classical h/m normalization already proved."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/HALL-SCHUR.md"
     },
     {
       "id": "SCHUR-SKEW",
