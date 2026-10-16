@@ -1,0 +1,13 @@
+import SymmetricFunctions
+open SymmetricFunctions.Series SymmetricFunction
+#print completionSeriesFamily
+#check @completionToSeries
+#check @coeff_completionToSeries
+#check @completionToSeries_component
+#check @completionSeriesEquiv
+#check @completionToSeries_embedding
+#check @completedFiniteSpecialization_embedding
+#check @coeff_completedFiniteSpecialization
+#print axioms completionSeriesEquiv
+#print axioms completionToSeries_component
+#print axioms completedFiniteSpecialization_embedding

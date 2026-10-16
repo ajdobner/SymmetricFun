@@ -211,3 +211,9 @@ pieces. `DegreeCompletion.component R F n` returns a bounded homogeneous functio
 when both bounded and completed APIs are in scope. `completionEmbedding R` is the
 injective algebra map from `Λ[R]`. No new notation is needed for these operations.
 Ω remains reserved until its completed definition and generating identities pass.
+
+`completionSeriesEquiv R` identifies the degree completion with all symmetric
+`MvPowerSeries ℕ R`. `completedFiniteSpecialization R N` restricts an alphabet to
+`Fin N`, with a formal power-series result. On `completionEmbedding R f` it is
+exactly the series inclusion of `rho R N f`. These operations use actual alphabet
+variables and total alphabet degree, matching weighted symmetric-function degree.

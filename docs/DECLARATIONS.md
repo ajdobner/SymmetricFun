@@ -102,6 +102,12 @@ to weighted homogeneous pieces, provides `completionEmbedding` with injectivity,
 and `DegreeCompletion.truncate` with component and product compatibility.
 The cutoff is inclusive; no uniform degree bound is imposed on completed elements.
 See [COMP-ALG](handoffs/COMP-ALG.md) for the statement review and validation.
+[Completed realization](../SymmetricFunctions/Completion/Realization.lean)
+exports `completionSeriesEquiv` with all symmetric MvPowerSeries ℕ R, without a
+uniform bound. `completionToSeries_component` identifies homogeneous layers;
+`completionToSeries_embedding` and `completedFiniteSpecialization_embedding`
+preserve the bounded and finite-alphabet realizations. Completed finite
+specialization takes values in formal power series, not necessarily polynomials.
 
 ## Hopf algebra
 

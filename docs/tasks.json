@@ -670,8 +670,8 @@
       "id": "COMP-SERIES",
       "title": "Identify the completion with symmetric multivariate series",
       "phase": "extension",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "COMP-ALG",
         "SERIES"
@@ -683,7 +683,7 @@
         "Prove an R-algebra equivalence with permutation-invariant MvPowerSeries ℕ R over every CommRing R.",
         "Prove compatibility with the bounded embedding, homogeneous components and finite restriction; distinguish the target from an unrestricted inverse limit of finite polynomial rings."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/COMP-SERIES.md"
     },
     {
       "id": "COMP-OMEGA",

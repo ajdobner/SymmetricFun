@@ -1,4 +1,4 @@
-import SymmetricFunctions.Completion.Basic
+import SymmetricFunctions.Completion.Realization
 
 /-! Weighted degree, convolution, and inclusive truncation examples. -/
 noncomputable section
@@ -29,5 +29,20 @@ example (D : ℕ) (F G : DegreeCompletion R) :
     DegreeCompletion.truncate R D (F * G) = DegreeCompletion.truncate R D
       (completionEmbedding R (DegreeCompletion.truncate R D F * DegreeCompletion.truncate R D G)) :=
   DegreeCompletion.truncate_mul R D F G
+
+example : DegreeCompletion (ZMod 2) ≃ₐ[ZMod 2]
+    SymmetricFunctions.Series.SymmetricSeries (ZMod 2) := completionSeriesEquiv _
+
+example (F : DegreeCompletion R) (n : ℕ) :
+    toSeries R (component R F n) =
+      MvPowerSeries.homogeneousComponent n (completionToSeries R F) :=
+  completionToSeries_component R F n
+
+example (N : ℕ) (f : SymmetricFunction R) :
+    completedFiniteSpecialization R N (completionEmbedding R f) =
+      ((rho R N f).val : MvPowerSeries (Fin N) R) := by simp
+
+example : DegreeCompletion PUnit ≃ₐ[PUnit]
+    SymmetricFunctions.Series.SymmetricSeries PUnit := completionSeriesEquiv _
 
 end SymmetricFunction.Examples
