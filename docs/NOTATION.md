@@ -393,3 +393,20 @@ identity. These names keep the bounded partition sums, their total-degree
 completion, and the finite-alphabet map explicit. No additional syntax is
 needed. The scoped `Ω` still denotes `completeSeries`, and `ω` still denotes
 the elementary–complete involution.
+
+Finite tableaux use the existing `Partition.FiniteTableau ξ N` subtype of
+Mathlib's `SemistandardYoungTableau`. Open `SymmetricFunctions.Partition` and,
+optionally, `FiniteTableau` for `content`, `weight`, `contentCount`, and
+`generatingPolynomial`; no new syntax is required. Entry `k : Fin N` contributes
+`MvPolynomial.X k`, called x_(k+1) in the paper. Content counts only actual cells;
+Mathlib's zeros outside the diagram do not contribute letters.
+
+Rows and columns are numbered from zero. Row zero is the longest row. Mathlib's
+example draws it at the top and strict columns increase downward. The paper's
+French convention draws that same row at the bottom, so strict columns increase
+upward. This is a drawing change, not conjugation or a change of tableau type.
+A row can repeat a letter; a column must have distinct increasing letters.
+For example, the three-cell row filled with entry 0 has weight `X 0 ^ 3`.
+The empty shape has one empty tableau and weight one, including in zero letters.
+`Examples/Tableaux.lean` checks these conventions over ℤ, ZMod 6 and the zero ring.
+At this checkpoint the tableau sum is not yet proved equal to `schur`.

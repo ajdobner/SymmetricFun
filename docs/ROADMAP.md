@@ -135,3 +135,13 @@ remain unchanged; each subtask also records the detailed current contract.
 SCHUR-TABLEAU separately tracks the unproved tableau generating formula and is
 not claimed by the algebraic determinant milestone. Littlewood–Richardson
 positivity, flagged/LLT theory, and publication remain later work.
+
+## Tableau continuation
+
+TABLEAU-FINITE establishes actual finite cell fillings, content, weights, natural
+coefficient counts and boundary conventions. SCHUR-TABLEAU retains its original
+contract and is in progress; SKEW-TABLEAU and KOSTKA separately track skew
+identification and the natural coefficient expansion. None of the determinant
+identifications or Kostka dominance claims is yet inferred from finite counts.
+The shared planned route is proved horizontal-strip branching, with no change
+to the existing Schur or skew Schur definitions.

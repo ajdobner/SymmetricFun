@@ -126,3 +126,5 @@ import SymmetricFunctions.Examples.FiniteCauchy
 import SymmetricFunctions.Hall
 import SymmetricFunctions.Cauchy
 import SymmetricFunctions.Examples.Cauchy
+import SymmetricFunctions.Tableaux.Basic
+import SymmetricFunctions.Examples.Tableaux

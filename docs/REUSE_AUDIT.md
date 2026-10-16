@@ -108,3 +108,14 @@ the joint/iterated series algebra equivalence. All infinite-looking expressions
 are handled coefficientwise by finite antidiagonals or actual HasSubst proofs.
 No colleague proof text, replacement shape definitions, dependency changes,
 external proving services, or reference-checkout edits were introduced.
+
+## Tableau foundations
+
+The pin contains Jake Levinson's `SemistandardYoungTableau`, its row/column and
+outside-zero API and `highestWeight`, but no straight/skew Schur weight formula,
+Kostka API or skew-tableau adapter was found. Reuse is by import. The new finite
+alphabet instance is proved by injection into functions from the existing finite
+cell set to Fin N. Content and weights are reconstructed with finite sums and
+Mathlib monomials; no colleague proof text is copied. The paper's diagrams and
+tableaux section was read for zero-based/French convention documentation only.
+Both reference checkouts and the dependency pins remain unchanged.

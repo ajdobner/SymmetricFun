@@ -313,3 +313,15 @@ identifies it with the actual finite inverse product. Components 0, 1 and 2
 simplify respectively to the tensor unit, zero, and `e 1 ⊗ₜ[R] e 1`.
 No ordinary tensor product of completions, rational descent, tableau formula,
 or unrestricted completed plethysm is used.
+
+[Tableaux/Basic](../SymmetricFunctions/Tableaux/Basic.lean) retains Mathlib's
+`Partition.FiniteTableau`. In namespace `Partition.FiniteTableau`, `filling`
+is the actual finite cell filling; its injectivity proves the Fintype instance.
+`content_apply` counts each entry's fiber, and `degree_content` counts all cells.
+`weight_eq_prod` identifies the content monomial with a product of variables,
+one for each actual cell. `generatingPolynomial` is the finite tableau sum;
+`coeff_generatingPolynomial` gives the natural `contentCount` cast into the
+coefficient semiring. Both weights and the sum commute with coefficient maps.
+`nonempty_iff` characterizes existence by length ≤ alphabet size; empty shapes
+have a Unique tableau, zero content and polynomial one, even for zero letters.
+These results do not yet identify the sum with the determinant Schur function.

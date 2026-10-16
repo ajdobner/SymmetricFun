@@ -1048,17 +1048,87 @@
       "id": "SCHUR-TABLEAU",
       "title": "Identify determinant Schur functions with tableau generating polynomials",
       "phase": "extension",
-      "status": "planned",
-      "owner": null,
+      "status": "in_progress",
+      "owner": "Codex (single worker)",
       "depends_on": [
-        "SCHUR-JT"
+        "SCHUR-JT",
+        "TABLEAU-FINITE"
       ],
       "files": [
-        "SymmetricFunctions/Schur/Tableaux.lean"
+        "SymmetricFunctions/Schur/Tableaux.lean",
+        "SymmetricFunctions/Schur/HorizontalStrip.lean",
+        "SymmetricFunctions/Tableaux/Branching.lean",
+        "SymmetricFunctions/Schur/Branching.lean"
       ],
       "acceptance": [
         "Prove a finite-alphabet identification between the actual Jacobi–Trudi determinant and weight sums over bounded Mathlib SemistandardYoungTableau objects; retain the stated partition/YoungDiagram adapter.",
-        "This deferred bridge is not claimed by SCHUR completion; no tableau formula or positivity claim may use it before it is proved and audited."
+        "This deferred bridge is not claimed by SCHUR completion; no tableau formula or positivity claim may use it before it is proved and audited.",
+        "For every alphabet size, including zero and fewer variables than rows, prove the actual Schur specialization equals the sum of bounded Mathlib tableau weights over every CommRing; derive natural coefficient counts, zero-last-variable compatibility, and row-count vanishing. Prove all intermediate branching identities and bijections."
+      ],
+      "evidence": "docs/handoffs/SCHUR-TABLEAU.md"
+    },
+    {
+      "id": "TABLEAU-FINITE",
+      "title": "Finite Mathlib tableaux, content and weights",
+      "phase": "extension",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "SCHUR-PART"
+      ],
+      "files": [
+        "SymmetricFunctions/Tableaux/Basic.lean",
+        "SymmetricFunctions/Examples/Tableaux.lean"
+      ],
+      "acceptance": [
+        "Prove finiteness of Partition.FiniteTableau by injection into actual fillings of the finite cell set.",
+        "Define content by counting entries and monomial weights; prove total content size, coefficient naturality, natural-number fixed-content counts, empty-shape/empty-alphabet conventions and row-count obstruction.",
+        "Document zero-based entries, paper variables and French drawing conventions."
+      ],
+      "evidence": "docs/handoffs/TABLEAU-FINITE.md"
+    },
+    {
+      "id": "SKEW-TABLEAU",
+      "title": "Skew tableaux and the existing skew Schur generating formula",
+      "phase": "extension",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "TABLEAU-FINITE",
+        "SCHUR-SKEW"
+      ],
+      "files": [
+        "SymmetricFunctions/Tableaux/Skew.lean",
+        "SymmetricFunctions/Tableaux/SkewBranching.lean",
+        "SymmetricFunctions/Schur/SkewTableaux.lean"
+      ],
+      "acceptance": [
+        "Define finite skew tableaux on the difference of existing Young diagrams under explicit containment, with comparisons only between present cells.",
+        "Prove specialization of the existing Hall-adjoint skew Schur equals the weight sum for every alphabet and CommRing, via the proved skew determinant and rigorously proved branching.",
+        "Prove straight agreement for empty inner shape, exactly one empty tableau for equal shapes, and explicitly zero for noncontainment; include skew-hole and noncontained examples."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "KOSTKA",
+      "title": "Natural tableau counts and Kostka expansion",
+      "phase": "extension",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "SCHUR-TABLEAU",
+        "MONOMIAL"
+      ],
+      "files": [
+        "SymmetricFunctions/Tableaux/Kostka.lean",
+        "SymmetricFunctions/Schur/Kostka.lean",
+        "SymmetricFunctions/Examples/Kostka.lean"
+      ],
+      "acceptance": [
+        "Define natural counts independently of R; prove fixed-content coefficient/cardinality formulas and alphabet-padding independence for partition content.",
+        "Prove the classical monomial expansion of existing Schur functions over arbitrary CommRing by cast natural Kostka counts, with no permutation or factorial factor.",
+        "Prove diagonal one and dominance vanishing with the dominance direction stated as explicit prefix row-sum inequalities. State positivity over Nat/Int only, without claiming LR or general skew Schur positivity.",
+        "Check empty shapes/alphabets, rows/columns, repeated entries, and the coefficient 2 of x1*x2*x3 in s_(2,1)."
       ],
       "evidence": null
     }
