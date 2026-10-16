@@ -717,23 +717,27 @@
       "id": "HALL-CORE",
       "title": "Integral Hall pairing and Hopf adjunction",
       "phase": "extension",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "MONOMIAL",
         "HBASIS",
         "HOPF"
       ],
       "files": [
+        "SymmetricFunctions/Finite/CompleteCoefficients.lean",
         "SymmetricFunctions/Hall/Basic.lean",
-        "SymmetricFunctions/Hall/Hopf.lean"
+        "SymmetricFunctions/Hall/FiniteCoefficient.lean",
+        "SymmetricFunctions/Hall/Hopf.lean",
+        "SymmetricFunctions/Hall/Symmetry.lean",
+        "SymmetricFunctions/Examples/Hall.lean"
       ],
       "acceptance": [
         "Construct the R-bilinear Hall pairing with h_\u03bb/m_\u03bc duality, symmetry and orthogonality of distinct degrees over arbitrary CommRing R.",
         "Prove nondegeneracy and perfectness on each homogeneous degree; do not identify the full infinite direct sum with its full algebraic dual.",
         "Define the tensor pairing explicitly and prove multiplication is adjoint to the existing coproduct."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/HALL-CORE.md"
     },
     {
       "id": "HALL-SCHUR",

@@ -77,6 +77,10 @@ checker tests and transitive axiom audit. No SCHUR result is yet claimed complet
 - SCHUR-DUAL checkpoint: complete dual determinant and omega/conjugation with
   explicit complementary-minor and boundary-sign proofs; see its source hashes.
 
-The next task is HALL-CORE. HALL-SCHUR, SCHUR-SKEW, CAUCHY-FINITE and
+HALL-CORE is complete: classical duality, symmetry by matrix transposition,
+degreewise perfectness, and multiplication/coproduct adjunction (110 modules,
+1,970 audited declarations). See HALL-CORE.md for exact source hashes.
+
+The next task is HALL-SCHUR. SCHUR-SKEW, CAUCHY-FINITE and
 SCHUR-CAUCHY remain open; the parent SCHUR goal is not complete. No tableau or
 Littlewood–Richardson positivity claim is made.

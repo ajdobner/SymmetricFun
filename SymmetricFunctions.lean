@@ -101,3 +101,9 @@ import SymmetricFunctions.Schur.ShuffleSign
 import SymmetricFunctions.Schur.BoundarySign
 import SymmetricFunctions.Schur.Dual
 import SymmetricFunctions.Examples.SchurDual
+import SymmetricFunctions.Finite.CompleteCoefficients
+import SymmetricFunctions.Hall.Basic
+import SymmetricFunctions.Hall.FiniteCoefficient
+import SymmetricFunctions.Hall.Hopf
+import SymmetricFunctions.Hall.Symmetry
+import SymmetricFunctions.Examples.Hall

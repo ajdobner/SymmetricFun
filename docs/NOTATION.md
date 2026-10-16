@@ -324,3 +324,13 @@ use `elementaryJacobiTrudiMatrix ξ.conjugate L`; `dual_jacobiTrudi` requires
 `elementaryInt` uses integer indices, zero below zero and one at index zero.
 The (2,1) example proves the shape self-conjugate and omega fixes its Schur
 function over ZMod 6.
+
+The Hall pairing is written `hall f g`; its explicit tensor counterpart is
+`tensorHall z w` (open `scoped TensorProduct` for `⊗ₜ[R]`). No pairing syntax
+is added. `hall_hPart_mPart ⟨d, μ⟩ ⟨e, ν⟩` uses sigma partition indices, so
+its Kronecker delta includes equality of the degrees. `hallHomogeneousPerfect R d`
+is the perfect pairing on degree d only. For example, over ZMod 6,
+`hall (h 2 ^ 2) (mPart (2,2)) = 1`: repeated parts introduce no factorial.
+Here `(2,2)` is explanatory shape notation; Lean uses Nat.Partition.ofSums.
+`hall_h_eq_coeff` is a coefficient in one actual alphabet variable, not a
+virtual-alphabet substitution. See Examples/Hall.lean for fully elaborated examples.

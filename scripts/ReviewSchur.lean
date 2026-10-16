@@ -57,3 +57,25 @@ open SymmetricFunction
 #check @omega_schur
 #print axioms dual_jacobiTrudi
 #print axioms omega_schur
+
+#print hall
+#print hallHomogeneous
+#print hallHomogeneousPerfect
+#print tensorHall
+#print SymmetricFunctions.marginMatrices
+#check @hall_hPart_mPart
+#check @hall_hPart_eq_coeff
+#check @hall_left_nondegenerate
+#check @hall_right_nondegenerate
+#check @hall_eq_zero_of_degrees_ne
+#check @hallHomogeneousPerfect_apply
+#check @hallHomogeneous_isPerfPair
+#check @SymmetricFunctions.coeff_prod_hsymm
+#check @SymmetricFunctions.card_marginMatrices_comm
+#check @hall_symm
+#check @tensorHall_tmul
+#check @hall_mul
+#check @hall_mul_right
+#print axioms hall_symm
+#print axioms hallHomogeneous_isPerfPair
+#print axioms hall_mul

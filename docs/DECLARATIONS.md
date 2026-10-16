@@ -1,10 +1,10 @@
 # Symmetric functions: declaration guide
 
 Import `SymmetricFunctions` for the accepted library. The generated
-[complete declaration index](declarations.tsv) records 1,372 noninternal
+[complete declaration index](declarations.tsv) records 1,421 noninternal
 declarations, their defining modules, and their kinds. It includes generated
 class declarations; private helpers and anonymous examples are omitted. The
-axiom audit also covers those omitted declarations (1,893 declarations total).
+axiom audit also covers those omitted declarations (1,970 declarations total).
 
 Regenerate the index after building the library:
 
@@ -231,3 +231,19 @@ CommRing. The proof includes explicit complementary minors, a Young diagram
 boundary bijection, and its permutation sign. `Partition.boundaryEquiv` and
 `sign_boundary_relative_tail` record the shape interface without redefining
 conjugation. No tableau formula or positivity is inferred from these identities.
+
+[Hall/Basic](../SymmetricFunctions/Hall/Basic.lean) defines the bilinear `hall`,
+normalized by `hall_hPart_mPart`, with `hall_left_nondegenerate`,
+`hall_right_nondegenerate`, `hall_eq_zero_of_degrees_ne`, and the degreewise
+`hallHomogeneousPerfect` equivalence and `hallHomogeneous_isPerfPair` instance.
+No equivalence with the full algebraic dual of the infinite ring is asserted.
+`tensorHall_tmul` specifies the explicit product tensor pairing.
+[Hall/FiniteCoefficient](../SymmetricFunctions/Hall/FiniteCoefficient.lean)
+identifies `hall_hPart_eq_coeff` with actual finite-alphabet coefficients.
+[Hall/Hopf](../SymmetricFunctions/Hall/Hopf.lean) proves `hall_mul` against the
+existing coproduct. [Finite/CompleteCoefficients](../SymmetricFunctions/Finite/CompleteCoefficients.lean)
+counts complete coefficients by finite nonnegative matrices with both margins;
+transposition proves `hall_symm` in [Hall/Symmetry](../SymmetricFunctions/Hall/Symmetry.lean).
+`hall_mul_right`, `hall_h_eq_coeff`, and `hall_h_h` supply useful consequences.
+All results assume only CommRing on coefficients; no rational descent is used.
+Schur orthonormality remains the separate HALL-SCHUR obligation.
