@@ -88,3 +88,8 @@ audited declarations). See HALL-SCHUR.md for exact checked source hashes.
 The next task is SCHUR-SKEW. CAUCHY-FINITE and
 SCHUR-CAUCHY remain open; the parent SCHUR goal is not complete. No tableau or
 Littlewood–Richardson positivity claim is made.
+
+SCHUR-SKEW first checkpoint: bounded adjoints, degree behavior, empty/equal
+shapes and finite skew coproduct expansion accepted (117 modules, 2,057 axioms
+checked). The general skew determinant and noncontained-shape vanishing remain
+open; SCHUR-SKEW and parent SCHUR remain in_progress.

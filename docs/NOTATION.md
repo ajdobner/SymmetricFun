@@ -344,3 +344,13 @@ is its coefficient exponent vector. Bialternant statements are multiplication
 identities, so they remain meaningful over arbitrary rings without a notation
 for dividing by the staircase. Examples/HallSchur.lean checks (2,1), torsion,
 zero rings, empty alphabets, extra padding, and negative-index coefficients.
+
+`skewing f g` denotes the bounded adjoint f-perp applied to g;
+`hall_skewing` states `hall (skewing f g) k = hall g (f*k)`.
+`skewSchur ξ μ` is schur μ-perp applied to schur ξ. Public simplification
+uses `skewing_one` and `skewing_zero`; `skewing_apply` is deliberately not a
+simp lemma because it exposes the finite contraction implementation.
+No new postfix syntax is required. `skewJacobiTrudiMatrix ξ μ L` uses
+`(rowLength ξ i : ℤ) - (rowLength μ j : ℤ) - (i : ℤ) + (j : ℤ)`.
+Its general determinant identification is still under construction; examples
+currently check negative entries, bounded adjunction and shape conventions.

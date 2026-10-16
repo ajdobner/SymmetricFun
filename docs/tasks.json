@@ -765,8 +765,8 @@
       "id": "SCHUR-SKEW",
       "title": "Adjoint skewing and skew Schur determinants",
       "phase": "extension",
-      "status": "planned",
-      "owner": null,
+      "status": "in_progress",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "HALL-SCHUR",
         "SCHUR-DUAL",
@@ -774,14 +774,17 @@
       ],
       "files": [
         "SymmetricFunctions/Hall/Skewing.lean",
-        "SymmetricFunctions/Schur/Skew.lean"
+        "SymmetricFunctions/Schur/Skew.lean",
+        "SymmetricFunctions/Hopf/MixedSpecialization.lean",
+        "SymmetricFunctions/Schur/SkewDeterminant.lean",
+        "SymmetricFunctions/Examples/SkewSchur.lean"
       ],
       "acceptance": [
         "Construct the adjoint f-perp of multiplication by every bounded f; prove defining adjunction and degree-lowering behavior.",
         "Define skewSchur \u03bb \u03bc as schur \u03bc-perp applied to schur \u03bb, and prove the actual skew Jacobi\u2013Trudi determinant with integer indices and sufficient padding.",
         "Prove empty, equal and noncontained shape conventions using YoungDiagram containment, and the coproduct expansion in skew Schur functions."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/SCHUR-SKEW.md"
     },
     {
       "id": "CAUCHY-FINITE",

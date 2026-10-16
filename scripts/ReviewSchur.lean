@@ -97,3 +97,19 @@ open SymmetricFunction
 #print axioms bialternant_schur
 #print axioms hall_schur_eq_alternating_coeff
 #print axioms hall_schur_schur
+
+#print hallContraction
+#print skewing
+#print skewSchur
+#print skewJacobiTrudiMatrix
+#check @hall_skewing
+#check @skewing_unique
+#check @skewing_mul
+#check @isHomogeneous_skewing
+#check @skewing_eq_zero_of_degree_lt
+#check @skewSchur_empty
+#check @skewSchur_self
+#check @comultiplication_schur
+#print axioms hall_skewing
+#print axioms isHomogeneous_skewing
+#print axioms comultiplication_schur

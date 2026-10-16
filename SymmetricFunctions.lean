@@ -111,3 +111,6 @@ import SymmetricFunctions.Finite.Bialternant
 import SymmetricFunctions.Schur.AlternantPairing
 import SymmetricFunctions.Hall.Schur
 import SymmetricFunctions.Examples.HallSchur
+import SymmetricFunctions.Hall.Skewing
+import SymmetricFunctions.Schur.Skew
+import SymmetricFunctions.Examples.SkewSchur
