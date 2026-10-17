@@ -410,3 +410,16 @@ For example, the three-cell row filled with entry 0 has weight `X 0 ^ 3`.
 The empty shape has one empty tableau and weight one, including in zero letters.
 `Examples/Tableaux.lean` checks these conventions over ℤ, ZMod 6 and the zero ring.
 At this checkpoint the tableau sum is not yet proved equal to `schur`.
+
+`Partition.SkewTableau ξ μ N` includes a proof of `Contained μ ξ`. Its `entry`
+function is defined on `SkewCell ξ μ` only, and both cells in each row/column
+comparison must be present. `SkewTableau.straightEquiv ξ μ N` recovers Mathlib's
+straight tableaux when μ has size zero. Equal shapes have one empty tableau;
+noncontained pairs have none, regardless of their raw set difference.
+`HorizontalStrip μ ξ` means μ⊆ξ and λ_(i+1)≤μ_i for every zero-based i.
+It is proved equivalent to at most one difference cell in a column.
+For `(2,1)/(1)`, the two cells can both contain 0: neither is compared against
+an artificial value in the missing corner. Examples/SkewTableaux.lean checks
+this over ZMod 6 and a noncontained pair with nonzero raw cell difference.
+The one-letter weight sum is X₀^(|ξ|-|μ|) for a horizontal strip and zero otherwise.
+This combinatorial formula has not yet been identified with `skewSchur`.

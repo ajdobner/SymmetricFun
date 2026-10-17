@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-10-16",
+  "updated": "2026-10-17",
   "status_policy": "Ready means all dependencies are done; optional external work also requires explicit authorization. A coordinator serializes claims and status updates. Done requires an evidence handoff and the checks in AGENTS.md.",
   "tasks": [
     {
@@ -1091,8 +1091,8 @@
       "id": "SKEW-TABLEAU",
       "title": "Skew tableaux and the existing skew Schur generating formula",
       "phase": "extension",
-      "status": "planned",
-      "owner": null,
+      "status": "in_progress",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "TABLEAU-FINITE",
         "SCHUR-SKEW"
@@ -1100,14 +1100,16 @@
       "files": [
         "SymmetricFunctions/Tableaux/Skew.lean",
         "SymmetricFunctions/Tableaux/SkewBranching.lean",
-        "SymmetricFunctions/Schur/SkewTableaux.lean"
+        "SymmetricFunctions/Schur/SkewTableaux.lean",
+        "SymmetricFunctions/Examples/SkewTableaux.lean",
+        "SymmetricFunctions/Partition/HorizontalStrip.lean"
       ],
       "acceptance": [
         "Define finite skew tableaux on the difference of existing Young diagrams under explicit containment, with comparisons only between present cells.",
         "Prove specialization of the existing Hall-adjoint skew Schur equals the weight sum for every alphabet and CommRing, via the proved skew determinant and rigorously proved branching.",
         "Prove straight agreement for empty inner shape, exactly one empty tableau for equal shapes, and explicitly zero for noncontainment; include skew-hole and noncontained examples."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/SKEW-TABLEAU.md"
     },
     {
       "id": "KOSTKA",

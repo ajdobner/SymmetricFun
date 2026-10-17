@@ -128,3 +128,6 @@ import SymmetricFunctions.Cauchy
 import SymmetricFunctions.Examples.Cauchy
 import SymmetricFunctions.Tableaux.Basic
 import SymmetricFunctions.Examples.Tableaux
+import SymmetricFunctions.Partition.HorizontalStrip
+import SymmetricFunctions.Tableaux.Skew
+import SymmetricFunctions.Examples.SkewTableaux

@@ -325,3 +325,15 @@ coefficient semiring. Both weights and the sum commute with coefficient maps.
 `nonempty_iff` characterizes existence by length ≤ alphabet size; empty shapes
 have a Unique tableau, zero content and polynomial one, even for zero letters.
 These results do not yet identify the sum with the determinant Schur function.
+
+[Partition/HorizontalStrip](../SymmetricFunctions/Partition/HorizontalStrip.lean)
+defines horizontal strips by containment and row interlacing, and proves the
+at-most-one-cell-per-column characterization. [Tableaux/Skew](../SymmetricFunctions/Tableaux/Skew.lean)
+defines `Partition.SkewTableau` on actual difference cells with an explicit
+containment proof field. Its finite filling injection, content degree d-e,
+natural counts, coefficient maps and boundary conventions are proved.
+`straightEquiv` is an actual equivalence for empty inner shape, with matching
+contents and weight sums. `nonempty_one_iff` characterizes one-letter fillings
+by horizontal strips, and `generatingPolynomial_one` gives X₀^(d-e) or zero.
+Noncontained pairs have no tableaux; equal shapes have one empty tableau.
+The identification with the existing Hall-adjoint `skewSchur` remains open.

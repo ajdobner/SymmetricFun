@@ -22,3 +22,24 @@ open SymmetricFunctions.Partition
 #print axioms FiniteTableau.coeff_generatingPolynomial
 #print axioms FiniteTableau.nonempty_iff
 #print axioms FiniteTableau.generatingPolynomial_zero
+
+#print HorizontalStrip
+#print SkewCell
+#print SkewTableau
+#print SkewTableau.content
+#print SkewTableau.generatingPolynomial
+#check @HorizontalStrip.eq_row_of_cells
+#check @horizontalStrip_of_column_injective
+#check @SkewTableau.degree_content
+#check @SkewTableau.coeff_generatingPolynomial
+#check @SkewTableau.straightEquiv
+#check @SkewTableau.content_ofStraight
+#check @SkewTableau.generatingPolynomial_empty
+#check @SkewTableau.generatingPolynomial_self
+#check @SkewTableau.generatingPolynomial_eq_zero_of_not_contained
+#check @SkewTableau.nonempty_one_iff
+#check @SkewTableau.generatingPolynomial_one
+#print axioms SkewTableau.degree_content
+#print axioms SkewTableau.straightEquiv
+#print axioms SkewTableau.generatingPolynomial_empty
+#print axioms SkewTableau.generatingPolynomial_one
