@@ -77,7 +77,8 @@ def msymm_basis [Infinite σ] (n : ℕ) :
     Module.Basis (Nat.Partition n) R (homogeneousSymmetricSubmodule σ R n) :=
   Module.Basis.ofEquivFun
   {
-    toFun := fun p => fun (μ : Nat.Partition n) => coeff (canonicalMonomial σ μ) p,
+    toFun := fun p => fun (μ : Nat.Partition n) =>
+      coeff (canonicalMonomial σ μ.toGenericPartition) p,
     invFun := fun g => ∑ μ : Nat.Partition n,
       (g μ) • (⟨msymm σ R μ.toGenericPartition, msymm_mem_homogeneousSymmetricSubmodule' σ R μ⟩ :
             homogeneousSymmetricSubmodule σ R n),
@@ -88,8 +89,11 @@ def msymm_basis [Infinite σ] (n : ℕ) :
         coeff_msymm, smul_eq_mul, mul_ite, mul_one, mul_zero]
       by_cases hm : (m.toGenericPartition.size = n)
       · let m_part : Nat.Partition n := ⟨m.toGenericPartition, hm⟩
-        change (∑ (x : Nat.Partition n), if m_part = x then _ else 0) = _
-        simp only [← Subtype.ext_iff, Finset.sum_ite_eq, Finset.mem_univ, ↓reduceIte]
+        have hpart (x : Nat.Partition n) :
+            m.toGenericPartition = x.toGenericPartition ↔ m_part = x := by
+          rw [Nat.GenericPartition.ext_iff, Nat.Partition.ext_iff]
+        simp_rw [hpart]
+        simp only [Finset.sum_ite_eq, Finset.mem_univ, ↓reduceIte]
         rw [← coeff_of_isSymmetric m _ _]
         exact ((mem_homogeneousSymmetricSubmodule n ↑p.val).mp p.property).2
       · transitivity 0
@@ -111,9 +115,9 @@ def msymm_basis [Infinite σ] (n : ℕ) :
       intro g
       ext μ
       simp only [SetLike.mk_smul_mk, AddSubmonoidClass.coe_finsetSum, map_sum, map_smul,
-        coeff_msymm, smul_eq_mul, mul_ite, mul_one, mul_zero,canonicalMonomial_toGenericPartition]
-      simp
-      sorry
+        coeff_msymm, smul_eq_mul, mul_ite, mul_one, mul_zero, canonicalMonomial_toGenericPartition,
+        Nat.GenericPartition.ext_iff, ← Nat.Partition.ext_iff, Finset.sum_ite_eq,
+        Finset.mem_univ, ↓reduceIte]
     map_add' := by
       intro g₁ g₂
       ext μ

@@ -58,7 +58,7 @@ lemma smul_multiset_helper (e : Equiv.Perm σ) (m : σ →₀ ℕ) :
   change Multiset.map (Finsupp.equivMapDomain e m) (Finsupp.equivMapDomain e m).support.val = _
   have h : (Finsupp.equivMapDomain e m).support = Finset.map e (m.support) := by ext a; simp
   rw [h]
-  simp
+  simp [Function.comp_def]
 
 @[simp]
 lemma toGenericPartition_smul {σ : Type*} (e : Equiv.Perm σ) (m : σ →₀ ℕ) :

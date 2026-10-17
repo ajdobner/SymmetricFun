@@ -32,7 +32,7 @@ noncomputable def WeightedHomogeneousSubmodule.basisMonomials (σ : Type*) (R : 
     Module.Basis {m : σ →₀ ℕ // m.weight w = n} R (weightedHomogeneousSubmodule R w n)  :=
   Module.Basis.ofRepr (
     (LinearEquiv.ofEq _ _ (weightedHomogeneousSubmodule_eq_finsupp_supported R w n)).trans
-    (Finsupp.supportedEquivFinsupp {m : σ →₀ ℕ | m.weight w = n})
+    (AddMonoidAlgebra.supportedEquivFinsupp {m : σ →₀ ℕ | m.weight w = n})
   )
 
 end MvPolynomial
