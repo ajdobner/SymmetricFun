@@ -39,6 +39,20 @@ theorem isHomogeneous_zero (n : ℕ) : IsHomogeneous (0 : MvPowerSeries σ R) n 
   intro c hc
   contradiction
 
+/-- The degree of a product of homogeneous series is the sum of the degrees. -/
+theorem IsHomogeneous.multiset_prod {α : Type*} (s : Multiset α)
+    (f : α → MvPowerSeries σ R) (d : α → ℕ)
+    (hf : ∀ a ∈ s, IsHomogeneous (f a) (d a)) :
+    IsHomogeneous (s.map f).prod (s.map d).sum := by
+  induction s using Multiset.induction_on with
+  | empty =>
+    change IsHomogeneous 1 0
+    exact isHomogeneous_one
+  | @cons a s ih =>
+    simp only [Multiset.map_cons, Multiset.prod_cons, Multiset.sum_cons]
+    exact IsHomogeneous.mul (hf a (Multiset.mem_cons_self a s))
+      (ih fun b hb => hf b (Multiset.mem_cons_of_mem hb))
+
 @[simp]
 theorem IsHomogeneous.homogeneousComponent_self {f : MvPowerSeries σ R} {n : ℕ}
     (hf : IsHomogeneous f n) : homogeneousComponent n f = f :=

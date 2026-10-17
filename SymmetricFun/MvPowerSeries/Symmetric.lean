@@ -140,5 +140,14 @@ theorem isSymmetric_zero : IsSymmetric (0 : MvPowerSeries σ R) := by
   rw [h]
   exact isSymmetric_C 0
 
+/-- A product of symmetric series is symmetric. -/
+theorem IsSymmetric.multiset_prod {α : Type*} (s : Multiset α)
+    (f : α → MvPowerSeries σ R) (hf : ∀ a ∈ s, IsSymmetric (f a)) :
+    IsSymmetric (s.map f).prod := by
+  intro e
+  rw [map_multiset_prod, Multiset.map_map]
+  congr 1
+  exact Multiset.map_congr rfl fun a ha => hf a ha e
+
 end SymmetricSubalgebra
 end MvPowerSeries

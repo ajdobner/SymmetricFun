@@ -10,8 +10,6 @@ public import SymmetricFun.MvPowerSeries.Homogeneous
 The homogeneous submodules generate a subalgebra of bounded-degree series.
 This algebra is internally graded by total degree, with projections given by
 the homogeneous components of the underlying power series.
-When the variable type is finite, this subalgebra is equivalent to the polynomial
-algebra.
 -/
 
 @[expose] public section
@@ -170,17 +168,3 @@ theorem coe_boundedDegreeGrading_proj (n : ℕ) (f : boundedDegreeSubalgebra σ 
   coe_decompose_boundedDegreeGrading σ R n f
 
 end MvPowerSeries
-
-namespace MvPolynomial
-
-theorem coeToMvPowerSeries.algHom_range (σ R : Type*) [CommSemiring R] [Fintype σ] :
-    (coeToMvPowerSeries.algHom R).range = MvPowerSeries.boundedDegreeSubalgebra σ R := sorry
-
-/-- For finite types `σ` it is the case that `MvPolynomial` and `MvPowerSeries` with bounded degree
-are isomorphic. -/
-noncomputable def boundedDegreeAlgEquiv (σ R : Type*) [CommSemiring R] [Fintype σ] :
-    MvPolynomial σ R ≃ₐ[R] MvPowerSeries.boundedDegreeSubalgebra σ R :=
-  (AlgEquiv.ofInjective (coeToMvPowerSeries.algHom R) (coe_injective σ R)).trans
-    (Subalgebra.equivOfEq _ _ (coeToMvPowerSeries.algHom_range σ R))
-
-end MvPolynomial
