@@ -1,12 +1,24 @@
-import Mathlib.Data.Finsupp.Basic
-import Mathlib.Data.Finsupp.SMul
-import Mathlib.Logic.Equiv.Fintype
-import Mathlib.Algebra.GroupWithZero.Action.Defs
-import Mathlib.Algebra.Group.Action.End
-import Mathlib.Data.Finsupp.Weight
+module
 
-import SymmetricPoly.AllPartitions
+public import Mathlib.Data.Finsupp.Basic
+public import Mathlib.Data.Finsupp.SMul
+public import Mathlib.Logic.Equiv.Fintype
+public import Mathlib.Algebra.GroupWithZero.Action.Defs
+public import Mathlib.Algebra.Group.Action.End
+public import Mathlib.Data.Finsupp.Weight
+public import Mathlib.Data.List.ToFinsupp
+public import SymmetricFun.AllPartitions
 
+/-!
+# Exponent vectors and partitions
+
+The nonzero entries of a finitely supported exponent vector form a partition.
+Two exponent vectors give the same partition exactly when they differ by a
+permutation of their indices. Every partition has a representative on an infinite
+index type.
+-/
+
+@[expose] public section
 noncomputable section
 
 lemma fintype_card_eq_finset {α : Type*} (f : α → Prop) [DecidablePred f] (A : Finset α) :
@@ -134,3 +146,31 @@ theorem toAllPartitions_eq_iff {σ R : Type*} [CommSemiring R] (m₁ m₂ : σ �
     exact toAllPartitions_smul e m₂
 
 end Finsupp
+
+-- These exponent-vector declarations retain their existing public namespace.
+namespace MvPowerSeries
+
+/-- A chosen exponent vector on `ℕ` with the given partition.
+The ordering supplied by `Multiset.toList` is an implementation choice. -/
+def monomialRepresentativeNat (μ : AllPartitions) : ℕ →₀ ℕ :=
+  List.toFinsupp μ.parts.toList
+
+/-- A chosen exponent vector with the given partition in an infinite set of variables.
+The embedding of `ℕ` into `σ` is an implementation choice. Use
+`monomialRepresentative_toAllPartitions` to work with its partition. -/
+noncomputable def monomialRepresentative (σ : Type*) [Infinite σ] (μ : AllPartitions) : σ →₀ ℕ :=
+  (monomialRepresentativeNat μ).embDomain (Infinite.natEmbedding σ)
+
+@[simp]
+theorem monomialRepresentativeNat_toAllPartitions (μ : AllPartitions) :
+    (monomialRepresentativeNat μ).toAllPartitions = μ := by
+  sorry
+
+@[simp]
+theorem monomialRepresentative_toAllPartitions (σ : Type*) [Infinite σ] (μ : AllPartitions) :
+    (monomialRepresentative σ μ).toAllPartitions = μ := by
+  unfold monomialRepresentative
+  rw [Finsupp.embDomain_toAllPartitions]
+  exact monomialRepresentativeNat_toAllPartitions μ
+
+end MvPowerSeries

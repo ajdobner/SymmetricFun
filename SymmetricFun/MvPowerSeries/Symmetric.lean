@@ -1,9 +1,20 @@
-import Mathlib.RingTheory.MvPowerSeries.Rename
-import Mathlib.Algebra.Algebra.Subalgebra.Operations
-import Mathlib.Logic.Equiv.Fintype
+module
 
-import SymmetricPoly.Finsupp.SymmetricAction
+public import Mathlib.RingTheory.MvPowerSeries.Rename
+public import Mathlib.RingTheory.MvPowerSeries.Order
+public import Mathlib.Algebra.Algebra.Subalgebra.Operations
+public import Mathlib.Data.Finsupp.SMul
+public import Mathlib.Algebra.Group.Action.End
 
+/-!
+# Symmetric multivariate power series
+
+Variable permutations act by renaming. Symmetric series are fixed by this action
+and form a subalgebra. The permutation action instances are enabled locally;
+the public symmetry predicate and coefficient lemmas use explicit renaming.
+-/
+
+@[expose] public section
 noncomputable section
 
 namespace MvPowerSeries
@@ -64,6 +75,14 @@ theorem perm_coeff' (e : Equiv.Perm σ) (p : MvPowerSeries σ R) {m : σ →₀ 
 
 end SymmetricAction
 
+/-- Homogeneous components commute with bijective renaming of variables. -/
+theorem homogeneousComponent_rename_equiv {σ τ R : Type*} [CommSemiring R]
+    (e : σ ≃ τ) (n : ℕ) (f : MvPowerSeries σ R) :
+    homogeneousComponent n (rename e f) = rename e (homogeneousComponent n f) := by
+  ext d
+  simp only [coeff_homogeneousComponent, renameEquiv_coeff,
+    Finsupp.equivMapDomain_eq_mapDomain, Finsupp.degree_mapDomain]
+
 /-- A power series is symmetric if every permutation of its variables preserves it. -/
 def IsSymmetric [CommSemiring R] (p : MvPowerSeries σ R) : Prop :=
   ∀ e : Equiv.Perm σ, rename e p = p
@@ -102,6 +121,12 @@ theorem coeff_smul_monomial {σ R : Type*} [CommSemiring R] (e : Equiv.Perm σ) 
   exact coeff_equivMapDomain_of_isSymmetric e m f hf
 
 variable {σ R : Type*} [CommSemiring R]
+
+/-- Taking a homogeneous component preserves symmetry. -/
+theorem IsSymmetric.homogeneousComponent {f : MvPowerSeries σ R}
+    (hf : IsSymmetric f) (n : ℕ) : IsSymmetric (homogeneousComponent n f) := by
+  intro e
+  rw [← homogeneousComponent_rename_equiv, hf e]
 
 theorem isSymmetric_C (r : R) :
     IsSymmetric (C r : MvPowerSeries σ R) := by

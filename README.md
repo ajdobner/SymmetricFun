@@ -4,7 +4,65 @@
 
 Implement the ring of symmetric functions in Lean and prove some of its properties.
 
-Note: some theorems about symmetric *polynomials* are already in `mathlib`. The implementation there is very dependent on the assumption that there are finitely many variables. To construct the ring of symmetric functions, one must either take some kind of categorical limit or take a subalgebra of a power series ring (in infinitely many variables).
+**Note:** some theorems about symmetric *polynomials* are already in `mathlib`. The implementation there is very dependent on the assumption that there are finitely many variables. To construct the ring of symmetric functions, one must either take some kind of categorical limit or take a subalgebra of a power series ring (in infinitely many variables).
+
+
+Mathematically speaking, we construct the ring of symmetric functions within the larger ring of multivariate power series (with infinitely many variables). More specifically, one considers (say) the ring $R[[X_1,X_2,...]]$ and then takes the subalgebra consisting of those elements satisfying (1) they have bounded total degree, and (2) they are invariant under permuting the variables.
+
+## How do we achieve this in Lean
+
+The multivariate power series ring is already implemented in `mathlib` as `MvPowerSeries σ R`. Here `R` is the coefficient ring and `σ` is the type that indexes the variables.
+
+What have we added to `MvPowerSeries`?
+* `Homogeneous.lean` develops some machinery related to the submodules consisting of homogeneous elements
+* `BoundedDegree.lean` defines the bounded degree subalgebra. This subalgebra has a direct sum decomposition into the homogeneous submodules.
+* `Symmetric.lean` defines the permutation action on `MvPowerSeries` and the subalgebra consisting of elements invariant under this action. This action also commutes with the homogeneous projections.
+
+---
+
+With the above machinery in place, we start developing the rest of the theory in the `SymmetricFunction` folder. 
+* Define the action of permutations on `MvPowerSeries σ R` and the subalgebra invariant under this action.
+
+
+```text
+SymmetricFun/
+  AllPartitions.lean
+  Finsupp/
+    Partition.lean
+  GradedAlgebra/
+    Comap.lean
+  MvPowerSeries/
+    Homogeneous.lean
+    BoundedDegree.lean
+    Symmetric.lean
+  SymmetricFunction/
+    Basic.lean
+    Grading.lean
+    Monomial.lean
+    Elementary.lean
+    Complete.lean
+```
+
+- `AllPartitions.lean` and `Finsupp/Partition.lean` connect partitions with exponent vectors,
+  including permutation orbits and chosen representatives.
+- `GradedAlgebra/Comap.lean` restricts a grading along an injective algebra homomorphism
+  whose range is closed under homogeneous projections.
+- `MvPowerSeries/` develops general homogeneity, bounded degree, and symmetry.
+  `BoundedDegree.lean` proves the internal `ℕ`-grading of bounded-degree series.
+- `SymmetricFunction/Basic.lean` defines the bounded-degree symmetric algebra and its
+  inclusion into the bounded-degree algebra.
+- `SymmetricFunction/Grading.lean` restricts the bounded-degree grading to symmetric
+  functions, using the fact that homogeneous projections commute with permutations.
+  The internal pieces are defined directly inside the symmetric-function algebra.
+  Both gradings work over any commutative semiring and for any variable type.
+- The other `SymmetricFunction/` files develop the individual symmetric-function families;
+  `Monomial.lean` constructs the monomial basis and its coordinate equivalence directly
+   on these internal homogeneous pieces, with `msymmGraded` as the basis vectors.
+
+Future results on specialization and the fundamental theorem will have their own
+files as they are developed. The fundamental theorem will use `MvPolynomial ℕ+ R` directly
+as the source of the elementary-generator equivalence with the concrete symmetric-function
+algebra, for commutative rings and infinite variable types.
 
 **Plan**
 1. Construct the ring of symmetric functions (and polynomials) as a subalgebra of the existing `MvPowerSeries σ R` ring in `mathlib`.
