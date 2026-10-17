@@ -1,4 +1,5 @@
 import SymmetricFunctions
+import SymmetricFun
 import Lean.Util.CollectAxioms
 import Lean.Elab.Command
 
@@ -10,7 +11,8 @@ run_cmd do
   for (name, _) in env.constants.toList do
     if let some idx := env.getModuleIdxFor? name then
       let moduleName := env.header.moduleNames[idx.toNat]!
-      if (`SymmetricFunctions).isPrefixOf moduleName || (`LambdaRing).isPrefixOf moduleName then
+      if (`SymmetricFun).isPrefixOf moduleName || (`SymmetricFunctions).isPrefixOf moduleName ||
+          (`LambdaRing).isPrefixOf moduleName then
         let axioms ← Lean.collectAxioms name
         for axiomName in axioms do
           unless allowed.contains axiomName do

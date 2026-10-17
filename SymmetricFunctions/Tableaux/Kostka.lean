@@ -1,3 +1,4 @@
+import SymmetricFun.Partition.Dominance
 import SymmetricFunctions.Tableaux.Basic
 import SymmetricFunctions.Partition.Orbits
 
@@ -141,8 +142,14 @@ def kostka (ξ μ : Nat.Partition d) : ℕ :=
   FiniteTableau.contentCount_diagonal ξ (parts_card_le ξ)
 
 /-- Dominance direction: the Schur shape has larger prefix row sums than the content. -/
-def Dominates (ξ μ : Nat.Partition d) : Prop :=
-  ∀ k, (∑ i ∈ Finset.range k, rowLength μ i) ≤ ∑ i ∈ Finset.range k, rowLength ξ i
+abbrev Dominates (ξ μ : Nat.Partition d) : Prop := Nat.Partition.Dominates ξ μ
+
+/-- The native dominance order is exactly the prefix-row convention used by tableaux. -/
+theorem dominates_iff_prefix_rows (ξ μ : Nat.Partition d) :
+    Dominates ξ μ ↔ ∀ k, (∑ i ∈ Finset.range k, rowLength μ i) ≤
+      ∑ i ∈ Finset.range k, rowLength ξ i := by
+  simp only [Dominates, Nat.Partition.Dominates, Nat.Partition.partialSum_eq_sum_rowLen,
+    rowLength]
 
 /-- Every semistandard tableau has shape dominating its partition content.
 Letters below k can occur only in the first k rows, by strict columns. -/
@@ -150,6 +157,7 @@ theorem FiniteTableau.dominates_of_content (ξ μ : Nat.Partition d)
     (T : FiniteTableau ξ N) (hμ : length μ ≤ N) (hT : T.content = rowContent μ N) :
     Dominates ξ μ := by
   classical
+  rw [dominates_iff_prefix_rows]
   intro k
   rw [← weight_rowContent_prefix μ hμ k,
     ← weight_rowContent_prefix ξ T.length_le k, ← hT,

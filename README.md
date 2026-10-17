@@ -1,47 +1,89 @@
-# Symmetric functions in Lean
+# SymmetricFun
 
-This fork of [ajdobner/SymmetricFun](https://github.com/ajdobner/SymmetricFun) develops the integral ring of symmetric functions, its stable polynomial realization, Hopf algebra structure, and universal special lambda-ring property. The polynomial-backed design is fixed in the [roadmap](docs/ROADMAP.md).
+## Goal
 
-ENV, API, PART, GRADE, EBASIS, BASE, SPEC, COMPLETE, OMEGA, HBASIS, FINITE, STABLE, NEWTON, HOPF, LPOLY, LDEFS, LLINE, LSPECIAL, LSTABLE, LFREE, and RELEASE are complete. The default `SymmetricFunctions` library provides the polynomial-backed public type, elementary generators, universal algebra evaluation, and the equivalence between Mathlib partitions and weighted exponent vectors. Weighted grading, the exhaustive degree filtration, and elementary partition bases are also proved. The bounded stable realization and the standard connected, cocommutative Hopf structure are proved over arbitrary commutative rings. The integral free special lambda-ring theorem is proved for arbitrary special targets, including targets with additive torsion. The initial core release includes a proved nonzero torsion target example, a separate mathematical statement review, and a clean build and axiom audit of all 55 accepted modules. The inherited `SymmetricPoly` files remain drafts and are excluded from the accepted-library build. The [original README](docs/UPSTREAM_README.md) and Git history preserve the colleague's work.
+Implement the ring of symmetric functions in Lean and prove some of its properties.
 
-## Build and check
+**Note:** some theorems about symmetric *polynomials* are already in `mathlib`. The implementation there is very dependent on the assumption that there are finitely many variables. To construct the ring of symmetric functions, one must either take some kind of categorical limit or take a subalgebra of a power series ring (in infinitely many variables).
 
-The project pins Lean **v4.34.1** and Mathlib **d13f23b723b8a846827a245b89c10fc7d3f11612**.
+
+Mathematically speaking, we construct the ring of symmetric functions within the larger ring of multivariate power series (with infinitely many variables). More precisely, one can consider the ring $R[[X_1,X_2,...]]$ and then take the subalgebra consisting of those elements satisfying (1) they have bounded total degree, and (2) they are invariant under permuting the variables.
+
+## How do we achieve this in Lean
+
+The Lean code is in the `SymmetricFun` folder.
+
+Nonessential subfolders: `GradedAlgebra`, `Matrix`, `Partition`. These mostly add helper functionality to augment some things in mathlib. (In the case of `Partition` we add the dominance ordering.)
+
+Core subfolders:
+* `MvPowerSeries` is mathlib's multivariate power series library. We add some important functionality. Namely, we define the bounded degree subalgebra and show that this is an internal direct sum of homogeneous submodules. We also define the action of the symmetric group on the variables.
+* `SymmetricFunction`. In `Basic.lean` we define `symmetricFunctionSubalgebra` as a subalgebra of the ring of multivariate power series. In `Grading.lean` we show that it is the internal direct sum of graded submodules.
+  * Thus far we have defined three types of symmetric functions $m_\lambda, e_\lambda, h_\lambda$.
+  * We have proved that $(m_\lambda)_\lambda$ is a basis.
+  * We have proved $(e_\lambda)_\lambda$ is a basis . This is done by deriving an explicit combinatorial expression for the entries of the transition matrix. (see the **Plan** below)
+
+## Integrated extension library
+
+The native `SymmetricFun` power-series construction and internal grading are retained.
+The additional `SymmetricFunctions` and `LambdaRing` libraries provide stable finite
+specialization, Hopf and special lambda structures, plethysm, Schur/Hall/skew theory,
+Cauchy kernels, degree completion, tableau formulas, and natural Kostka counts.
+Their polynomial-backed interface is connected to the native algebra by
+`SymmetricFunction.upstreamEquiv`; it preserves elementary generators and grading,
+and on the natural alphabet agrees with the actual series realization.
+
+This is an incremental integration: existing extension theorem statements retain
+`SymmetricFunction R`. They have not all been restated on
+`MvPowerSeries.symmetricFunctionSubalgebra σ R`, and the bridge does not install
+new global Hopf or lambda instances on that subtype. See the
+[integration guide](docs/INTEGRATION.md) for the correspondence and design decisions.
+
+The shared environment is Lean **v4.35.0** and Mathlib
+**56a005855ea17e0b0958f73ec801ae140b0a1679**, as pinned by the upstream manifest.
 
 ```sh
 lake exe cache get
+lake build
 python3 scripts/test_check_project.py
 python3 scripts/check_project.py
 ```
 
-The checker validates the task graph, rejects proof holes and draft imports, verifies coverage of every accepted module, builds them, and audits transitive axiom dependencies. It also runs notation scope, type-boundary, and proof-goal display checks. A plain `lake build` builds the default accepted library.
+Both library facades are default build targets. The checker additionally enumerates
+every module in all three source trees, verifies facade reachability, rejects proof
+holes, and audits transitive axioms. Existing stylistic/module-system warnings are
+not proof holes. No new license is asserted by this integration.
 
-## Start an implementation task
+For mathematical notation and examples, see [NOTATION](docs/NOTATION.md).
+For completed and planned extension work, see [ROADMAP](docs/ROADMAP.md),
+[the task registry](docs/tasks.json), and [the declaration guide](docs/DECLARATIONS.md).
+The plan below describes the native power-series development.
 
-Read [AGENTS.md](AGENTS.md), then select a ready task in [docs/tasks.json](docs/tasks.json). The initial core release is complete. **PLETH has its basic integral operation and laws implemented; Adams and tensor compatibility remain. MONOMIAL is also ready**, outside the completed core scope. Use the [handoff template](docs/TASK_TEMPLATE.md). The [API handoff](docs/handoffs/API.md) records the representation decision and public interface; the [PART handoff](docs/handoffs/PART.md) records the partition adapter. The [ENV handoff](docs/handoffs/ENV.md) records the pinned environment and MCP setup.
-
-## Optional mathematical notation
-
-```lean
-import SymmetricFunctions.Notation
-open scoped SymmetricFunctionNotation
-```
-
-This enables `Λ[R]`, `ω f`, `λ[n] a`, and integral `f⟦g⟧`. Import alone leaves the scope inactive. Existing names remain available, with descriptive aliases for elementary, complete, power-sum functions, and the involution. Uppercase `Ω` is reserved for the future degree completion. See the [notation and alphabet guide](docs/NOTATION.md) for precedence, coefficient roles, and virtual negation versus parameter scaling.
-
-Other references:
-
-- [Declaration guide and generated index](docs/DECLARATIONS.md)
-- [Release validation and statement review](docs/handoffs/RELEASE.md)
-- [Existing work audit](docs/REUSE_AUDIT.md)
-- [Infrastructure and Prove2Me recommendations](docs/INFRASTRUCTURE.md)
-
-## Lean MCP
-
-A project-bound stdio launcher is available at `scripts/lean_mcp.sh`. It uses the installed server on the setup machine; set `LEAN_MCP_SERVER` to your executable elsewhere. Lean MCP 0.30.0 was tested with declaration search and both clean and error diagnostics. The local Codex configuration also registers `lean-lsp` with project inference for future sessions.
-
-The optional `scripts/check_mcp.py` integration test requires Python with the `mcp` package. The setup machine has it in the Lean MCP virtual environment. Restricted sandbox execution may hang during stdio startup; the integration test passed outside that sandbox.
-
-## Model recommendation
-
-Use **GPT-6 Astra / extra high** for foundational choices, the stable-range proofs, and the lambda universal-property work. **GPT-6.1 Sol / high** is a lower-cost option for bounded lemmas, porting, and routine maintenance. Review exact statements and require compiler evidence regardless of model. This recommendation follows the workload distinctions in [OpenAI's model-selection guidance](https://developers.openai.com/api/docs/guides/model-selection); it is not a measured Lean benchmark.
+## Plan
+1. Construct the ring of symmetric functions (and polynomials) as a subalgebra of the existing `MvPowerSeries σ R` ring in `mathlib`.
+    * Define the subalgebra of bounded degree series. If the type `σ` is finite, then this subalgebra is isomorphic to `MvPolynomial σ R`.
+    * Define the action of permutations on `MvPowerSeries σ R` and the subalgebra invariant under this action.
+2. Construct the monomial symmetric functions.
+    * If `σ` has cardinality $n \in \mathbb{N}$ then $(m_\mu)_{\ell(\mu)\leq n}$ forms a basis for the symmetric polynomials. Hence if `σ` and `τ` have the same finite cardinality then there is a canonical isomorphism between the associated rings of symmetric polynomials.
+    * If `σ` is infinite then $(m_\mu)$ forms a basis for symmetric functions.
+3. Construct the elementary symmetric functions.
+    * When writing $e_\lambda$ in terms of the $m_\mu$'s, the transition matrix $M_{\lambda\mu}$ counts 0-1 matrices with row sums equal to $\lambda$ and column sums equal to $\mu$. Equivalently, this counts simple bipartite graphs whose degree sequences are given by $\lambda$ and $\mu$. A necessary and sufficient condition for the existence of such graphs is given by the [Gale-Ryser theorem](https://en.wikipedia.org/wiki/Gale–Ryser_theorem). This can be used to show that $M_{\lambda\mu}$ is unitriangular with respect to a certain ordering on the partition bases.
+    * If `σ` has cardinality $n \in \mathbb{N}$ we get a canonical algebra isomorphism with $R[e_1,\ldots,e_n]$.
+    * If `σ` is infinite we get a canonical algebra isomorphism with $R[e_1,e_2,\ldots]$.
+---
+4. Construct the complete homogeneous symmetric functions.
+    * Prove the relation $\sum_{r=0}^d (-1)^r e_r h_{d-r}=0$ for $d > 0$, with $e_0=h_0=1$.
+    * If `σ` has cardinality $n \in \mathbb{N}$, then we define an algebra homomorphism $\omega$ satisfying $\omega(e_r)=h_r$ for all $1 \leq r \leq n$. Use the recurrence to show inductively that $\omega(h_r) = e_r$ for all $1 \leq r \leq n$.
+    * If `σ` is infinite, define the algebra homomorphism $\omega(e_r)=h_r$ for all $r \geq 1$. The recurrence implies $\omega(h_r)=e_r$.
+    * In both cases we see that $\omega$ is an involution and we deduce the relevant facts about the complete homogeneous symmetric functions forming a basis.
+5. Construct Schur functions as generating functions of semistandard Young tableaux.
+    * When writing $s_\lambda$ in terms of the $m_\mu$'s, the entries $K_{\lambda\mu}$ of the transition matrix are the [Kostka numbers](https://en.wikipedia.org/wiki/Kostka_number), which count SSYTs of shape $\lambda$ and weight $\mu$. This number is positive if and only if $\lambda$ is above than $\mu$ in the dominance order. $K_{\lambda\mu}$ is unitriangular if one chooses a linear order on partitions that is compatible with dominance.
+    * If `σ` has cardinality $n \in \mathbb{N}$, then the unitriangularity of the transition matrix implies that $(s_\lambda)_{\ell(\lambda)\leq n}$ is a basis.
+    * If `σ` is infinite, then $(s_\lambda)$ is a basis.
+6. Prove the Pieri rules.
+7. Derive other expressions for Schur functions: Jacobi-Trudi identity, Weyl character formula.
+8. Define the Hall inner product.
+9. Prove positivity of Littlewood--Richardson coefficients, and/or the Littlewood--Richardson rule. Representation theory of $S_n$ and $GL_n$ is not implemented in `mathlib`.
+10. (Later?) Refactor `MvPowerSeries` so that it is constructed as a [total monoid algebra](https://en.wikipedia.org/wiki/Total_algebra). The monoid in this case is $(M,+)=\big((\mathbb{Z}_{\geq 0})^{I,fin},+\big)$ where $I$ represents the index set for the variables. Note: currently the `MvPolynomial` ring *is* implemented using a general monoid algebra construction.
+Many properties of multivariate power series rings fit into this generalized setting.
+    * A monoid homomorphism $M \to N$ induces an algebra homomorphism $R[[M]]\to R[[N]]$. An example of this in power series (or polynomial) ring setting occurs when one sends some of the variables to zero.
+    * A distributive group action on $M$ lifts to an action on $R[[M]]$. For example, for power series (or polynomials) we have an action of the symmetric group on the variables. The subset consisting of elements that are invariant under the action forms a subalgebra by general principles.

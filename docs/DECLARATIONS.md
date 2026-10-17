@@ -395,3 +395,13 @@ zero ring. `mBasis_repr_schur_nonneg` states integer nonnegativity.
 case, rows, columns, repeated content, padding, and coefficient/count two at
 x₁x₂x₃ in s_(2,1). The [KOSTKA handoff](handoffs/KOSTKA.md) records the separate
 statement review and exact validation. No new notation is required.
+
+## Native foundation compatibility
+
+`SymmetricFunctions.Compatibility.Upstream` connects the extension API to Alex’s
+native power-series algebra. `upstreamEquiv` works for every infinite alphabet;
+its elementary and grading formulas are proved. On ℕ, `coe_upstreamEquiv`,
+`upstreamEquiv_h`, and `coe_upstreamEquiv_mPart` identify the actual series,
+complete functions and monomial orbit functions. See `INTEGRATION.md` for the
+scope of native interoperability. The generated index now includes declarations
+originating in `SymmetricFun` as well as `SymmetricFunctions` and `LambdaRing`.

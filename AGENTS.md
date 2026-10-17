@@ -1,10 +1,10 @@
 # Agent instructions
 
-Read `docs/ROADMAP.md`, the selected entry in `docs/tasks.json`, and any relevant handoff before editing Lean code. Consult `docs/REUSE_AUDIT.md` before porting colleague code. This repository is a fork of ajdobner/SymmetricFun. The accepted library is SymmetricFunctions; SymmetricPoly contains inherited drafts outside the default build.
+Read `docs/ROADMAP.md`, the selected entry in `docs/tasks.json`, and any relevant handoff before editing Lean code. Consult `docs/REUSE_AUDIT.md` before porting colleague code. This repository is a fork of ajdobner/SymmetricFun. The accepted libraries are SymmetricFun (the native power-series foundation), SymmetricFunctions (the connected extension API), and LambdaRing. The obsolete SymmetricPoly drafts were removed upstream.
 
 ## Mathematical contracts
 
-- Use the polynomial-backed symmetric-function type and prove its stable realization. Do not switch the foundational representation as a local implementation convenience.
+- Defer to the upstream bounded-power-series foundation, internal grading, package layout, and local permutation actions. Preserve the polynomial-backed extension API and its proved equivalence as a compatibility surface; do not silently redefine either carrier or migrate existing contracts. See docs/INTEGRATION.md.
 - The proposed internal generator index is `ℕ+`, matching the colleague's prototype. Public elementary and complete functions have natural-number indices with `e 0 = h 0 = 1`. Public power-sum generators have positive indices.
 - Use weighted degree, assigning degree `n` to the generator `e n`. Ordinary polynomial degree in the generators is not symmetric-function degree.
 - Reuse Mathlib's `Nat.Partition n`. Do not import a replacement definition with the same name. An unsized adapter may use `Σ n, Nat.Partition n`.

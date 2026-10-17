@@ -130,3 +130,26 @@ finite-sum order lemmas, and the existing highest-weight tableau. Alphabet and
 orbit independence reuse the project's proved monomial basis coefficient API.
 All code here is newly written; no colleague source was copied, no reference
 checkout was modified, and the dependency pins remain unchanged.
+
+## Upstream integration (2026-10-17)
+
+Merged upstream 5b32dda72cfc38e21c32df14ac2b25cb8b4910ba, including all four
+commits since the original fork. The user explicitly requested merging Alex’s
+work and contributing the result back, preferring his design decisions. This
+supersedes the original draft audit as a description of current upstream.
+`SymmetricPoly` and its out-of-scope material are removed as upstream requested.
+The new `SymmetricFun` source tree and umbrella module are preserved unchanged.
+
+The native implementation uses Mathlib partitions, a proof-irrelevant bounded
+series subalgebra, internal grading, local permutation actions, monomial and
+elementary bases, and a proved polynomial presentation. The compatibility map
+composes the two public polynomial equivalences. It also identifies the existing
+series realization and elementary/complete/monomial functions on ℕ. The duplicate
+extension dominance predicate now aliases upstream `Nat.Partition.Dominates`,
+with an explicit theorem relating it to the original row-prefix convention.
+
+Adopted upstream Lean v4.35.0 and exact Mathlib revision
+56a005855ea17e0b0958f73ec801ae140b0a1679. Both trees are included in the build,
+source-coverage check, and transitive axiom audit. All author history and notices
+are preserved; no repository-wide redistribution license is invented. Reference
+checkouts under ~/SymmetricFun and ~/flagged-llt-polynomials remain unchanged.

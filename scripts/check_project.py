@@ -10,7 +10,7 @@ import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-ACCEPTED = ("SymmetricFunctions", "LambdaRing")
+ACCEPTED = ("SymmetricFun", "SymmetricFunctions", "LambdaRing")
 
 
 def lean_code(text: str) -> str:
@@ -105,8 +105,18 @@ def validate(root: Path) -> list[str]:
         for dependency in imports[name]:
             if dependency.startswith("SymmetricPoly"):
                 raise ValueError(f"Accepted module {name} imports inherited draft {dependency}")
-    root_imports = set(imports["SymmetricFunctions"])
-    missing = set(modules) - {"SymmetricFunctions"} - root_imports
+    # Preserve upstream's small facade: helper imports may be transitive, but every
+    # accepted source must be reachable from a facade and is built explicitly below.
+    reachable = set()
+    def cover(name: str) -> None:
+        if name in reachable or name not in modules:
+            return
+        reachable.add(name)
+        for dependency in imports[name]:
+            cover(dependency)
+    for facade in ACCEPTED:
+        cover(facade)
+    missing = set(modules) - reachable
     if missing:
         raise ValueError(f"Root import does not cover: {', '.join(sorted(missing))}")
     print(f"Static checks passed: {len(tasks)} tasks, {len(modules)} accepted modules.", flush=True)

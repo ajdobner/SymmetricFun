@@ -1,4 +1,5 @@
 import SymmetricFunctions
+import SymmetricFun
 import Lean.Elab.Command
 
 /-! Generate the deterministic local index of accepted declarations. -/
@@ -10,7 +11,8 @@ run_cmd do
   for (name, info) in env.constants.toList do
     if let some idx := env.getModuleIdxFor? name then
       let moduleName := env.header.moduleNames[idx.toNat]!
-      if (`SymmetricFunctions).isPrefixOf moduleName || (`LambdaRing).isPrefixOf moduleName then
+      if (`SymmetricFun).isPrefixOf moduleName || (`SymmetricFunctions).isPrefixOf moduleName ||
+          (`LambdaRing).isPrefixOf moduleName then
         unless name.isInternal || name.hasMacroScopes do
           let kind := match info with
             | .thmInfo _ => "theorem"

@@ -28,7 +28,7 @@ example : FiniteTableau.contentCount (Nat.Partition.indiscrete 3)
 example : kostka (Nat.Partition.indiscrete 3).conjugate (Nat.Partition.indiscrete 3) = 0 := by
   apply kostka_eq_zero_of_not_dominates
   intro h
-  have := h 1
+  have := (dominates_iff_prefix_rows _ _).mp h 1
   norm_num only [Finset.sum_range_one, rowLength_indiscrete_conjugate,
     rowLength_indiscrete, ite_true] at this
 

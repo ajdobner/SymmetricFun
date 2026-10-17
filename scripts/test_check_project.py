@@ -44,6 +44,25 @@ class ProjectGuardTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "cycle"):
             validate(self.root)
 
+    def test_upstream_unimported_module(self):
+        (self.root / "SymmetricFun").mkdir()
+        (self.root / "SymmetricFun.lean").write_text("-- Empty facade\n")
+        (self.root / "SymmetricFun/Omitted.lean").write_text("theorem good : True := by trivial\n")
+        with self.assertRaisesRegex(ValueError, "Root import does not cover"):
+            validate(self.root)
+
+    def test_upstream_proof_hole(self):
+        (self.root / "SymmetricFun").mkdir()
+        (self.root / "SymmetricFun.lean").write_text("public import SymmetricFun.Bad\n")
+        (self.root / "SymmetricFun/Bad.lean").write_text("theorem bad : False := by sorry\n")
+        with self.assertRaisesRegex(ValueError, "Forbidden proof token"):
+            validate(self.root)
+
+    def test_transitive_facade_coverage(self):
+        (self.root / "SymmetricFunctions/Helper.lean").write_text("theorem helper : True := by trivial\n")
+        self.basic.write_text("import SymmetricFunctions.Helper\n")
+        self.assertEqual(len(validate(self.root)), 3)
+
     def test_comments_are_not_proof_holes(self):
         self.basic.write_text('/- A comment mentioning sorry. -/\ntheorem good : True := by trivial\n')
         self.assertEqual(len(validate(self.root)), 2)

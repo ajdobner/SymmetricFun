@@ -140,3 +140,6 @@ import SymmetricFunctions.Schur.Tableaux
 import SymmetricFunctions.Tableaux.Kostka
 import SymmetricFunctions.Schur.Kostka
 import SymmetricFunctions.Examples.Kostka
+
+import SymmetricFunctions.Compatibility.Upstream
+import SymmetricFunctions.Examples.Upstream
