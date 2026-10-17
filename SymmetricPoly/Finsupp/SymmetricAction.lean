@@ -1,10 +1,11 @@
 import Mathlib.Data.Finsupp.Basic
+import Mathlib.Data.Finsupp.SMul
 import Mathlib.Logic.Equiv.Fintype
 import Mathlib.Algebra.GroupWithZero.Action.Defs
-import Mathlib.Algebra.Group.End
+import Mathlib.Algebra.Group.Action.End
 import Mathlib.Data.Finsupp.Weight
 
-import SymmetricPoly.Combinatorics.Enumerative.Partition.Basic
+import SymmetricPoly.AllPartitions
 
 noncomputable section
 
@@ -24,51 +25,55 @@ lemma fintype_card_eq_finset {α : Type*} (f : α → Prop) [DecidablePred f] (A
 
 namespace Finsupp
 
-/-- There is a permutation group action on monomials.
-  TODO: Is it better to use the one-liner `Finsupp.comapDistribMulAction` to define this? -/
-instance permAction {σ : Type*} : DistribMulAction (Equiv.Perm σ) (σ →₀ ℕ) where
-  smul e f := Finsupp.domCongr e f
-  one_smul f := by
-    change Finsupp.domCongr (Equiv.refl σ) f = f
-    rw [Finsupp.domCongr_refl]
-    simp only [AddEquiv.refl_apply]
-  mul_smul e₁ e₂ f := Finsupp.equivMapDomain_trans e₂ e₁ f
-  smul_add e f₁ f₂ := map_add (Finsupp.domCongr e) f₁ f₂
-  smul_zero e := map_zero (Finsupp.domCongr e)
+-- Use the existing action on the domain only within this file.
+-- It is not global because Finsupp also supports actions on its values.
+attribute [local instance] comapSMul comapMulAction comapDistribMulAction
 
-def toGenericPartition (m : σ →₀ ℕ) : Nat.GenericPartition where
-  parts := Multiset.map m m.support.val
-  parts_pos := by
-    intro x hx
-    rw [Multiset.mem_map] at hx
-    rcases hx with ⟨a, ha, rfl⟩
-    have h_nonzero : m a ≠ 0 := Finsupp.mem_support_iff.mp ha
-    exact Nat.pos_of_ne_zero h_nonzero
+/-- The partition formed by the nonzero entries of an exponent vector. -/
+def toAllPartitions (m : σ →₀ ℕ) : AllPartitions :=
+  ⟨m.degree, {
+    parts := Multiset.map m m.support.val
+    parts_pos := by
+      intro x hx
+      rw [Multiset.mem_map] at hx
+      rcases hx with ⟨a, ha, rfl⟩
+      have h_nonzero : m a ≠ 0 := Finsupp.mem_support_iff.mp ha
+      exact Nat.pos_of_ne_zero h_nonzero
+    parts_sum := rfl
+  }⟩
 
-theorem toGenericPartition_size (m : σ →₀ ℕ) : m.toGenericPartition.size = m.weight 1 := by
-  sorry
+theorem toAllPartitions_size (m : σ →₀ ℕ) : m.toAllPartitions.size = m.weight 1 := by
+  change m.degree = m.weight 1
+  rw [degree_eq_weight_one]
+  rfl
 
-theorem embDomain_toGenericPartition (f : α ↪ β) (m : α →₀ ℕ) :
-    (m.embDomain f).toGenericPartition = m.toGenericPartition := by
-  unfold toGenericPartition
-  simp
+theorem embDomain_toAllPartitions (f : α ↪ β) (m : α →₀ ℕ) :
+    (m.embDomain f).toAllPartitions = m.toAllPartitions := by
+  apply AllPartitions.ext
+  simp [toAllPartitions, AllPartitions.parts]
 
-lemma smul_multiset_helper (e : Equiv.Perm σ) (m : σ →₀ ℕ) :
-    Multiset.map (e • m) (e • m).support.val = Multiset.map m m.support.val := by
-  change Multiset.map (Finsupp.equivMapDomain e m) (Finsupp.equivMapDomain e m).support.val = _
+/-- Reindexing an exponent vector by an equivalence preserves its partition. -/
+@[simp]
+theorem toAllPartitions_equivMapDomain (e : σ ≃ τ) (m : σ →₀ ℕ) :
+    (equivMapDomain e m).toAllPartitions = m.toAllPartitions := by
+  apply AllPartitions.ext
+  change Multiset.map (equivMapDomain e m) (equivMapDomain e m).support.val =
+    Multiset.map m m.support.val
   have h : (Finsupp.equivMapDomain e m).support = Finset.map e (m.support) := by ext a; simp
   rw [h]
   simp [Function.comp_def]
 
+lemma smul_multiset_helper (e : Equiv.Perm σ) (m : σ →₀ ℕ) :
+    Multiset.map (e • m) (e • m).support.val = Multiset.map m m.support.val := by
+  change Multiset.map (mapDomain e m) (mapDomain e m).support.val = _
+  rw [← equivMapDomain_eq_mapDomain]
+  exact congrArg AllPartitions.parts (toAllPartitions_equivMapDomain e m)
+
 @[simp]
-lemma toGenericPartition_smul {σ : Type*} (e : Equiv.Perm σ) (m : σ →₀ ℕ) :
-  (e • m).toGenericPartition = m.toGenericPartition:= by
-  apply Nat.GenericPartition.ext
-  --change (Multiset.map (e • m) (e • m).support.val).sort (· ≥ ·) =
-    --(Multiset.map m m.support.val).sort (· ≥ ·)
-  unfold toGenericPartition
-  simp only
-  rw [smul_multiset_helper e m]
+lemma toAllPartitions_smul {σ : Type*} (e : Equiv.Perm σ) (m : σ →₀ ℕ) :
+    (e • m).toAllPartitions = m.toAllPartitions := by
+  change (mapDomain e m).toAllPartitions = _
+  rw [← equivMapDomain_eq_mapDomain, toAllPartitions_equivMapDomain]
 
 
 theorem finsupp_perm_of_multiset_eq {α β : Type*} [Zero β]
@@ -106,18 +111,26 @@ theorem finsupp_perm_of_multiset_eq {α β : Type*} [Zero β]
   ext a
   simp only [Finsupp.equivMapDomain_apply, h_e_large a, Equiv.symm_symm]
 
-lemma exists_smul_of_toGenericPartition_eq {σ : Type*} (m₁ m₂ : σ →₀ ℕ)
-    (h : m₁.toGenericPartition = m₂.toGenericPartition) :
-    ∃ e : Equiv.Perm σ, m₁ = e • m₂ := by
+lemma exists_equivMapDomain_of_toAllPartitions_eq {σ : Type*} (m₁ m₂ : σ →₀ ℕ)
+    (h : m₁.toAllPartitions = m₂.toAllPartitions) :
+    ∃ e : Equiv.Perm σ, m₁ = equivMapDomain e m₂ := by
   apply finsupp_perm_of_multiset_eq m₁ m₂
-  exact congrArg Nat.GenericPartition.parts h
+  exact congrArg AllPartitions.parts h
 
-theorem toGenericPartition_eq_iff {σ R : Type*} [CommSemiring R] (m₁ m₂ : σ →₀ ℕ) :
-  m₁.toGenericPartition = m₂.toGenericPartition ↔ ∃ e : Equiv.Perm σ, m₁ = e • m₂:=
+lemma exists_smul_of_toAllPartitions_eq {σ : Type*} (m₁ m₂ : σ →₀ ℕ)
+    (h : m₁.toAllPartitions = m₂.toAllPartitions) :
+    ∃ e : Equiv.Perm σ, m₁ = e • m₂ := by
+  obtain ⟨e, he⟩ := exists_equivMapDomain_of_toAllPartitions_eq m₁ m₂ h
+  refine ⟨e, ?_⟩
+  change m₁ = mapDomain e m₂
+  simpa only [equivMapDomain_eq_mapDomain] using he
+
+theorem toAllPartitions_eq_iff {σ R : Type*} [CommSemiring R] (m₁ m₂ : σ →₀ ℕ) :
+  m₁.toAllPartitions = m₂.toAllPartitions ↔ ∃ e : Equiv.Perm σ, m₁ = e • m₂:=
   by
   constructor
-  · exact exists_smul_of_toGenericPartition_eq m₁ m₂
+  · exact exists_smul_of_toAllPartitions_eq m₁ m₂
   · rintro ⟨e, rfl⟩
-    exact toGenericPartition_smul e m₂
+    exact toAllPartitions_smul e m₂
 
 end Finsupp
