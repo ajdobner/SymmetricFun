@@ -1139,7 +1139,7 @@
       "id": "UPSTREAM-INTEGRATION",
       "title": "Merge Alex\u2019s power-series foundation and connect the proved libraries",
       "phase": "integration",
-      "status": "review",
+      "status": "done",
       "owner": "Codex (single worker)",
       "depends_on": [
         "SERIES",

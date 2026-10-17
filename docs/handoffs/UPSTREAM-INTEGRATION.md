@@ -1,6 +1,6 @@
 # Upstream integration
 
-- Owner: Codex (single worker); task UPSTREAM-INTEGRATION; status review (proofs accepted; publication pending).
+- Owner: Codex (single worker); task UPSTREAM-INTEGRATION; status done.
 - Sources: local 0bd3a94 and upstream 5b32dda72cfc38e21c32df14ac2b25cb8b4910ba.
 - User requested merging Alex’s changes and a PR back to his repository, preferring his intentional design choices.
 
@@ -54,7 +54,7 @@ The build emits nonblocking header and legacy-module import style warnings. No p
 
 The extension theorems still use their existing polynomial-backed type; the proved equivalence exposes them to native clients. This integration does not yet restate every theorem for arbitrary native alphabets or install global native Hopf/lambda instances. See `docs/INTEGRATION.md` for the design decisions and review entry points. No reference checkout was changed and no license was invented.
 
-The exact accepted Lean source state is recorded below. Publication to the fork and the PR against Alex's main remain pending; the task will be marked done once those succeed.
+The verified merge commit is `6e212fd439cc17e593558f1b5e0d5578fca755bf` (parents `0bd3a942680f6b64a58c395a76783fb9d2c233b9` and `5b32dda72cfc38e21c32df14ac2b25cb8b4910ba`). The exact accepted Lean source hashes are recorded below. The branch `codex/integrate-alex-main` was pushed to `ghseeli/SymmetricFun`, and [PR #1](https://github.com/ajdobner/SymmetricFun/pull/1) was opened against Alex's main. All local acceptance criteria passed. This completion record changes documentation only; it does not imply approval, CI completion, or merging by upstream.
 
 ```text
 8b669d64bb77b5ba03117d64ae73651357561cfbb28fbc86c1eba22e3be4b593  SymmetricFunctions/Compatibility/Upstream.lean
