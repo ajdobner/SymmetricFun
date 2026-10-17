@@ -1048,7 +1048,7 @@
       "id": "SCHUR-TABLEAU",
       "title": "Identify determinant Schur functions with tableau generating polynomials",
       "phase": "extension",
-      "status": "in_progress",
+      "status": "done",
       "owner": "Codex (single worker)",
       "depends_on": [
         "SCHUR-JT",
@@ -1092,7 +1092,7 @@
       "id": "SKEW-TABLEAU",
       "title": "Skew tableaux and the existing skew Schur generating formula",
       "phase": "extension",
-      "status": "in_progress",
+      "status": "done",
       "owner": "Codex (single worker)",
       "depends_on": [
         "TABLEAU-FINITE",

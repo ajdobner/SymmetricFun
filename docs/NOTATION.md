@@ -409,7 +409,7 @@ A row can repeat a letter; a column must have distinct increasing letters.
 For example, the three-cell row filled with entry 0 has weight `X 0 ^ 3`.
 The empty shape has one empty tableau and weight one, including in zero letters.
 `Examples/Tableaux.lean` checks these conventions over ℤ, ZMod 6 and the zero ring.
-At this checkpoint the tableau sum is not yet proved equal to `schur`.
+The full equality with `schur` is described below.
 
 `Partition.SkewTableau ξ μ N` includes a proof of `Contained μ ξ`. Its `entry`
 function is defined on `SkewCell ξ μ` only, and both cells in each row/column
@@ -422,7 +422,7 @@ For `(2,1)/(1)`, the two cells can both contain 0: neither is compared against
 an artificial value in the missing corner. Examples/SkewTableaux.lean checks
 this over ZMod 6 and a noncontained pair with nonzero raw cell difference.
 The one-letter weight sum is X₀^(|ξ|-|μ|) for a horizontal strip and zero otherwise.
-This combinatorial formula has not yet been identified with `skewSchur`.
+Its identification with `skewSchur` is described below.
 
 `alphabetSpecialization_one_skewSchur_eq_tableaux` is the proved one-letter
 case of the tableau formula. `oneLetterEvaluation` additionally sets that
@@ -431,4 +431,16 @@ bounded polynomial's one variable to one; it is not an evaluation of Ω.
 old variables use `Fin.castSucc`, and the new variable is `X (Fin.last N)`.
 The intermediate partitions have sizes n≤|ξ|; their removed cells must be a
 horizontal strip, contributing the new variable to power |ξ|-n. This algebraic
-branching is proved independently of the still-open general tableau formula.
+branching is proved independently of the combinatorial branching formula.
+
+The full identities are now `alphabetSpecialization_schur_eq_tableaux ξ N` and
+`alphabetSpecialization_skewSchur_eq_tableaux ξ μ N`, valid for every N, including
+zero. `rho_schur_eq_tableaux` gives the symmetric-subalgebra version.
+`coeff_alphabetSpecialization_schur ξ a` counts tableaux of the single specified
+content `a`, with a natural-number cast into R. `coeff_schur_nonneg` and
+`coeff_skewSchur_nonneg` state integer monomial-coefficient nonnegativity.
+These do not state Schur-basis positivity for skew functions.
+The combinatorial `SkewTableau.branchingEquiv` deletes/restores the largest letter;
+`weight_extendLargest` proves the exact old/new variable product. No extra tableau
+notation is introduced. The paper's French drawing and zero-based-variable
+translation described above remain unchanged.

@@ -1,6 +1,6 @@
 # Tableau identification of the existing Schur functions
 
-- Task SCHUR-TABLEAU; owner Codex (single worker); status in_progress.
+- Task SCHUR-TABLEAU; owner Codex (single worker); status done.
 - Base d276255; original acceptance criteria retained verbatim in tasks.json.
 - Dependencies: SCHUR-JT and TABLEAU-FINITE; latter is being implemented first.
 - Environment pins unchanged; no reference code copied.
@@ -109,3 +109,46 @@ SCHUR-TABLEAU and SKEW-TABLEAU remain in_progress. Next: prove the actual
 largest-letter deletion/extension bijection and its weight identity, then
 induct on alphabet size. KOSTKA remains planned. Pins/reference checkouts
 are unchanged, and no full tableau or Kostka theorem is claimed yet.
+
+## Completion (2026-10-17)
+
+SCHUR-TABLEAU is done. The original two acceptance criteria are preserved and
+satisfied. `alphabetSpecialization_schur_eq_tableaux` identifies the EXISTING
+Jacobi–Trudi determinant with weights of actual bounded Mathlib tableaux, for
+every N and every CommRing. `rho_schur_eq_tableaux` supplies the symmetric-subalgebra
+interface. `coeff_alphabetSpecialization_schur` is a fixed-content natural count;
+`zeroLast_tableauGeneratingPolynomial` proves padding compatibility, and
+`alphabetSpecialization_schur_eq_zero_of_length_gt` proves the small-alphabet
+vanishing. No stable-range, rationality, domain or Nontrivial assumption appears.
+The determinant and all foundational definitions remain unchanged.
+
+Proof route completed: actual cell deletion/extension gives `branchingEquiv`;
+`splitCellEquiv` proves the weight identity; finite summation gives combinatorial
+branching. It matches the independently proved Hall/determinant algebraic
+branching. The empty alphabet is handled by equal shapes, noncontainment and
+positive homogeneous degree. Induction establishes the full skew formula, and
+empty inner shape recovers the Mathlib straight tableau formula.
+
+Separate statement review printed the actual shapes, deletion and extension,
+BranchData, equivalence and final hypotheses in scripts/ReviewTableaux.lean.
+There is no assumption of the desired identity and no renamed Schur basis.
+Both directions of the bijection and the finite weight product are kernel checked.
+Examples cover all alphabets, rows/columns, repeated entries, holes, noncontainment,
+ZMod 6, and PUnit. The numerical (2,1) coefficient regression is reserved for
+KOSTKA's explicitly retained acceptance criteria.
+
+Validation: full check_project.py passed (140 modules, 2,433 transitive axiom
+audits, only propext/Classical.choice/Quot.sound), all five checker tests passed,
+Lean MCP diagnostics are clean, ReviewTableaux passed, and DeclarationIndex
+indexed 1,731 noninternal declarations. Logs /tmp/tableau-formulas-check.log and
+/tmp/tableau-formulas-review.log. An example initially lacked the Column import;
+the targeted import was added and the complete validation rerun successfully.
+
+Exact new/changed source SHA-256:
+- Tableaux/SkewBranching.lean: b37f6b0f99322b5ccda6f646ff4c51e56d2b16ad3b7c01cca29c020e9306545a
+- Schur/SkewTableaux.lean: 8be333865524e907fe60dfbff2fb3b58a3cac60986e0f43ec3ae6917fd828a51
+- Schur/Tableaux.lean: 11725777aa1405337a0f825ce46b6104a819e592103459590818c312a084cd08
+- Examples/TableauBranching.lean: 0c18552e0336083c4bbd58ea3a399e28f3b734ced3c7855836d2d1b09c4b90c0
+
+Base 3781965 plus these four Lean sources; every accepted module was rebuilt and
+audited together. KOSTKA is next. The full active goal is not yet complete.

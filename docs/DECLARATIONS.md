@@ -336,7 +336,7 @@ natural counts, coefficient maps and boundary conventions are proved.
 contents and weight sums. `nonempty_one_iff` characterizes one-letter fillings
 by horizontal strips, and `generatingPolynomial_one` gives X₀^(d-e) or zero.
 Noncontained pairs have no tableaux; equal shapes have one empty tableau.
-The identification with the existing Hall-adjoint `skewSchur` remains open.
+The full identification with the existing Hall-adjoint `skewSchur` is recorded below.
 
 [Schur/HorizontalStrip](../SymmetricFunctions/Schur/HorizontalStrip.lean)
 proves `alphabetSpecialization_one_skewSchur`: the existing Hall-adjoint skew
@@ -351,4 +351,23 @@ intermediate partitions of sizes at most the outer size, retaining only
 horizontal strips, with the new letter at `Fin.last N` and old letters
 embedded by `Fin.castSucc`. [Schur/SkewTableaux](../SymmetricFunctions/Schur/SkewTableaux.lean)
 identifies the actual determinant and actual tableau sum in one letter.
-The general tableau deletion/extension bijection and full identification remain open.
+The general tableau bijection and full identification are recorded below.
+
+[Tableaux/SkewBranching](../SymmetricFunctions/Tableaux/SkewBranching.lean) constructs
+`lowerDiagram` from the inner shape and all entries below the largest letter.
+`lowerShape` uses Mathlib's `YoungDiagram.toPartition`; `removeLargest` and
+`extendLargest` are inverse via `branchingEquiv`. `splitCellEquiv` partitions
+actual cells, proving `weight_extendLargest` and the finite
+`generatingPolynomial_succ` formula. No branching bijection is assumed.
+[Schur/SkewTableaux](../SymmetricFunctions/Schur/SkewTableaux.lean) now proves
+`alphabetSpecialization_skewSchur_eq_tableaux` for every alphabet and every
+CommRing, by induction using this combinatorial branching and the independently
+proved algebraic branching. [Schur/Tableaux](../SymmetricFunctions/Schur/Tableaux.lean)
+proves `alphabetSpecialization_schur_eq_tableaux` and `rho_schur_eq_tableaux` for
+the original determinant Schur functions and Mathlib tableaux. The coefficient
+formulas are natural fixed-content counts, with no permutation/factorial factor.
+Both sums have proved zero-last-variable compatibility; excessive straight row
+count forces vanishing. Integral monomial coefficients are nonnegative, for
+straight and skew shapes. None of this asserts a Littlewood–Richardson rule or
+Schur positivity of skew functions. The separate Kostka expansion and dominance
+API remain to be proved.

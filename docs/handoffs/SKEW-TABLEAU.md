@@ -1,6 +1,6 @@
 # Skew tableaux and their Schur identification
 
-- Task SKEW-TABLEAU; owner Codex (single worker); status in_progress.
+- Task SKEW-TABLEAU; owner Codex (single worker); status done.
 - Base 612b93c; TABLEAU-FINITE and SCHUR-SKEW complete; pins unchanged.
 - Scope Tableaux/Skew, Tableaux/SkewBranching, Schur/SkewTableaux and examples.
 - No skew tableau API was found in pinned Mathlib; use a small finite-cell
@@ -102,3 +102,20 @@ It follows by partitioning the finite actual cell set into ν/μ and ξ/ν,
 not by an assumed branching identity. Summation along the proved bijection
 must yield the same finite branching formula as alphabetSpecialization.
 These proofs remain open until their actual Lean declarations are validated.
+
+## Completion (2026-10-17)
+
+SKEW-TABLEAU is done. The finite cell adapter, explicit containment field,
+correct row/column comparisons, empty-inner equivalence, equal-shape uniqueness,
+noncontainment zero, actual largest-letter bijection and weight factorization
+are all proved. `alphabetSpecialization_skewSchur_eq_tableaux` identifies the
+EXISTING Hall-adjoint skew function, already proved equal to the skew determinant,
+with its actual weight sum for every finite alphabet over every CommRing.
+`coeff_alphabetSpecialization_skewSchur` gives natural counts; integer monomial
+coefficients are nonnegative. No Schur positivity or LR conclusion is claimed.
+
+The complete acceptance/independent statement review, exact source hashes,
+all-module validation (140 modules and 2,433 transitive axiom audits), five
+checker tests, diagnostics and examples are recorded in SCHUR-TABLEAU.md's
+completion entry. Both tasks share that checked source state based on 3781965.
+The full objective still requires KOSTKA; proceed without waiting for confirmation.

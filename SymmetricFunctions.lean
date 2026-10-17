@@ -135,3 +135,5 @@ import SymmetricFunctions.Schur.HorizontalStrip
 import SymmetricFunctions.Schur.Branching
 import SymmetricFunctions.Schur.SkewTableaux
 import SymmetricFunctions.Examples.TableauBranching
+import SymmetricFunctions.Tableaux.SkewBranching
+import SymmetricFunctions.Schur.Tableaux

@@ -57,3 +57,25 @@ open SymmetricFunction
 #print axioms alphabetSpecialization_one_skewSchur
 #print axioms alphabetSpecialization_succ_skewSchur
 #print axioms alphabetSpecialization_one_skewSchur_eq_tableaux
+
+#print SkewTableau.lowerDiagram
+#print SkewTableau.lowerShape
+#print SkewTableau.removeLargest
+#print SkewTableau.extendLargest
+#print SkewTableau.BranchData
+#check @SkewTableau.branchingEquiv
+#check @SkewTableau.weight_extendLargest
+#check @SkewTableau.generatingPolynomial_succ
+#check @alphabetSpecialization_zero_skewSchur_eq_tableaux
+#check @alphabetSpecialization_skewSchur_eq_tableaux
+#check @alphabetSpecialization_schur_eq_tableaux
+#check @coeff_alphabetSpecialization_schur
+#check @coeff_alphabetSpecialization_skewSchur
+#check @zeroLast_tableauGeneratingPolynomial
+#check @alphabetSpecialization_schur_eq_zero_of_length_gt
+#check @coeff_schur_nonneg
+#check @coeff_skewSchur_nonneg
+#print axioms SkewTableau.branchingEquiv
+#print axioms SkewTableau.weight_extendLargest
+#print axioms alphabetSpecialization_skewSchur_eq_tableaux
+#print axioms alphabetSpecialization_schur_eq_tableaux
