@@ -337,3 +337,18 @@ contents and weight sums. `nonempty_one_iff` characterizes one-letter fillings
 by horizontal strips, and `generatingPolynomial_one` gives X₀^(d-e) or zero.
 Noncontained pairs have no tableaux; equal shapes have one empty tableau.
 The identification with the existing Hall-adjoint `skewSchur` remains open.
+
+[Schur/HorizontalStrip](../SymmetricFunctions/Schur/HorizontalStrip.lean)
+proves `alphabetSpecialization_one_skewSchur`: the existing Hall-adjoint skew
+Schur specializes to X₀^(d-e) for horizontal strips and zero otherwise.
+`oneLetterEvaluation` evaluates a bounded one-variable polynomial at one;
+`skewThresholdMatrix` is the actual evaluated skew determinant. Upper triangularity
+or a proved pair of equal rows computes its determinant integrally.
+[Schur/Branching](../SymmetricFunctions/Schur/Branching.lean) proves
+`comultiplication_skewing`, `comultiplication_skewSchur`, and
+`alphabetSpecialization_succ_skewSchur`. The last gives a finite sum over
+intermediate partitions of sizes at most the outer size, retaining only
+horizontal strips, with the new letter at `Fin.last N` and old letters
+embedded by `Fin.castSucc`. [Schur/SkewTableaux](../SymmetricFunctions/Schur/SkewTableaux.lean)
+identifies the actual determinant and actual tableau sum in one letter.
+The general tableau deletion/extension bijection and full identification remain open.

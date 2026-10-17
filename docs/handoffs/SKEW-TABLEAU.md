@@ -81,3 +81,24 @@ Exact source SHA-256:
 SKEW-TABLEAU remains in_progress. Next: prove one-letter specialization of the
 existing skew determinant, then algebraic and actual-tableau branching. The
 full straight/skew Schur identifications and Kostka theory are still open.
+
+## Largest-letter bijection: precise next interfaces (2026-10-17)
+
+For T : SkewTableau ξ μ (N+1), let `lowerDiagram T` consist of all μ cells
+and the actual skew cells whose entry is <N. Prove it is a lower set using
+row/column monotonicity between present cells, and hence a genuine Mathlib
+YoungDiagram. It lies between μ and ξ. Convert it using `YoungDiagram.toPartition`
+to `lowerShape T : Σ n : Fin(d+1), Nat.Partition n`; no replacement partition is used.
+The removed difference has at most one cell per column, since removed entries
+are all N. `removeLargest T : SkewTableau (lowerShape T).2 μ N` restricts entries.
+Conversely, `extendLargest` takes a tableau U of shape ν/μ and a proof of
+HorizontalStrip ν ξ, keeps its entries and places N in ξ/ν. Prove its weak-row
+and strict-column conditions on present cells. These are inverse constructions,
+including empty alphabets and noncontained pairs.
+
+The weight identity is `weight (extendLargest U hs) =
+ rename Fin.castSucc (weight U) * X (Fin.last N)^(d-n)`.
+It follows by partitioning the finite actual cell set into ν/μ and ξ/ν,
+not by an assumed branching identity. Summation along the proved bijection
+must yield the same finite branching formula as alphabetSpecialization.
+These proofs remain open until their actual Lean declarations are validated.

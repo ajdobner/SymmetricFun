@@ -1058,7 +1058,8 @@
         "SymmetricFunctions/Schur/Tableaux.lean",
         "SymmetricFunctions/Schur/HorizontalStrip.lean",
         "SymmetricFunctions/Tableaux/Branching.lean",
-        "SymmetricFunctions/Schur/Branching.lean"
+        "SymmetricFunctions/Schur/Branching.lean",
+        "SymmetricFunctions/Examples/TableauBranching.lean"
       ],
       "acceptance": [
         "Prove a finite-alphabet identification between the actual Jacobi–Trudi determinant and weight sums over bounded Mathlib SemistandardYoungTableau objects; retain the stated partition/YoungDiagram adapter.",

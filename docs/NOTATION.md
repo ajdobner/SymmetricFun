@@ -423,3 +423,12 @@ an artificial value in the missing corner. Examples/SkewTableaux.lean checks
 this over ZMod 6 and a noncontained pair with nonzero raw cell difference.
 The one-letter weight sum is X₀^(|ξ|-|μ|) for a horizontal strip and zero otherwise.
 This combinatorial formula has not yet been identified with `skewSchur`.
+
+`alphabetSpecialization_one_skewSchur_eq_tableaux` is the proved one-letter
+case of the tableau formula. `oneLetterEvaluation` additionally sets that
+bounded polynomial's one variable to one; it is not an evaluation of Ω.
+`alphabetSpecialization_succ_skewSchur ξ μ N` branches on the largest letter:
+old variables use `Fin.castSucc`, and the new variable is `X (Fin.last N)`.
+The intermediate partitions have sizes n≤|ξ|; their removed cells must be a
+horizontal strip, contributing the new variable to power |ξ|-n. This algebraic
+branching is proved independently of the still-open general tableau formula.

@@ -43,3 +43,17 @@ open SymmetricFunctions.Partition
 #print axioms SkewTableau.straightEquiv
 #print axioms SkewTableau.generatingPolynomial_empty
 #print axioms SkewTableau.generatingPolynomial_one
+
+open SymmetricFunction
+#print oneLetterEvaluation
+#print skewThresholdMatrix
+#check @SymmetricFunctions.homogeneous_finOne
+#check @oneLetterEvaluation_skewSchur
+#check @alphabetSpecialization_one_skewSchur
+#check @comultiplication_skewing
+#check @comultiplication_skewSchur
+#check @alphabetSpecialization_succ_skewSchur
+#check @alphabetSpecialization_one_skewSchur_eq_tableaux
+#print axioms alphabetSpecialization_one_skewSchur
+#print axioms alphabetSpecialization_succ_skewSchur
+#print axioms alphabetSpecialization_one_skewSchur_eq_tableaux
