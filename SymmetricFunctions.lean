@@ -137,3 +137,6 @@ import SymmetricFunctions.Schur.SkewTableaux
 import SymmetricFunctions.Examples.TableauBranching
 import SymmetricFunctions.Tableaux.SkewBranching
 import SymmetricFunctions.Schur.Tableaux
+import SymmetricFunctions.Tableaux.Kostka
+import SymmetricFunctions.Schur.Kostka
+import SymmetricFunctions.Examples.Kostka

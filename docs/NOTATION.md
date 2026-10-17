@@ -444,3 +444,26 @@ The combinatorial `SkewTableau.branchingEquiv` deletes/restores the largest lett
 `weight_extendLargest` proves the exact old/new variable product. No extra tableau
 notation is introduced. The paper's French drawing and zero-based-variable
 translation described above remain unchanged.
+
+`Partition.rowContent μ N` is the exponent vector `(μ₁, μ₂, …, 0)` in `Fin N`,
+with decreasing parts and zero padding. `Partition.kostka ξ μ : ℕ` counts actual
+bounded Mathlib tableaux of shape ξ with that single content in the alphabet
+of size |μ|. `contentCount_rowContent ξ μ hN` proves independence of every
+alphabet with `length μ ≤ N`; `contentCount_eq_kostka` allows any exponent
+vector whose nonzero multiset is μ.parts. Thus repeated parts introduce no
+factorial: each `mPart μ` already has coefficient one at each exponent in its orbit.
+
+`Partition.Dominates ξ μ` means, explicitly, for every k,
+`∑ i ∈ range k, rowLength μ i ≤ ∑ i ∈ range k, rowLength ξ i`.
+The shape ξ dominates the content μ. `kostka_self` is one, and
+`kostka_eq_zero_of_not_dominates` is zero. These declarations use descriptive
+names and require no additional scoped syntax.
+
+`schur_eq_sum_kostka_mPart ξ` is the expansion over any `CommRing R`;
+`mBasis_repr_schur` is its basis-coordinate interface. Integer nonnegativity is
+`mBasis_repr_schur_nonneg`. In `Examples/Kostka.lean`, the exponent with all three
+coordinates equal to one denotes x₁x₂x₃ and has coefficient/count two for (2,1).
+The repeated content (2,1,0) has coefficient one. Both remain coefficient
+identities after casting to ZMod 6; no order on a general R is asserted.
+This proves monomial positivity, not Littlewood–Richardson or arbitrary skew
+Schur-basis positivity.

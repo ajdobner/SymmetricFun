@@ -1116,8 +1116,8 @@
       "id": "KOSTKA",
       "title": "Natural tableau counts and Kostka expansion",
       "phase": "extension",
-      "status": "planned",
-      "owner": null,
+      "status": "done",
+      "owner": "Codex (single worker)",
       "depends_on": [
         "SCHUR-TABLEAU",
         "MONOMIAL"
@@ -1133,7 +1133,7 @@
         "Prove diagonal one and dominance vanishing with the dominance direction stated as explicit prefix row-sum inequalities. State positivity over Nat/Int only, without claiming LR or general skew Schur positivity.",
         "Check empty shapes/alphabets, rows/columns, repeated entries, and the coefficient 2 of x1*x2*x3 in s_(2,1)."
       ],
-      "evidence": null
+      "evidence": "docs/handoffs/KOSTKA.md"
     }
   ]
 }

@@ -1,10 +1,10 @@
 # Symmetric functions: declaration guide
 
 Import `SymmetricFunctions` for the accepted library. The generated
-[complete declaration index](declarations.tsv) records 1,566 noninternal
+[complete declaration index](declarations.tsv) records 1,753 noninternal
 declarations, their defining modules, and their kinds. It includes generated
 class declarations; private helpers and anonymous examples are omitted. The
-axiom audit also covers those omitted declarations (2,179 declarations total).
+axiom audit also covers those omitted declarations (2,478 declarations total).
 
 Regenerate the index after building the library:
 
@@ -19,6 +19,7 @@ dependencies. Run it with `lake env lean scripts/ReviewRelease.lean`.
 The [release handoff](handoffs/RELEASE.md) records the separate mathematical
 review and initial validation. The [notation handoff](handoffs/NOTATION.md)
 records the subsequent readability work. The [lambda simplification repair](handoffs/LSIMP.md) records the public normal-form policy. The latest extension validation and parent contract review are recorded in the
+[KOSTKA handoff](handoffs/KOSTKA.md), with earlier completion results in the
 [COMPLETION handoff](handoffs/COMPLETION.md).
 
 ## Optional notation and descriptive aliases
@@ -184,9 +185,10 @@ a nonzero element killed by `2`; its `e₂` value is zero.
 
 All initial core tasks through RELEASE are complete. PLETH and MONOMIAL are
 complete; RATIONAL, SERIES, COMPLETION and the algebraic SCHUR milestone are
-complete. The latest full audit covers 129 accepted modules and 2,179 declarations.
-SCHUR-TABLEAU is the ready deferred bridge to tableau weight sums; no tableau
-formula or positivity theorem is currently claimed. BLUEPRINT and PLATFORM are
+complete. TABLEAU-FINITE, SCHUR-TABLEAU, SKEW-TABLEAU and KOSTKA are proved
+and documented below. The latest full audit covers 143 accepted modules and
+2,478 declarations. Littlewood–Richardson and flagged/LLT results remain later
+work. BLUEPRINT and PLATFORM are
 optional tooling and external-work tasks. Their exact scope and status remain
 in [the registry](tasks.json). The whole symmetric-functions project is not complete.
 
@@ -197,13 +199,13 @@ in [the registry](tasks.json). The whole symmetric-functions project is not comp
 `sum_rowLength_padded`, `Contained`, `contained_iff_rowLength`, and
 `ofPartition_conjugate`. These use Mathlib partitions, conjugation, and Young
  diagrams directly. `FiniteTableau` is a finite-alphabet subtype of Mathlib's
-semistandard tableaux; the tableau generating formula is separately unproved.
+semistandard tableaux; the separately proved generating formula is described below.
 [Examples/PartitionRows](../SymmetricFunctions/Examples/PartitionRows.lean)
 checks (2,1), extra zero padding, empty partitions, rows, and columns.
 The [SCHUR handoff](handoffs/SCHUR.md) records the full parent contract and
 subtask split; `scripts/ReviewSchur.lean` inspects accepted definitions and
 statements separately from compilation. All algebraic SCHUR contracts are complete;
-the tableau bridge and positivity remain separate later work.
+the subsequent tableau and monomial-positivity proofs are described below.
 
 [Schur/JacobiTrudi](../SymmetricFunctions/Schur/JacobiTrudi.lean) defines
 `completeInt`, `jacobiTrudiMatrix`, and the actual determinant `schur`.
@@ -264,7 +266,7 @@ Kronecker coefficient `coeff_partitionAlternant`.
 `hall_schur`, `hall_schur_right`, `hall_schur_homogeneous` and
 `hallHomogeneous_schurBasis`. These prove the Schur normalization for the same
 classical h/m Hall form, integrally including torsion and zero rings.
-No tableau enumeration or positivity has been claimed.
+These Hall identities do not rely on tableau enumeration or positivity.
 
 [Hall/Skewing](../SymmetricFunctions/Hall/Skewing.lean) defines `hallContraction`
 and bounded `skewing`, with `hall_skewing` adjunction, uniqueness, linearity,
@@ -369,5 +371,27 @@ formulas are natural fixed-content counts, with no permutation/factorial factor.
 Both sums have proved zero-last-variable compatibility; excessive straight row
 count forces vanishing. Integral monomial coefficients are nonnegative, for
 straight and skew shapes. None of this asserts a Littlewood–Richardson rule or
-Schur positivity of skew functions. The separate Kostka expansion and dominance
-API remain to be proved.
+Schur positivity of skew functions. The separately proved Kostka expansion and
+dominance API are described next.
+
+[Tableaux/Kostka](../SymmetricFunctions/Tableaux/Kostka.lean) defines
+`Partition.rowContent`, the decreasing padded exponent vector, and proves
+`rowContent_embDomain`, `exponentParts_rowContent`, and `degree_rowContent`.
+`FiniteTableau.content_highestWeight` and `eq_highestWeight_of_content` show
+that the canonical row filling is the unique tableau of its shape content.
+`Partition.kostka` is a natural count, `kostka_self` is one, and
+`kostka_eq_zero_of_not_dominates` uses `Partition.Dominates`, whose explicit
+prefix sums put the larger sums on the Schur shape side. Its proof is the
+cellwise row≤entry inequality; no rational basis descent is involved.
+
+[Schur/Kostka](../SymmetricFunctions/Schur/Kostka.lean) exports
+`mBasis_repr_schur`, `contentCount_rowContent`, `coeff_schur_eq_kostka`,
+`contentCount_eq_kostka`, and `schur_eq_sum_kostka_mPart`. The coefficient theorem
+allows any exponent with the specified nonzero multiset and any alphabet where
+that exponent exists. Equality of natural counts uses injectivity of ℕ→ℤ;
+the expansion itself is over every commutative ring, including torsion and the
+zero ring. `mBasis_repr_schur_nonneg` states integer nonnegativity.
+[Examples/Kostka](../SymmetricFunctions/Examples/Kostka.lean) checks the empty
+case, rows, columns, repeated content, padding, and coefficient/count two at
+x₁x₂x₃ in s_(2,1). The [KOSTKA handoff](handoffs/KOSTKA.md) records the separate
+statement review and exact validation. No new notation is required.

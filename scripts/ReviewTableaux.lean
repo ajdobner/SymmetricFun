@@ -79,3 +79,28 @@ open SymmetricFunction
 #print axioms SkewTableau.weight_extendLargest
 #print axioms alphabetSpecialization_skewSchur_eq_tableaux
 #print axioms alphabetSpecialization_schur_eq_tableaux
+
+#print rowContent
+#print kostka
+#print Dominates
+#check @rowContent_embDomain
+#check @exponentParts_rowContent
+#check @degree_rowContent
+#check @weight_rowContent_prefix
+#check @FiniteTableau.content_highestWeight
+#check @FiniteTableau.eq_highestWeight_of_content
+#check @FiniteTableau.contentCount_diagonal
+#check @FiniteTableau.dominates_of_content
+#check @kostka_self
+#check @kostka_eq_zero_of_not_dominates
+#check @mBasis_repr_schur
+#check @contentCount_rowContent
+#check @coeff_schur_eq_kostka
+#check @contentCount_eq_kostka
+#check @schur_eq_sum_kostka_mPart
+#check @mBasis_repr_schur_nonneg
+#print axioms exponentParts_rowContent
+#print axioms kostka_self
+#print axioms kostka_eq_zero_of_not_dominates
+#print axioms contentCount_rowContent
+#print axioms schur_eq_sum_kostka_mPart

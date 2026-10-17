@@ -119,3 +119,14 @@ cell set to Fin N. Content and weights are reconstructed with finite sums and
 Mathlib monomials; no colleague proof text is copied. The paper's diagrams and
 tableaux section was read for zero-based/French convention documentation only.
 Both reference checkouts and the dependency pins remain unchanged.
+
+## Kostka continuation
+
+The pinned partition/YoungDiagram and tableau APIs were searched for dominance
+and Kostka declarations; no existing API was found. New `rowContent` is an
+adapter for Mathlib's decreasing partition rows, not a replacement partition.
+The diagonal and prefix inequalities use actual finite cell fillings, Mathlib
+finite-sum order lemmas, and the existing highest-weight tableau. Alphabet and
+orbit independence reuse the project's proved monomial basis coefficient API.
+All code here is newly written; no colleague source was copied, no reference
+checkout was modified, and the dependency pins remain unchanged.
