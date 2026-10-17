@@ -17,16 +17,52 @@ Nonessential subfolders: `GradedAlgebra`, `Matrix`, `Partition`. These mostly ad
 
 Core subfolders:
 * `MvPowerSeries` is mathlib's multivariate power series library. We add some important functionality. Namely, we define the bounded degree subalgebra and show that this is an internal direct sum of homogeneous submodules. We also define the action of the symmetric group on the variables.
-* `SymmetricFunction`. In `Basic.lean` we define `symmetricFunctionSubalgebra` as a subalgebra of the ring of multivariate power series. In `Grading.lean` we show that it is the internal direct sum of graded submodules. 
-  * Thus far we have defined three types of symmetric functions $m_\lambda, e_\lambda, h_\lambda$. 
+* `SymmetricFunction`. In `Basic.lean` we define `symmetricFunctionSubalgebra` as a subalgebra of the ring of multivariate power series. In `Grading.lean` we show that it is the internal direct sum of graded submodules.
+  * Thus far we have defined three types of symmetric functions $m_\lambda, e_\lambda, h_\lambda$.
   * We have proved that $(m_\lambda)_\lambda$ is a basis.
   * We have proved $(e_\lambda)_\lambda$ is a basis . This is done by deriving an explicit combinatorial expression for the entries of the transition matrix. (see the **Plan** below)
+
+## Integrated extension library
+
+The native `SymmetricFun` power-series construction and internal grading are retained.
+The additional `SymmetricFunctions` and `LambdaRing` libraries provide stable finite
+specialization, Hopf and special lambda structures, plethysm, Schur/Hall/skew theory,
+Cauchy kernels, degree completion, tableau formulas, and natural Kostka counts.
+Their polynomial-backed interface is connected to the native algebra by
+`SymmetricFunction.upstreamEquiv`; it preserves elementary generators and grading,
+and on the natural alphabet agrees with the actual series realization.
+
+This is an incremental integration: existing extension theorem statements retain
+`SymmetricFunction R`. They have not all been restated on
+`MvPowerSeries.symmetricFunctionSubalgebra σ R`, and the bridge does not install
+new global Hopf or lambda instances on that subtype. See the
+[integration guide](docs/INTEGRATION.md) for the correspondence and design decisions.
+
+The shared environment is Lean **v4.35.0** and Mathlib
+**56a005855ea17e0b0958f73ec801ae140b0a1679**, as pinned by the upstream manifest.
+
+```sh
+lake exe cache get
+lake build
+python3 scripts/test_check_project.py
+python3 scripts/check_project.py
+```
+
+Both library facades are default build targets. The checker additionally enumerates
+every module in all three source trees, verifies facade reachability, rejects proof
+holes, and audits transitive axioms. Existing stylistic/module-system warnings are
+not proof holes. No new license is asserted by this integration.
+
+For mathematical notation and examples, see [NOTATION](docs/NOTATION.md).
+For completed and planned extension work, see [ROADMAP](docs/ROADMAP.md),
+[the task registry](docs/tasks.json), and [the declaration guide](docs/DECLARATIONS.md).
+The plan below describes the native power-series development.
 
 ## Plan
 1. Construct the ring of symmetric functions (and polynomials) as a subalgebra of the existing `MvPowerSeries σ R` ring in `mathlib`.
     * Define the subalgebra of bounded degree series. If the type `σ` is finite, then this subalgebra is isomorphic to `MvPolynomial σ R`.
     * Define the action of permutations on `MvPowerSeries σ R` and the subalgebra invariant under this action.
-2. Construct the monomial symmetric functions. 
+2. Construct the monomial symmetric functions.
     * If `σ` has cardinality $n \in \mathbb{N}$ then $(m_\mu)_{\ell(\mu)\leq n}$ forms a basis for the symmetric polynomials. Hence if `σ` and `τ` have the same finite cardinality then there is a canonical isomorphism between the associated rings of symmetric polynomials.
     * If `σ` is infinite then $(m_\mu)$ forms a basis for symmetric functions.
 3. Construct the elementary symmetric functions.
@@ -35,7 +71,7 @@ Core subfolders:
     * If `σ` is infinite we get a canonical algebra isomorphism with $R[e_1,e_2,\ldots]$.
 ---
 4. Construct the complete homogeneous symmetric functions.
-    * Prove the relation $\sum_{r=0}^d (-1)^r e_r h_{d-r}=0$ for $d > 0$, with $e_0=h_0=1$. 
+    * Prove the relation $\sum_{r=0}^d (-1)^r e_r h_{d-r}=0$ for $d > 0$, with $e_0=h_0=1$.
     * If `σ` has cardinality $n \in \mathbb{N}$, then we define an algebra homomorphism $\omega$ satisfying $\omega(e_r)=h_r$ for all $1 \leq r \leq n$. Use the recurrence to show inductively that $\omega(h_r) = e_r$ for all $1 \leq r \leq n$.
     * If `σ` is infinite, define the algebra homomorphism $\omega(e_r)=h_r$ for all $r \geq 1$. The recurrence implies $\omega(h_r)=e_r$.
     * In both cases we see that $\omega$ is an involution and we deduce the relevant facts about the complete homogeneous symmetric functions forming a basis.
@@ -44,12 +80,10 @@ Core subfolders:
     * If `σ` has cardinality $n \in \mathbb{N}$, then the unitriangularity of the transition matrix implies that $(s_\lambda)_{\ell(\lambda)\leq n}$ is a basis.
     * If `σ` is infinite, then $(s_\lambda)$ is a basis.
 6. Prove the Pieri rules.
-7. Derive other expressions for Schur functions: Jacobi-Trudi identity, Weyl character formula. 
+7. Derive other expressions for Schur functions: Jacobi-Trudi identity, Weyl character formula.
 8. Define the Hall inner product.
 9. Prove positivity of Littlewood--Richardson coefficients, and/or the Littlewood--Richardson rule. Representation theory of $S_n$ and $GL_n$ is not implemented in `mathlib`.
 10. (Later?) Refactor `MvPowerSeries` so that it is constructed as a [total monoid algebra](https://en.wikipedia.org/wiki/Total_algebra). The monoid in this case is $(M,+)=\big((\mathbb{Z}_{\geq 0})^{I,fin},+\big)$ where $I$ represents the index set for the variables. Note: currently the `MvPolynomial` ring *is* implemented using a general monoid algebra construction.
 Many properties of multivariate power series rings fit into this generalized setting.
-    * A monoid homomorphism $M \to N$ induces an algebra homomorphism $R[[M]]\to R[[N]]$. An example of this in power series (or polynomial) ring setting occurs when one sends some of the variables to zero. 
+    * A monoid homomorphism $M \to N$ induces an algebra homomorphism $R[[M]]\to R[[N]]$. An example of this in power series (or polynomial) ring setting occurs when one sends some of the variables to zero.
     * A distributive group action on $M$ lifts to an action on $R[[M]]$. For example, for power series (or polynomials) we have an action of the symmetric group on the variables. The subset consisting of elements that are invariant under the action forms a subalgebra by general principles.
-
-

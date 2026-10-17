@@ -1,7 +1,7 @@
 name = "SymmetricFun"
 version = "0.1.0"
 keywords = ["math"]
-defaultTargets = ["SymmetricFun"]
+defaultTargets = ["SymmetricFun", "SymmetricFunctions"]
 
 [leanOptions]
 pp.unicode.fun = true # pretty-prints `fun a ↦ b`
@@ -17,3 +17,9 @@ rev = "v4.35.0"
 [[lean_lib]]
 name = "SymmetricFun"
 globs = ["SymmetricFun.*"]
+
+[[lean_lib]]
+name = "SymmetricFunctions"
+
+[[lean_lib]]
+name = "LambdaRing"

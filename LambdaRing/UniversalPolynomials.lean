@@ -1,0 +1,12 @@
+import LambdaRing.UniversalPolynomials.Finite
+import LambdaRing.UniversalPolynomials.Squarefree
+import LambdaRing.UniversalPolynomials.Bounds
+import LambdaRing.UniversalPolynomials.Iteration
+import LambdaRing.UniversalPolynomials.Generating
+import LambdaRing.UniversalPolynomials.ProductFinite
+import LambdaRing.UniversalPolynomials.TwoAlphabets
+import LambdaRing.UniversalPolynomials.ProductDegree
+import LambdaRing.UniversalPolynomials.Product
+import LambdaRing.UniversalPolynomials.ProductEvaluation
+import LambdaRing.UniversalPolynomials.TwoAlphabetBounds
+import LambdaRing.UniversalPolynomials.ProductSpec

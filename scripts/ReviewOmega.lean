@@ -1,0 +1,13 @@
+import SymmetricFunctions
+open SymmetricFunction
+#print completeSeries
+#print signedElementarySeries
+#check @signedElementarySeries_mul_completeSeries
+#check @completeSeries_mul_signedElementarySeries
+#check @elementarySeries_mul_signedCompleteSeries
+#check @signedCompleteSeries_mul_elementarySeries
+#check @completeSeriesUnit
+#check @homogeneousComponent_finite_completeSeries
+#check @completedFiniteSpecialization_zero_completeSeries
+#print axioms completeSeriesUnit
+#print axioms homogeneousComponent_finite_completeSeries

@@ -1,15 +1,12 @@
-name: Lean Action CI
+name: Accepted library CI
 
 on:
   push:
   pull_request:
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
-  contents: read # Read access to repository contents
-  pages: write # Write access to GitHub Pages
-  id-token: write # Write access to ID tokens
+  contents: read
 
 jobs:
   build:
@@ -17,5 +14,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5
+      - name: Check task graph and accepted source coverage
+        run: |
+          python3 scripts/test_check_project.py
+          python3 scripts/check_project.py --static-only
       - uses: leanprover/lean-action@v1
-      - uses: leanprover-community/docgen-action@v1
+      - name: Build every accepted module and audit axioms
+        run: python3 scripts/check_project.py

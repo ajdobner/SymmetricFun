@@ -1,0 +1,1173 @@
+{
+  "schema_version": 1,
+  "updated": "2026-10-17",
+  "status_policy": "Ready means all dependencies are done; optional external work also requires explicit authorization. A coordinator serializes claims and status updates. Done requires an evidence handoff and the checks in AGENTS.md.",
+  "tasks": [
+    {
+      "id": "ENV",
+      "title": "Configure and pin the Lean environment",
+      "phase": "core",
+      "status": "done",
+      "owner": "environment setup",
+      "depends_on": [],
+      "files": [
+        "lean-toolchain",
+        "lakefile.toml",
+        "lake-manifest.json",
+        "SymmetricFunctions.lean",
+        ".github/workflows/lean.yml",
+        "scripts/check_project.py"
+      ],
+      "acceptance": [
+        "Select and record an exact Lean/Mathlib pair after finite symmetric-polynomial, weighted-grading, tensor, and Hopf import probes.",
+        "Build all accepted modules and check root coverage; prove the check catches an intentionally broken scratch module without shipping that module.",
+        "Verify Lean MCP discovery/search/diagnostics or record a working CLI fallback.",
+        "Implement task-DAG and no-placeholder prechecks; document the separate transitive-axiom check.",
+        "Record colleague port compatibility and attribution requirements."
+      ],
+      "evidence": "docs/handoffs/ENV.md"
+    },
+    {
+      "id": "API",
+      "title": "Define the polynomial-backed public type",
+      "phase": "core",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "ENV"
+      ],
+      "files": [
+        "SymmetricFunctions/Basic.lean",
+        "SymmetricFunctions/Examples/Foundation.lean",
+        "scripts/probes/APIRepresentations.lean"
+      ],
+      "acceptance": [
+        "Choose and document a dedicated type backed by MvPolynomial \u2115+ R; test wrapper versus controlled type synonym before freezing it.",
+        "Provide ring/algebra instances, the polynomial algebra equivalence, e : \u2115 \u2192 SymmetricFunction R, and e 0 = 1.",
+        "Provide evaluation into a commutative R-algebra, generator evaluation laws, induction, and algebra-map extensionality.",
+        "Demonstrate ordinary algebra elaboration without unfolding the representation downstream."
+      ],
+      "evidence": "docs/handoffs/API.md"
+    },
+    {
+      "id": "PART",
+      "title": "Equate partitions with weighted exponent vectors",
+      "phase": "core",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "ENV"
+      ],
+      "files": [
+        "SymmetricFunctions/Partition.lean",
+        "SymmetricFunctions/Examples/Foundation.lean"
+      ],
+      "acceptance": [
+        "Construct Nat.Partition d \u2243 {a : \u2115+ \u2192\u2080 \u2115 // \u2211 i in a.support, (i : \u2115) * a i = d}.",
+        "Prove both inverse laws and product/multiplicity interpretation, including the empty partition.",
+        "Reuse Mathlib Nat.Partition; do not import the colleague's redeclaration."
+      ],
+      "evidence": "docs/handoffs/PART.md"
+    },
+    {
+      "id": "GRADE",
+      "title": "Transport weighted grading and degree filtration",
+      "phase": "core",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "API"
+      ],
+      "files": [
+        "SymmetricFunctions/Grading.lean"
+      ],
+      "acceptance": [
+        "Construct homogeneous components, direct-sum decomposition, and degree-at-most submodules.",
+        "Prove e n is homogeneous of degree n and multiplication respects grading.",
+        "Handle degree zero and the zero coefficient ring without global Nontrivial assumptions."
+      ],
+      "evidence": "docs/handoffs/GRADE.md"
+    },
+    {
+      "id": "EBASIS",
+      "title": "Construct the elementary partition basis",
+      "phase": "core",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "PART",
+        "GRADE"
+      ],
+      "files": [
+        "SymmetricFunctions/Basis/Elementary.lean"
+      ],
+      "acceptance": [
+        "Port or reconstruct the general weighted monomial basis lemma with source attribution.",
+        "Construct a Basis (Nat.Partition d) R of the degree-d component with vector e_\u03bc.",
+        "Give coefficient and product formulas and the all-partitions basis via direct sum."
+      ],
+      "evidence": "docs/handoffs/EBASIS.md"
+    },
+    {
+      "id": "BASE",
+      "title": "Prove coefficient functoriality and scalar extension",
+      "phase": "core",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "API"
+      ],
+      "files": [
+        "SymmetricFunctions/BaseChange.lean",
+        "SymmetricFunctions/Basic.lean"
+      ],
+      "acceptance": [
+        "Construct coefficient maps for ring homomorphisms and identity/composition laws.",
+        "Construct R \u2297[\u2124] SymmetricFunction \u2124 \u2243\u2090[R] SymmetricFunction R.",
+        "Prove evaluation and elementary-generator compatibility; do not infer a lambda structure from CommRing R."
+      ],
+      "evidence": "docs/handoffs/BASE.md"
+    },
+    {
+      "id": "SPEC",
+      "title": "Specialize to finite symmetric polynomials",
+      "phase": "core",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "API"
+      ],
+      "files": [
+        "SymmetricFunctions/Specialization.lean"
+      ],
+      "acceptance": [
+        "Construct rho_N as an R-algebra map into MvPolynomial.symmetricSubalgebra (Fin N) R.",
+        "Construct zero-last-variable transitions and prove compatibility on all elements.",
+        "Prove elementary evaluation, vanishing for indices greater than N, and empty-alphabet formulas."
+      ],
+      "evidence": "docs/handoffs/SPEC.md"
+    },
+    {
+      "id": "FINITE",
+      "title": "Prove weighted finite fundamental theorem and stable range",
+      "phase": "core",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "GRADE",
+        "SPEC",
+        "OMEGA"
+      ],
+      "files": [
+        "SymmetricFunctions/Finite/Weighted.lean",
+        "SymmetricFunctions/Finite/StableRange.lean"
+      ],
+      "acceptance": [
+        "Prove weighted-homogeneous compatibility of the finite elementary presentation using Mathlib's fundamental theorem.",
+        "Prove rho_N is surjective and identify its kernel as the ideal generated by e k for k > N.",
+        "For N \u2265 d, construct the degree-at-most-d R-linear equivalence and a bounded-degree equality test.",
+        "State explicitly why the result does not assert global injectivity of rho_N."
+      ],
+      "evidence": "docs/handoffs/FINITE.md"
+    },
+    {
+      "id": "STABLE",
+      "title": "Identify bounded compatible families",
+      "phase": "core",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "FINITE"
+      ],
+      "files": [
+        "SymmetricFunctions/Stable.lean"
+      ],
+      "acceptance": [
+        "Define compatible symmetric polynomial families with a single uniform existential degree bound.",
+        "Prove ring closure, construct the algebra equivalence to SymmetricFunction R, and verify each specialization.",
+        "Prove independence of the chosen bound and stable alphabet."
+      ],
+      "evidence": "docs/handoffs/STABLE.md"
+    },
+    {
+      "id": "COMPLETE",
+      "title": "Construct complete symmetric functions integrally",
+      "phase": "core",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "API",
+        "GRADE"
+      ],
+      "files": [
+        "SymmetricFunctions/Complete.lean"
+      ],
+      "acceptance": [
+        "Define h recursively with h 0 = 1 and the finite coefficient recurrence E(-u)H(u) = 1.",
+        "Prove homogeneity and both convolution orders without dividing by integers.",
+        "Provide the generator recurrence API needed for omega and the antipode."
+      ],
+      "evidence": "docs/handoffs/COMPLETE.md"
+    },
+    {
+      "id": "OMEGA",
+      "title": "Construct the elementary-complete involution",
+      "phase": "core",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "COMPLETE"
+      ],
+      "files": [
+        "SymmetricFunctions/Omega.lean",
+        "SymmetricFunctions/Grading/Evaluation.lean"
+      ],
+      "acceptance": [
+        "Define the algebra map e n \u21a6 h n.",
+        "Prove omega(h n) = e n and package an involutive algebra equivalence preserving degree."
+      ],
+      "evidence": "docs/handoffs/OMEGA.md"
+    },
+    {
+      "id": "HBASIS",
+      "title": "Transport the complete partition basis",
+      "phase": "core",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "OMEGA",
+        "EBASIS"
+      ],
+      "files": [
+        "SymmetricFunctions/Basis/Complete.lean"
+      ],
+      "acceptance": [
+        "Construct the homogeneous and all-partitions complete bases through omega.",
+        "Prove polynomial freeness of h generators and basis evaluation formulas."
+      ],
+      "evidence": "docs/handoffs/HBASIS.md"
+    },
+    {
+      "id": "NEWTON",
+      "title": "Construct positive power sums and finite compatibility",
+      "phase": "core",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "COMPLETE",
+        "SPEC"
+      ],
+      "files": [
+        "SymmetricFunctions/PowerSum.lean",
+        "SymmetricFunctions/Finite/Generating.lean"
+      ],
+      "acceptance": [
+        "Define positive power sums using integral Newton recurrences.",
+        "Prove specialization of h and p to Mathlib hsymm and psum; prove homogeneity.",
+        "Verify p_2 = e_1^2 - 2e_2 and do not introduce a stable cardinal-valued p_0."
+      ],
+      "evidence": "docs/handoffs/NEWTON.md"
+    },
+    {
+      "id": "HOPF",
+      "title": "Prove the standard Hopf algebra structure",
+      "phase": "core",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "OMEGA",
+        "NEWTON",
+        "BASE",
+        "GRADE"
+      ],
+      "files": [
+        "SymmetricFunctions/Hopf.lean",
+        "SymmetricFunctions/Hopf/Basic.lean",
+        "SymmetricFunctions/Hopf/Coefficients.lean",
+        "SymmetricFunctions/Hopf/Series.lean",
+        "SymmetricFunctions/Hopf/Primitive.lean",
+        "SymmetricFunctions/Hopf/Grading.lean",
+        "SymmetricFunctions/Hopf/Alphabets.lean"
+      ],
+      "acceptance": [
+        "Construct comultiplication, counit, and antipode with the elementary-generator formulas from ROADMAP.",
+        "Prove both antipode laws, coassociativity, counit laws, and instantiate Mathlib HopfAlgebra.",
+        "Prove complete coproduct, primitive positive power sums, cocommutativity, connected grading, and coefficient-map compatibility.",
+        "Check tensor base rings and associators explicitly."
+      ],
+      "evidence": "docs/handoffs/HOPF.md"
+    },
+    {
+      "id": "LPOLY",
+      "title": "Construct stable integral product and iteration polynomials",
+      "phase": "core",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "FINITE",
+        "STABLE"
+      ],
+      "files": [
+        "LambdaRing/UniversalPolynomials.lean",
+        "LambdaRing/UniversalPolynomials/Finite.lean",
+        "LambdaRing/UniversalPolynomials/Squarefree.lean",
+        "LambdaRing/UniversalPolynomials/Bounds.lean",
+        "LambdaRing/UniversalPolynomials/Iteration.lean",
+        "lakefile.toml",
+        "LambdaRing/UniversalPolynomials/Generating.lean",
+        "LambdaRing/UniversalPolynomials/ProductFinite.lean",
+        "LambdaRing/UniversalPolynomials/TwoAlphabets.lean",
+        "LambdaRing/UniversalPolynomials/ProductDegree.lean",
+        "LambdaRing/UniversalPolynomials/Product.lean",
+        "LambdaRing/UniversalPolynomials/ProductEvaluation.lean",
+        "LambdaRing/UniversalPolynomials/TwoAlphabetBounds.lean",
+        "LambdaRing/UniversalPolynomials/ProductSpec.lean"
+      ],
+      "acceptance": [
+        "Define product polynomials from elementary functions of pairwise products in two alphabets.",
+        "Define iteration polynomials from elementary functions of squarefree degree-m monomials.",
+        "Prove uniqueness, sufficient-variable bounds, truncation stability, degree bounds, and boundary conventions.",
+        "Keep this construction independent of any lambda structure on SymmetricFunction."
+      ],
+      "evidence": "docs/handoffs/LPOLY.md"
+    },
+    {
+      "id": "LDEFS",
+      "title": "Define pre-lambda and special lambda rings",
+      "phase": "core",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "LPOLY"
+      ],
+      "files": [
+        "LambdaRing/Defs.lean",
+        "LambdaRing/Hom.lean"
+      ],
+      "acceptance": [
+        "Define the exterior-power convention with zero, one, addition, unit, product, and iteration laws.",
+        "Define preserving ring morphisms, composition, identity, and extensionality.",
+        "Document arbitrary torsion targets and explicit index-zero cases; review every universal polynomial substitution."
+      ],
+      "evidence": "docs/handoffs/LDEFS.md"
+    },
+    {
+      "id": "LLINE",
+      "title": "Construct lambda operations on integer polynomial rings",
+      "phase": "core",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "LDEFS"
+      ],
+      "files": [
+        "LambdaRing/Polynomial/Operations.lean",
+        "LambdaRing/Polynomial/SeriesUnits.lean",
+        "LambdaRing/Polynomial/Naturality.lean",
+        "LambdaRing/Polynomial/Degree.lean"
+      ],
+      "acceptance": [
+        "Define finite products of (1 + m u)^a using units and integer exponents in one-variable power series.",
+        "Prove addition, unit normalization, lambda_1 identity, and negative-coefficient formulas.",
+        "Prove renaming and zero-variable-substitution naturality plus degree(lambda_k f) \u2264 k*d when degree(f) \u2264 d.",
+        "Do not claim the special identities in this task."
+      ],
+      "evidence": "docs/handoffs/LLINE.md"
+    },
+    {
+      "id": "LSPECIAL",
+      "title": "Prove both special identities including virtual differences",
+      "phase": "core",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "LLINE"
+      ],
+      "files": [
+        "LambdaRing/Polynomial/Special.lean",
+        "LambdaRing/Polynomial/Positive.lean",
+        "LambdaRing/Polynomial/Newton.lean",
+        "LambdaRing/Polynomial/Rational.lean",
+        "LambdaRing/Polynomial/Density.lean"
+      ],
+      "acceptance": [
+        "Write a reviewed decomposition of the product and iteration identity proofs before extended search.",
+        "Prove both universal identities for arbitrary integer polynomial coefficients, including negative ones.",
+        "Package the finite integer polynomial special lambda-ring instance and preserving substitution maps.",
+        "If using a torsion-free Adams criterion, prove that criterion and its hypotheses rather than assuming it."
+      ],
+      "evidence": "docs/handoffs/LSPECIAL.md"
+    },
+    {
+      "id": "LSTABLE",
+      "title": "Transport integral lambda operations through stability",
+      "phase": "core",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "LSPECIAL",
+        "STABLE"
+      ],
+      "files": [
+        "SymmetricFunctions/Lambda/Structure.lean"
+      ],
+      "acceptance": [
+        "Show finite operations preserve symmetric families, compatibility, and a uniform degree bound.",
+        "Transfer the special structure to SymmetricFunction \u2124.",
+        "Prove lambda_n(e_1) = e_n and compatibility with finite integer specializations."
+      ],
+      "evidence": "docs/handoffs/LSTABLE.md"
+    },
+    {
+      "id": "LFREE",
+      "title": "Prove the free special lambda-ring universal property",
+      "phase": "core",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "LSTABLE"
+      ],
+      "files": [
+        "SymmetricFunctions/Lambda/Universal.lean",
+        "LambdaRing/Preservation.lean"
+      ],
+      "acceptance": [
+        "For arbitrary special lambda ring A and a : A, construct the ring map e n \u21a6 lambda_n(a).",
+        "Prove preservation of all lambda operations on arbitrary expressions using special identities.",
+        "Prove uniqueness and package Hom_lambda(SymmetricFunction \u2124,A) \u2243 A with evaluation and naturality laws.",
+        "Review that the result has no torsion-free assumption on A and does not assume the desired morphism exists."
+      ],
+      "evidence": "docs/handoffs/LFREE.md"
+    },
+    {
+      "id": "RELEASE",
+      "title": "Integrate and audit the initial deliverable",
+      "phase": "core",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "HBASIS",
+        "HOPF",
+        "LFREE",
+        "STABLE",
+        "BASE"
+      ],
+      "files": [
+        "SymmetricFunctions.lean",
+        "SymmetricFunctions/Examples.lean",
+        "docs/handoffs/RELEASE.md",
+        "LambdaRing/Transport.lean",
+        "SymmetricFunctions/Examples/Torsion.lean",
+        "docs/DECLARATIONS.md",
+        "scripts/DeclarationIndex.lean",
+        "docs/declarations.tsv",
+        "scripts/ReviewRelease.lean"
+      ],
+      "acceptance": [
+        "Build every accepted module and affected downstream examples in the pinned environment.",
+        "Review the exact stable-realization, Hopf, and free-lambda theorem statements against the mathematical targets.",
+        "Audit transitive axioms and absence of proof holes, including reused modules.",
+        "Check zero-degree, empty alphabet, e/h/p identities, e_2 coproduct, antipode, and lambda-generator examples.",
+        "Publish a local declaration index and identify genuinely unfinished extensions without presenting them as initial-release gaps."
+      ],
+      "evidence": "docs/handoffs/RELEASE.md"
+    },
+    {
+      "id": "NOTATION",
+      "title": "Readable scoped notation and explicit alphabet conventions",
+      "phase": "extension",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "OMEGA",
+        "LFREE",
+        "NEWTON"
+      ],
+      "files": [
+        "SymmetricFunctions/Names.lean",
+        "SymmetricFunctions/Notation.lean",
+        "SymmetricFunctions/Examples/Notation.lean",
+        "scripts/CheckNotation.lean",
+        "docs/NOTATION.md",
+        "docs/handoffs/NOTATION.md"
+      ],
+      "acceptance": [
+        "Provide opt-in scoped notation for the symmetric-function type, elementary-complete involution, exterior powers, and integral plethysm with descriptive underlying declarations.",
+        "Check precedence, nested plethysm, coefficient and target inference, scope isolation, and displayed proof goals.",
+        "Document paper conventions: virtual negation versus parameter scaling, integral plethysm versus coefficient-linear power-sum evaluation, and separately symmetric alphabets.",
+        "Reserve uppercase Omega for a future justified completed type; preserve existing callers and all mathematical assumptions.",
+        "Build every accepted module, audit axioms, update the declaration index, and record the statement review."
+      ],
+      "evidence": "docs/handoffs/NOTATION.md"
+    },
+    {
+      "id": "LSIMP",
+      "title": "Repair public exterior-power simplification normal forms",
+      "phase": "maintenance",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "LSTABLE",
+        "LLINE",
+        "LFREE"
+      ],
+      "files": [
+        "LambdaRing/Defs.lean",
+        "LambdaRing/Polynomial/Operations.lean",
+        "SymmetricFunctions/Lambda/Structure.lean",
+        "scripts/CheckLambdaSimp.lean",
+        "docs/handoffs/LSIMP.md"
+      ],
+      "acceptance": [
+        "Plain simp after importing SymmetricFunctions proves the public lambda generator identity.",
+        "Public lambda expressions remain the default normal form; implementation bridges are explicit for both symmetric functions and polynomials.",
+        "Verify generator, zero, unit, and genuinely signed-input simplification, preserving old theorem statements and actual lambda instances.",
+        "Review statement meaning and rebuild/audit the complete accepted library with pinned dependencies."
+      ],
+      "evidence": "docs/handoffs/LSIMP.md"
+    },
+    {
+      "id": "PLETH",
+      "title": "Derive integral plethysm and alphabet operations",
+      "phase": "extension",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "LFREE",
+        "NEWTON",
+        "HOPF"
+      ],
+      "files": [
+        "SymmetricFunctions/Plethysm/Integral.lean",
+        "LambdaRing/TensorProduct.lean",
+        "SymmetricFunctions/Plethysm/Adams.lean",
+        "LambdaRing/Subring.lean",
+        "LambdaRing/Pi.lean",
+        "LambdaRing/Transport.lean",
+        "SymmetricFunctions/Hopf/TensorSpecialization.lean",
+        "SymmetricFunctions/Plethysm/Alphabets.lean",
+        "SymmetricFunctions/Examples/Plethysm.lean"
+      ],
+      "acceptance": [
+        "Define plethysm from lambda evaluation and prove unit and associativity laws.",
+        "Derive Adams operations and psi_k(p_n) = p_(kn).",
+        "Prove needed tensor-product lambda structure before claiming compatibility with Hopf alphabet addition."
+      ],
+      "evidence": "docs/handoffs/PLETH.md"
+    },
+    {
+      "id": "RATIONAL",
+      "title": "Support rational evaluation and multiple alphabets",
+      "phase": "extension",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "PLETH",
+        "HBASIS",
+        "BASE"
+      ],
+      "files": [
+        "SymmetricFunctions/Plethysm/Rational.lean",
+        "SymmetricFunctions/Alphabets.lean",
+        "SymmetricFunctions/Basis/PowerSum.lean",
+        "SymmetricFunctions/Examples/Rational.lean"
+      ],
+      "acceptance": [
+        "Prove the power-sum polynomial presentation and basis over a Q-algebra.",
+        "Construct evaluation from specified power-sum images; distinguish fixed outer coefficients and parameter Adams action.",
+        "Prove sign and parameter conventions, including p_k[-X] and p_k[tX].",
+        "Construct separately symmetric tensor alphabets and mixed finite-polynomial/symmetric objects; state hypotheses for X/(1-t) evaluation."
+      ],
+      "evidence": "docs/handoffs/RATIONAL.md"
+    },
+    {
+      "id": "MONOMIAL",
+      "title": "Construct the monomial basis and coefficient extraction",
+      "phase": "extension",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "STABLE",
+        "PART"
+      ],
+      "files": [
+        "SymmetricFunctions/Basis/Monomial.lean",
+        "SymmetricFunctions/Finite/Monomial.lean",
+        "SymmetricFunctions/Partition/Orbits.lean",
+        "SymmetricFunctions/Examples/Monomial.lean"
+      ],
+      "acceptance": [
+        "Lift finite monomial symmetric polynomials through stability.",
+        "Prove the homogeneous partition basis and finite-specialization coefficient formulas.",
+        "Adapt useful exponent-orbit arguments from SymmetricFun without replacing Mathlib partitions."
+      ],
+      "evidence": "docs/handoffs/MONOMIAL.md"
+    },
+    {
+      "id": "SERIES",
+      "title": "Identify bounded symmetric power series",
+      "phase": "extension",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "MONOMIAL"
+      ],
+      "files": [
+        "SymmetricFunctions/Realization/SeriesBasic.lean",
+        "SymmetricFunctions/Realization/PowerSeries.lean",
+        "SymmetricFunctions/Examples/Series.lean"
+      ],
+      "acceptance": [
+        "Port selected homogeneous and permutation-action lemmas with attribution.",
+        "Prove SymmetricFunction R is algebra-equivalent to bounded symmetric MvPowerSeries \u2115 R.",
+        "Prove compatibility for e, h, m and finite specializations; close all transitive holes in reused proofs."
+      ],
+      "evidence": "docs/handoffs/SERIES.md"
+    },
+    {
+      "id": "SCHUR-PART",
+      "title": "Partition rows, conjugation and containment adapters",
+      "phase": "extension",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "PART"
+      ],
+      "files": [
+        "SymmetricFunctions/Partition/YoungDiagram.lean",
+        "SymmetricFunctions/Examples/PartitionRows.lean"
+      ],
+      "acceptance": [
+        "Reuse Nat.Partition, YoungDiagram.ofPartition, Nat.Partition.conjugate and SemistandardYoungTableau; introduce no competing partition or conjugation definition.",
+        "Provide decreasing natural-index row lengths with zero padding, length and size identities, and YoungDiagram containment/conjugation adapters, including the empty partition."
+      ],
+      "evidence": "docs/handoffs/SCHUR-PART.md"
+    },
+    {
+      "id": "SCHUR-JT",
+      "title": "Actual integral Jacobi\u2013Trudi Schur functions",
+      "phase": "extension",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "SCHUR-PART",
+        "HBASIS",
+        "SPEC"
+      ],
+      "files": [
+        "SymmetricFunctions/Schur/JacobiTrudi.lean",
+        "SymmetricFunctions/Schur/Toeplitz.lean",
+        "SymmetricFunctions/Schur/Column.lean",
+        "SymmetricFunctions/Examples/JacobiTrudi.lean"
+      ],
+      "acceptance": [
+        "Define the integer-index complete extension with h_k=0 for k<0 and h_0=1; cast all determinant indices to integers before subtracting.",
+        "Define schur \u03bb as the actual determinant det(h_{\u03bb_i-i+j}); prove independence of every sufficient zero padding.",
+        "Prove weighted homogeneity, coefficient naturality and finite specialization for arbitrary CommRing R; prove empty, one-row and one-column identities."
+      ],
+      "evidence": "docs/handoffs/SCHUR-JT.md"
+    },
+    {
+      "id": "SCHUR-BASIS",
+      "title": "Integral homogeneous and full Schur bases",
+      "phase": "extension",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "SCHUR-JT",
+        "HBASIS",
+        "MONOMIAL"
+      ],
+      "files": [
+        "SymmetricFunctions/Schur/Triangular.lean",
+        "SymmetricFunctions/Basis/Schur.lean",
+        "SymmetricFunctions/Examples/SchurBasis.lean"
+      ],
+      "acceptance": [
+        "Prove an integral unitriangular transition from the actual Jacobi\u2013Trudi family to an established partition basis, with explicit order and diagonal coefficient one.",
+        "Construct homogeneous partition-indexed and full graded Schur bases over arbitrary CommRing R, including torsion and zero rings; prove their values and coordinate interfaces without rational descent."
+      ],
+      "evidence": "docs/handoffs/SCHUR-BASIS.md"
+    },
+    {
+      "id": "SCHUR-DUAL",
+      "title": "Dual Jacobi\u2013Trudi and conjugation",
+      "phase": "extension",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "SCHUR-JT",
+        "OMEGA"
+      ],
+      "files": [
+        "SymmetricFunctions/Schur/Dual.lean",
+        "SymmetricFunctions/Schur/ComplementaryMinors.lean",
+        "SymmetricFunctions/Partition/Boundary.lean",
+        "SymmetricFunctions/Schur/ShuffleSign.lean",
+        "SymmetricFunctions/Schur/BoundarySign.lean",
+        "SymmetricFunctions/Examples/SchurDual.lean"
+      ],
+      "acceptance": [
+        "Prove dual Jacobi\u2013Trudi using integer-index elementary functions and Mathlib partition conjugation, with sufficient-padding independence.",
+        "Prove omega(schur \u03bb)=schur \u03bb.conjugate over arbitrary CommRing R; retain explicit YoungDiagram and tableau-interface references without claiming an unproved tableau formula."
+      ],
+      "evidence": "docs/handoffs/SCHUR-DUAL.md"
+    },
+    {
+      "id": "HALL-CORE",
+      "title": "Integral Hall pairing and Hopf adjunction",
+      "phase": "extension",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "MONOMIAL",
+        "HBASIS",
+        "HOPF"
+      ],
+      "files": [
+        "SymmetricFunctions/Finite/CompleteCoefficients.lean",
+        "SymmetricFunctions/Hall/Basic.lean",
+        "SymmetricFunctions/Hall/FiniteCoefficient.lean",
+        "SymmetricFunctions/Hall/Hopf.lean",
+        "SymmetricFunctions/Hall/Symmetry.lean",
+        "SymmetricFunctions/Examples/Hall.lean"
+      ],
+      "acceptance": [
+        "Construct the R-bilinear Hall pairing with h_\u03bb/m_\u03bc duality, symmetry and orthogonality of distinct degrees over arbitrary CommRing R.",
+        "Prove nondegeneracy and perfectness on each homogeneous degree; do not identify the full infinite direct sum with its full algebraic dual.",
+        "Define the tensor pairing explicitly and prove multiplication is adjoint to the existing coproduct."
+      ],
+      "evidence": "docs/handoffs/HALL-CORE.md"
+    },
+    {
+      "id": "HALL-SCHUR",
+      "title": "Schur orthonormality for the classical Hall pairing",
+      "phase": "extension",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "HALL-CORE",
+        "SCHUR-BASIS",
+        "SCHUR-DUAL"
+      ],
+      "files": [
+        "SymmetricFunctions/Finite/Bialternant.lean",
+        "SymmetricFunctions/Schur/AlternantPairing.lean",
+        "SymmetricFunctions/Hall/Schur.lean",
+        "SymmetricFunctions/Examples/HallSchur.lean"
+      ],
+      "acceptance": [
+        "Prove Hall orthonormality of the actual Jacobi\u2013Trudi Schur basis, for arbitrary CommRing R and all partitions, with the classical h/m normalization already proved."
+      ],
+      "evidence": "docs/handoffs/HALL-SCHUR.md"
+    },
+    {
+      "id": "SCHUR-SKEW",
+      "title": "Adjoint skewing and skew Schur determinants",
+      "phase": "extension",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "HALL-SCHUR",
+        "SCHUR-DUAL",
+        "SCHUR-PART"
+      ],
+      "files": [
+        "SymmetricFunctions/Hall/Skewing.lean",
+        "SymmetricFunctions/Schur/Skew.lean",
+        "SymmetricFunctions/Hopf/MixedSpecialization.lean",
+        "SymmetricFunctions/Schur/SkewDeterminant.lean",
+        "SymmetricFunctions/Examples/SkewSchur.lean",
+        "SymmetricFunctions/Finite/SeparatedColumns.lean"
+      ],
+      "acceptance": [
+        "Construct the adjoint f-perp of multiplication by every bounded f; prove defining adjunction and degree-lowering behavior.",
+        "Define skewSchur \u03bb \u03bc as schur \u03bc-perp applied to schur \u03bb, and prove the actual skew Jacobi\u2013Trudi determinant with integer indices and sufficient padding.",
+        "Prove empty, equal and noncontained shape conventions using YoungDiagram containment, and the coproduct expansion in skew Schur functions."
+      ],
+      "evidence": "docs/handoffs/SCHUR-SKEW.md"
+    },
+    {
+      "id": "CAUCHY-FINITE",
+      "title": "Completed tensor specialization and finite Cauchy product",
+      "phase": "extension",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "COMPLETION",
+        "HALL-CORE"
+      ],
+      "files": [
+        "SymmetricFunctions/Completion/TensorSpecialization.lean",
+        "SymmetricFunctions/Cauchy/Finite.lean",
+        "SymmetricFunctions/Completion/PolynomialRealization.lean",
+        "SymmetricFunctions/Finite/SeriesAlphabets.lean",
+        "SymmetricFunctions/Cauchy/Components.lean",
+        "SymmetricFunctions/Examples/FiniteCauchy.lean"
+      ],
+      "acceptance": [
+        "Construct justified finite-alphabet specialization from the total-degree CompletedTensor; prove bounded and homogeneous compatibility.",
+        "Construct the finite product of inverses of 1-x_i*y_j in the appropriate formal-series ring with actual unit or substitution proofs.",
+        "Prove its complete/monomial expansion and total-degree placement: partition size d contributes degree 2*d and odd components vanish."
+      ],
+      "evidence": "docs/handoffs/CAUCHY-FINITE.md"
+    },
+    {
+      "id": "SCHUR-CAUCHY",
+      "title": "Schur Cauchy kernel in total-degree completion",
+      "phase": "extension",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "CAUCHY-FINITE",
+        "HALL-SCHUR",
+        "SCHUR-SKEW"
+      ],
+      "files": [
+        "SymmetricFunctions/Cauchy.lean",
+        "SymmetricFunctions/Hall.lean",
+        "SymmetricFunctions/Examples/Cauchy.lean"
+      ],
+      "acceptance": [
+        "Construct the Cauchy kernel in CompletedTensor and prove equality of Schur/Schur and complete/monomial expansions with degree-2*d terms and zero odd components.",
+        "Prove finite specialization equals the justified product of inverses of 1-x_i*y_j; distinguish Omega[XY] from the proved coproduct identity Omega[X+Y].",
+        "Integrate readable scoped APIs and meaningful negative-index, padding, (2,1), conjugation, Hall, skew and low Cauchy examples; pass full integration and transitive axiom review."
+      ],
+      "evidence": "docs/handoffs/SCHUR-CAUCHY.md"
+    },
+    {
+      "id": "SCHUR",
+      "title": "Develop Schur and Hall theory",
+      "phase": "extension",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "MONOMIAL",
+        "HBASIS",
+        "SCHUR-PART",
+        "SCHUR-JT",
+        "SCHUR-BASIS",
+        "SCHUR-DUAL",
+        "HALL-CORE",
+        "HALL-SCHUR",
+        "SCHUR-SKEW",
+        "CAUCHY-FINITE",
+        "SCHUR-CAUCHY"
+      ],
+      "files": [
+        "SymmetricFunctions/Basis/Schur.lean",
+        "SymmetricFunctions/Hall.lean"
+      ],
+      "acceptance": [
+        "Split into smaller reviewed tasks for Jacobi\u2013Trudi, basis, conjugation/omega, Hall pairing, skewing, and Cauchy identities.",
+        "Use an explicit integer-index extension of h for determinant formulas.",
+        "Retain proof links to combinatorial definitions needed for later positivity results."
+      ],
+      "evidence": "docs/handoffs/SCHUR.md"
+    },
+    {
+      "id": "COMP-ALG",
+      "title": "Construct the degree-completion algebra",
+      "phase": "extension",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "SERIES",
+        "GRADE"
+      ],
+      "files": [
+        "SymmetricFunctions/Completion/Graded.lean",
+        "SymmetricFunctions/Completion/Basic.lean",
+        "SymmetricFunctions/Examples/Completion.lean"
+      ],
+      "acceptance": [
+        "Construct the product of weighted homogeneous components over every CommRing R, with finite antidiagonal convolution multiplication and an R-algebra structure.",
+        "Prove component extensionality, the injective bounded-function algebra map, truncation formulas and multiplication compatibility at every finite degree."
+      ],
+      "evidence": "docs/handoffs/COMP-ALG.md"
+    },
+    {
+      "id": "COMP-SERIES",
+      "title": "Identify the completion with symmetric multivariate series",
+      "phase": "extension",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "COMP-ALG",
+        "SERIES"
+      ],
+      "files": [
+        "SymmetricFunctions/Completion/Realization.lean"
+      ],
+      "acceptance": [
+        "Prove an R-algebra equivalence with permutation-invariant MvPowerSeries \u2115 R over every CommRing R.",
+        "Prove compatibility with the bounded embedding, homogeneous components and finite restriction; distinguish the target from an unrestricted inverse limit of finite polynomial rings."
+      ],
+      "evidence": "docs/handoffs/COMP-SERIES.md"
+    },
+    {
+      "id": "COMP-OMEGA",
+      "title": "Define the completed Omega series and inverse",
+      "phase": "extension",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "COMP-ALG",
+        "COMP-SERIES",
+        "COMPLETE"
+      ],
+      "files": [
+        "SymmetricFunctions/Completion/Omega.lean",
+        "SymmetricFunctions/Notation.lean",
+        "SymmetricFunctions/Examples/Omega.lean"
+      ],
+      "acceptance": [
+        "Define completeSeries with degree-n component h_n and scoped \u03a9 notation on the completed type, distinct from \u03c9.",
+        "Prove both e/h convolution identities and that the completed series with component (-1)^n e_n is inverse to \u03a9, over arbitrary commutative rings.",
+        "Check degree zero, first components and finite specialization; document activation and descriptive names."
+      ],
+      "evidence": "docs/handoffs/COMP-OMEGA.md"
+    },
+    {
+      "id": "COMP-HOPF",
+      "title": "Extend the coproduct to the completed tensor target",
+      "phase": "extension",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "COMP-ALG",
+        "COMP-OMEGA",
+        "HOPF"
+      ],
+      "files": [
+        "SymmetricFunctions/Completion/Single.lean",
+        "SymmetricFunctions/Completion/Hopf.lean",
+        "SymmetricFunctions/Examples/CompletedHopf.lean"
+      ],
+      "acceptance": [
+        "Construct a completed tensor target respecting both factor degrees and finite total-degree convolution, over arbitrary CommRing R.",
+        "Extend the existing coproduct as an algebra map agreeing on bounded functions; prove component formulas and the group-like identity for \u03a9.",
+        "Do not assert that this map lands in the ordinary algebraic tensor product of the completions."
+      ],
+      "evidence": "docs/handoffs/COMP-HOPF.md"
+    },
+    {
+      "id": "COMP-SUBST",
+      "title": "Prove justified completed evaluations",
+      "phase": "extension",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "COMP-SERIES",
+        "COMP-OMEGA",
+        "RATIONAL"
+      ],
+      "files": [
+        "SymmetricFunctions/Completion/Substitution.lean",
+        "SymmetricFunctions/Examples/CompletedSubstitution.lean"
+      ],
+      "acceptance": [
+        "State useful sufficient filtration or coefficient-finiteness hypotheses and prove evaluation of completed series is well-defined and an algebra map.",
+        "Prove agreement with existing bounded evaluation and discharge actual Mathlib HasSubst hypotheses when using substitution.",
+        "Prove positive-degree hypotheses used in examples; give meaningful \u03a9 evaluation and finite-specialization checks.",
+        "Expose no unrestricted infinite plethysm and do not use invertibility of 1-t^k alone to evaluate \u03a9."
+      ],
+      "evidence": "docs/handoffs/COMP-SUBST.md"
+    },
+    {
+      "id": "COMPLETION",
+      "title": "Support symmetric series and convergent substitutions",
+      "phase": "extension",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "SERIES",
+        "RATIONAL",
+        "COMP-ALG",
+        "COMP-SERIES",
+        "COMP-OMEGA",
+        "COMP-HOPF",
+        "COMP-SUBST"
+      ],
+      "files": [
+        "SymmetricFunctions/Completion.lean"
+      ],
+      "acceptance": [
+        "Construct the product of homogeneous components with convolution multiplication.",
+        "Define Omega and prove the e/h generating-series identities in the completion.",
+        "State and prove sufficient continuity/substitution conditions, including completed tensor products for coproduct extension.",
+        "Do not claim arbitrary infinite plethysm exists."
+      ],
+      "evidence": "docs/handoffs/COMPLETION.md"
+    },
+    {
+      "id": "BLUEPRINT",
+      "title": "Render the mathematical proof dependency plan",
+      "phase": "optional",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "LPOLY",
+        "LDEFS"
+      ],
+      "files": [
+        "blueprint/"
+      ],
+      "acceptance": [
+        "Connect prose statements and proofs to exact declarations using Lean Blueprint.",
+        "Use task IDs and declaration mappings consistently; distinguish planned, formalized, and proved nodes.",
+        "Do not block local theorem work on successful website rendering."
+      ],
+      "evidence": null
+    },
+    {
+      "id": "PLATFORM",
+      "title": "Evaluate a small Prove2Me proof workflow",
+      "phase": "optional",
+      "status": "planned",
+      "owner": null,
+      "depends_on": [
+        "ENV",
+        "PART",
+        "SPEC"
+      ],
+      "files": [
+        "docs/handoffs/PLATFORM.md",
+        "external/prove2me/"
+      ],
+      "acceptance": [
+        "Run only after explicit authorization for external work.",
+        "Select one reviewed stable leaf and an explicit compatible verification environment.",
+        "Record theorem/definition IDs, source hashes, and the reversible local-name mapping.",
+        "Retrieve a closed proof and recompile locally; measure integration effort before expanding the pilot."
+      ],
+      "evidence": null,
+      "external_authorization_required": true
+    },
+    {
+      "id": "SCHUR-TABLEAU",
+      "title": "Identify determinant Schur functions with tableau generating polynomials",
+      "phase": "extension",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "SCHUR-JT",
+        "TABLEAU-FINITE"
+      ],
+      "files": [
+        "SymmetricFunctions/Schur/Tableaux.lean",
+        "SymmetricFunctions/Schur/HorizontalStrip.lean",
+        "SymmetricFunctions/Tableaux/Branching.lean",
+        "SymmetricFunctions/Schur/Branching.lean",
+        "SymmetricFunctions/Examples/TableauBranching.lean"
+      ],
+      "acceptance": [
+        "Prove a finite-alphabet identification between the actual Jacobi\u2013Trudi determinant and weight sums over bounded Mathlib SemistandardYoungTableau objects; retain the stated partition/YoungDiagram adapter.",
+        "This deferred bridge is not claimed by SCHUR completion; no tableau formula or positivity claim may use it before it is proved and audited.",
+        "For every alphabet size, including zero and fewer variables than rows, prove the actual Schur specialization equals the sum of bounded Mathlib tableau weights over every CommRing; derive natural coefficient counts, zero-last-variable compatibility, and row-count vanishing. Prove all intermediate branching identities and bijections."
+      ],
+      "evidence": "docs/handoffs/SCHUR-TABLEAU.md"
+    },
+    {
+      "id": "TABLEAU-FINITE",
+      "title": "Finite Mathlib tableaux, content and weights",
+      "phase": "extension",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "SCHUR-PART"
+      ],
+      "files": [
+        "SymmetricFunctions/Tableaux/Basic.lean",
+        "SymmetricFunctions/Examples/Tableaux.lean"
+      ],
+      "acceptance": [
+        "Prove finiteness of Partition.FiniteTableau by injection into actual fillings of the finite cell set.",
+        "Define content by counting entries and monomial weights; prove total content size, coefficient naturality, natural-number fixed-content counts, empty-shape/empty-alphabet conventions and row-count obstruction.",
+        "Document zero-based entries, paper variables and French drawing conventions."
+      ],
+      "evidence": "docs/handoffs/TABLEAU-FINITE.md"
+    },
+    {
+      "id": "SKEW-TABLEAU",
+      "title": "Skew tableaux and the existing skew Schur generating formula",
+      "phase": "extension",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "TABLEAU-FINITE",
+        "SCHUR-SKEW"
+      ],
+      "files": [
+        "SymmetricFunctions/Tableaux/Skew.lean",
+        "SymmetricFunctions/Tableaux/SkewBranching.lean",
+        "SymmetricFunctions/Schur/SkewTableaux.lean",
+        "SymmetricFunctions/Examples/SkewTableaux.lean",
+        "SymmetricFunctions/Partition/HorizontalStrip.lean"
+      ],
+      "acceptance": [
+        "Define finite skew tableaux on the difference of existing Young diagrams under explicit containment, with comparisons only between present cells.",
+        "Prove specialization of the existing Hall-adjoint skew Schur equals the weight sum for every alphabet and CommRing, via the proved skew determinant and rigorously proved branching.",
+        "Prove straight agreement for empty inner shape, exactly one empty tableau for equal shapes, and explicitly zero for noncontainment; include skew-hole and noncontained examples."
+      ],
+      "evidence": "docs/handoffs/SKEW-TABLEAU.md"
+    },
+    {
+      "id": "KOSTKA",
+      "title": "Natural tableau counts and Kostka expansion",
+      "phase": "extension",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "SCHUR-TABLEAU",
+        "MONOMIAL"
+      ],
+      "files": [
+        "SymmetricFunctions/Tableaux/Kostka.lean",
+        "SymmetricFunctions/Schur/Kostka.lean",
+        "SymmetricFunctions/Examples/Kostka.lean"
+      ],
+      "acceptance": [
+        "Define natural counts independently of R; prove fixed-content coefficient/cardinality formulas and alphabet-padding independence for partition content.",
+        "Prove the classical monomial expansion of existing Schur functions over arbitrary CommRing by cast natural Kostka counts, with no permutation or factorial factor.",
+        "Prove diagonal one and dominance vanishing with the dominance direction stated as explicit prefix row-sum inequalities. State positivity over Nat/Int only, without claiming LR or general skew Schur positivity.",
+        "Check empty shapes/alphabets, rows/columns, repeated entries, and the coefficient 2 of x1*x2*x3 in s_(2,1)."
+      ],
+      "evidence": "docs/handoffs/KOSTKA.md"
+    },
+    {
+      "id": "UPSTREAM-INTEGRATION",
+      "title": "Merge Alex\u2019s power-series foundation and connect the proved libraries",
+      "phase": "integration",
+      "status": "done",
+      "owner": "Codex (single worker)",
+      "depends_on": [
+        "SERIES",
+        "SCHUR",
+        "COMPLETION"
+      ],
+      "files": [
+        "SymmetricFunctions/Compatibility/Upstream.lean",
+        "lakefile.toml",
+        "lean-toolchain",
+        "lake-manifest.json",
+        "scripts/check_project.py",
+        "scripts/CheckAxioms.lean",
+        "SymmetricFunctions/Examples/Upstream.lean",
+        "SymmetricFunctions/Tableaux/Kostka.lean",
+        "SymmetricFunctions/Examples/Kostka.lean",
+        "scripts/ReviewUpstreamIntegration.lean",
+        "scripts/test_check_project.py",
+        "docs/INTEGRATION.md"
+      ],
+      "acceptance": [
+        "Preserve upstream power-series representation, internal grading, package layout, and local permutation actions; record justified differences.",
+        "Adopt and validate upstream Lean/Mathlib pins across every module of both libraries.",
+        "Prove a public algebra equivalence to the upstream symmetric-function type, including elementary generators, grading, and the existing natural-number series realization.",
+        "Build and transitively audit both library trees; retain root coverage and proof-hole protections.",
+        "Publish the integrated branch to the fork and open a reviewable PR against upstream main."
+      ],
+      "evidence": "docs/handoffs/UPSTREAM-INTEGRATION.md"
+    }
+  ]
+}
