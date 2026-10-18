@@ -13,24 +13,17 @@ Mathematically speaking, we construct the ring of symmetric functions within the
 
 The Lean code is in the `SymmetricFun` folder.
 
-Nonessential subfolders: `GradedAlgebra`, `Matrix`, `Partition`. These mostly add helper functionality to augment some things in mathlib. (In the case of `Partition` we add the dominance ordering.)
+"Nonessential" subfolders: `GradedAlgebra`, `Matrix`, `Partition`. These mostly add helper functionality to augment some things in mathlib. In `Partition` we add the dominance ordering. In `GradedAlgebra` we add `GradedAlgEquiv`, written `𝒜 ≃ₐᵍ[R] ℬ`, for algebra equivalences that respect a grading.
 
 Core subfolders:
 
 * `MvPowerSeries` is mathlib's multivariate power series library. We add some important functionality. Namely, we define the bounded degree subalgebra and show that this is an internal direct sum of homogeneous submodules. We also define the action of the symmetric group on the variables.
 * `SymmetricFunction`. In `Basic.lean` we define `symmetricFunctionSubalgebra` as a subalgebra of the ring of multivariate power series. In `Grading.lean` we show that it is the internal direct sum of graded submodules.
 
-The symmetric function families and their bases are developed in `SymmetricFunction/Basis`:
-
-* `Defs.lean` defines the monomial, elementary, and complete homogeneous families $m_\lambda, e_\lambda, h_\lambda$, their basic properties, and their bundled versions in the graded pieces.
-* `Monomial.lean` constructs monomial coordinates and the monomial basis of each graded piece.
-* `Transition/ElementaryMonomial.lean` expresses elementary-to-monomial coefficients as counts of binary matrices and proves the dominance bound and leading coefficient formula.
-* `Elementary.lean` uses these transition results to construct the elementary bases, then proves the fundamental theorem identifying symmetric functions with the polynomial algebra in the elementary generators, compatibly with grading.
-
-The basis results currently assume an infinite variable type. The monomial basis works over a commutative semiring; the elementary basis and polynomial presentation use a commutative ring.
-Further complete homogeneous theory will go in `Basis/Complete.lean` when developed; its current definitions and basic properties are all in `Basis/Defs.lean`.
-
 ## Plan
+
+(So far we have done up to the horizontal line, although we only handle infinite `σ`.)
+
 1. Construct the ring of symmetric functions (and polynomials) as a subalgebra of the existing `MvPowerSeries σ R` ring in `mathlib`.
     * Define the subalgebra of bounded degree series. If the type `σ` is finite, then this subalgebra is isomorphic to `MvPolynomial σ R`.
     * Define the action of permutations on `MvPowerSeries σ R` and the subalgebra invariant under this action.
@@ -41,12 +34,12 @@ Further complete homogeneous theory will go in `Basis/Complete.lean` when develo
     * When writing $e_\lambda$ in terms of the $m_\mu$'s, the transition matrix $M_{\lambda\mu}$ counts 0-1 matrices with row sums equal to $\lambda$ and column sums equal to $\mu$. Equivalently, this counts simple bipartite graphs whose degree sequences are given by $\lambda$ and $\mu$. A necessary and sufficient condition for the existence of such graphs is given by the [Gale-Ryser theorem](https://en.wikipedia.org/wiki/Gale–Ryser_theorem). This can be used to show that $M_{\lambda\mu}$ is unitriangular with respect to a certain ordering on the partition bases.
     * If `σ` has cardinality $n \in \mathbb{N}$ we get a canonical algebra isomorphism with $R[e_1,\ldots,e_n]$.
     * If `σ` is infinite we get a canonical algebra isomorphism with $R[e_1,e_2,\ldots]$.
----
 4. Construct the complete homogeneous symmetric functions.
-    * Prove the relation $\sum_{r=0}^d (-1)^r e_r h_{d-r}=0$ for $d > 0$, with $e_0=h_0=1$. 
+    * Prove the relation $\sum_{r=0}^d (-1)^r e_r h_{d-r}=0$ for $d > 0$, with $e_0=h_0=1$.
     * If `σ` has cardinality $n \in \mathbb{N}$, then we define an algebra homomorphism $\omega$ satisfying $\omega(e_r)=h_r$ for all $1 \leq r \leq n$. Use the recurrence to show inductively that $\omega(h_r) = e_r$ for all $1 \leq r \leq n$.
-    * If `σ` is infinite, define the algebra homomorphism $\omega(e_r)=h_r$ for all $r \geq 1$. The recurrence implies $\omega(h_r)=e_r$.
-    * In both cases we see that $\omega$ is an involution and we deduce the relevant facts about the complete homogeneous symmetric functions forming a basis.
+    * If `σ` is infinite, define the graded algebra involution $\omega(e_r)=h_r$ for all $r \geq 1$. The relation $E(-t)H(t)=1$ implies $\omega(h_r)=e_r$, and the elementary generators then give $\omega^2=\mathrm{id}$.
+    * Use the involution to construct the complete homogeneous bases and the graded polynomial presentation.
+---
 5. Construct Schur functions as generating functions of semistandard Young tableaux.
     * When writing $s_\lambda$ in terms of the $m_\mu$'s, the entries $K_{\lambda\mu}$ of the transition matrix are the [Kostka numbers](https://en.wikipedia.org/wiki/Kostka_number), which count SSYTs of shape $\lambda$ and weight $\mu$. This number is positive if and only if $\lambda$ is above than $\mu$ in the dominance order. $K_{\lambda\mu}$ is unitriangular if one chooses a linear order on partitions that is compatible with dominance.
     * If `σ` has cardinality $n \in \mathbb{N}$, then the unitriangularity of the transition matrix implies that $(s_\lambda)_{\ell(\lambda)\leq n}$ is a basis.

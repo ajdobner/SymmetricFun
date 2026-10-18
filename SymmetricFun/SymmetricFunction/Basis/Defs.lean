@@ -1,7 +1,9 @@
 module
 
 public import SymmetricFun.Partition.Finsupp
+public import SymmetricFun.Partition.Multiplicity
 public import SymmetricFun.SymmetricFunction.Grading
+public import Mathlib.RingTheory.MvPolynomial.WeightedHomogeneous
 
 /-!
 # Families of symmetric functions
@@ -16,6 +18,12 @@ functions and their basic coefficient, symmetry, and homogeneity properties.
 The elementary and complete partition products are `esymmPart` and `hsymmPart`.
 Each family also has a version bundled in `symmetricFunctionGrading`, with a name
 ending in `Graded`. For an index `μ : AllPartitions`, use its partition `μ.2`.
+
+The polynomial evaluation maps `esymmAlgHom` and `hsymmAlgHom` send the variable
+indexed by a positive integer `i` to the corresponding degree-`i` function.
+Their graded versions are `esymmGradedAlgHom` and `hsymmGradedAlgHom`, with weight
+`i` assigned to that variable. The evaluation formulas and grading compatibility
+hold over a commutative semiring for any variable type.
 
 Coordinates, basis constructions, and transition formulas are developed in the
 other modules of `SymmetricFunction/Basis`.
@@ -153,6 +161,11 @@ def esymmGraded (n : ℕ) : symmetricFunctionGrading σ R n :=
 theorem coe_esymmGraded (n : ℕ) :
     (esymmGraded σ R n : MvPowerSeries σ R) = esymm σ R n := rfl
 
+@[simp]
+theorem coe_esymmGraded_zero :
+    (esymmGraded σ R 0 : symmetricFunctionSubalgebra σ R) = 1 :=
+  Subtype.ext (esymm_zero σ R)
+
 /-- The product of elementary symmetric functions indexed by the parts of `μ`. -/
 def esymmPart {n : ℕ} (μ : Nat.Partition n) : MvPowerSeries σ R :=
   (μ.parts.map (esymm σ R)).prod
@@ -254,6 +267,11 @@ def hsymmGraded (n : ℕ) : symmetricFunctionGrading σ R n :=
 theorem coe_hsymmGraded (n : ℕ) :
     (hsymmGraded σ R n : MvPowerSeries σ R) = hsymm σ R n := rfl
 
+@[simp]
+theorem coe_hsymmGraded_zero :
+    (hsymmGraded σ R 0 : symmetricFunctionSubalgebra σ R) = 1 :=
+  Subtype.ext (hsymm_zero σ R)
+
 /-- The product of complete homogeneous symmetric functions indexed by the parts of `μ`. -/
 def hsymmPart {n : ℕ} (μ : Nat.Partition n) : MvPowerSeries σ R :=
   (μ.parts.map (hsymm σ R)).prod
@@ -300,5 +318,164 @@ theorem hsymmPartGraded_indiscrete (n : ℕ) :
   simp
 
 end CompleteHomogeneousSymmetric
+
+/-! ## Polynomial evaluation -/
+
+section PolynomialEvaluation
+
+variable (σ R : Type*) [CommSemiring R]
+
+attribute [local instance] MvPolynomial.weightedGradedAlgebra
+
+/-! ### Elementary evaluation -/
+
+/-- Evaluate a polynomial in the elementary symmetric functions of positive degree. -/
+def esymmAlgHom :
+    MvPolynomial ℕ+ R →ₐ[R] symmetricFunctionSubalgebra σ R :=
+  MvPolynomial.aeval (fun i : ℕ+ =>
+    (esymmGraded σ R (i : ℕ) : symmetricFunctionSubalgebra σ R))
+
+@[simp]
+theorem esymmAlgHom_X (i : ℕ+) :
+    esymmAlgHom σ R (MvPolynomial.X i) =
+      (esymmGraded σ R (i : ℕ) : symmetricFunctionSubalgebra σ R) := by
+  simp [esymmAlgHom]
+
+/-- A polynomial monomial evaluates to the elementary product with those part multiplicities. -/
+theorem esymmAlgHom_monomial (a : ℕ+ →₀ ℕ) (r : R) :
+    esymmAlgHom σ R (MvPolynomial.monomial a r) =
+      r • (esymmPartGraded σ R (AllPartitions.ofMultiplicities a).2 :
+        symmetricFunctionSubalgebra σ R) := by
+  have hprod :
+      (((AllPartitions.ofMultiplicities a).parts).map (esymm σ R)).prod =
+        a.prod (fun i k => esymm σ R (i : ℕ) ^ k) := by
+    rw [AllPartitions.parts_ofMultiplicities, Multiset.map_map, Finsupp.toMultiset_map,
+      Finsupp.prod_toMultiset,
+      Finsupp.prod_mapDomain_index (fun _ => pow_zero _) (fun _ _ _ => pow_add _ _ _)]
+    rfl
+  rw [esymmAlgHom, MvPolynomial.aeval_monomial, ← Algebra.smul_def]
+  apply congrArg (r • ·)
+  apply Subtype.ext
+  change (symmetricFunctionSubalgebra σ R).val
+      (a.prod (fun i k => (esymmGraded σ R (i : ℕ) :
+        symmetricFunctionSubalgebra σ R) ^ k)) =
+    esymmPart σ R (AllPartitions.ofMultiplicities a).2
+  rw [map_finsuppProd]
+  simp only [map_pow]
+  exact hprod.symm
+
+/-- Evaluation sends weighted homogeneous polynomials to the corresponding symmetric piece. -/
+theorem esymmAlgHom_mem_grading {n : ℕ} {p : MvPolynomial ℕ+ R}
+    (hp : p ∈ MvPolynomial.weightedHomogeneousSubmodule R PNat.val n) :
+    esymmAlgHom σ R p ∈ symmetricFunctionGrading σ R n := by
+  change p.IsWeightedHomogeneous PNat.val n at hp
+  induction hp using MvPolynomial.IsWeightedHomogeneous.induction_on with
+  | zero =>
+    rw [map_zero]
+    exact (symmetricFunctionGrading σ R n).zero_mem
+  | add p q hp hq ihp ihq =>
+    rw [map_add]
+    exact (symmetricFunctionGrading σ R n).add_mem ihp ihq
+  | monomial a r ha =>
+    rw [esymmAlgHom_monomial]
+    apply (symmetricFunctionGrading σ R n).smul_mem
+    rw [← ha, ← AllPartitions.size_ofMultiplicities]
+    exact (esymmPartGraded σ R (AllPartitions.ofMultiplicities a).2).property
+
+/-- Evaluation in elementary symmetric functions as a graded algebra homomorphism,
+where the polynomial variable indexed by `i` has weight `i`. -/
+def esymmGradedAlgHom :
+    MvPolynomial.weightedHomogeneousSubmodule R PNat.val →ₐᵍ[R]
+      symmetricFunctionGrading σ R :=
+  { esymmAlgHom σ R with map_mem := esymmAlgHom_mem_grading σ R }
+
+@[simp]
+theorem esymmGradedAlgHom_toAlgHom :
+    (esymmGradedAlgHom σ R).toAlgHom = esymmAlgHom σ R := rfl
+
+@[simp]
+theorem esymmGradedAlgHom_apply (p : MvPolynomial ℕ+ R) :
+    esymmGradedAlgHom σ R p = esymmAlgHom σ R p := rfl
+
+/-- Evaluation commutes with projection onto each weighted homogeneous component. -/
+theorem esymmAlgHom_weightedHomogeneousComponent (n : ℕ) (p : MvPolynomial ℕ+ R) :
+    esymmAlgHom σ R (MvPolynomial.weightedHomogeneousComponent PNat.val n p) =
+      GradedAlgebra.proj (symmetricFunctionGrading σ R) n (esymmAlgHom σ R p) := by
+  have h := map_directSumDecompose (MvPolynomial.weightedHomogeneousSubmodule R PNat.val)
+    (symmetricFunctionGrading σ R) (esymmGradedAlgHom σ R) (x := p) (i := n)
+  change esymmAlgHom σ R (MvPolynomial.decompose' R PNat.val p n : MvPolynomial ℕ+ R) = _ at h
+  rw [MvPolynomial.decompose'_apply] at h
+  exact h
+
+/-! ### Complete homogeneous evaluation -/
+
+/-- Evaluate a polynomial in the complete homogeneous symmetric functions of positive degree. -/
+def hsymmAlgHom :
+    MvPolynomial ℕ+ R →ₐ[R] symmetricFunctionSubalgebra σ R :=
+  MvPolynomial.aeval (fun i : ℕ+ =>
+    (hsymmGraded σ R (i : ℕ) : symmetricFunctionSubalgebra σ R))
+
+@[simp]
+theorem hsymmAlgHom_X (i : ℕ+) :
+    hsymmAlgHom σ R (MvPolynomial.X i) =
+      (hsymmGraded σ R (i : ℕ) : symmetricFunctionSubalgebra σ R) := by
+  simp [hsymmAlgHom]
+
+/-- A monomial evaluates to the complete homogeneous product with those part multiplicities. -/
+theorem hsymmAlgHom_monomial (a : ℕ+ →₀ ℕ) (r : R) :
+    hsymmAlgHom σ R (MvPolynomial.monomial a r) =
+      r • (hsymmPartGraded σ R (AllPartitions.ofMultiplicities a).2 :
+        symmetricFunctionSubalgebra σ R) := by
+  have hprod :
+      (((AllPartitions.ofMultiplicities a).parts).map (hsymm σ R)).prod =
+        a.prod (fun i k => hsymm σ R (i : ℕ) ^ k) := by
+    rw [AllPartitions.parts_ofMultiplicities, Multiset.map_map, Finsupp.toMultiset_map,
+      Finsupp.prod_toMultiset,
+      Finsupp.prod_mapDomain_index (fun _ => pow_zero _) (fun _ _ _ => pow_add _ _ _)]
+    rfl
+  rw [hsymmAlgHom, MvPolynomial.aeval_monomial, ← Algebra.smul_def]
+  apply congrArg (r • ·)
+  apply Subtype.ext
+  change (symmetricFunctionSubalgebra σ R).val
+      (a.prod (fun i k => (hsymmGraded σ R (i : ℕ) :
+        symmetricFunctionSubalgebra σ R) ^ k)) =
+    hsymmPart σ R (AllPartitions.ofMultiplicities a).2
+  rw [map_finsuppProd]
+  simp only [map_pow]
+  exact hprod.symm
+
+/-- Complete homogeneous evaluation preserves the weighted grading. -/
+theorem hsymmAlgHom_mem_grading {n : ℕ} {p : MvPolynomial ℕ+ R}
+    (hp : p ∈ MvPolynomial.weightedHomogeneousSubmodule R PNat.val n) :
+    hsymmAlgHom σ R p ∈ symmetricFunctionGrading σ R n := by
+  change p.IsWeightedHomogeneous PNat.val n at hp
+  induction hp using MvPolynomial.IsWeightedHomogeneous.induction_on with
+  | zero =>
+    rw [map_zero]
+    exact (symmetricFunctionGrading σ R n).zero_mem
+  | add p q hp hq ihp ihq =>
+    rw [map_add]
+    exact (symmetricFunctionGrading σ R n).add_mem ihp ihq
+  | monomial a r ha =>
+    rw [hsymmAlgHom_monomial]
+    apply (symmetricFunctionGrading σ R n).smul_mem
+    rw [← ha, ← AllPartitions.size_ofMultiplicities]
+    exact (hsymmPartGraded σ R (AllPartitions.ofMultiplicities a).2).property
+
+/-- Complete homogeneous evaluation as a graded algebra homomorphism. -/
+def hsymmGradedAlgHom :
+    MvPolynomial.weightedHomogeneousSubmodule R PNat.val →ₐᵍ[R]
+      symmetricFunctionGrading σ R :=
+  { hsymmAlgHom σ R with map_mem := hsymmAlgHom_mem_grading σ R }
+
+@[simp]
+theorem hsymmGradedAlgHom_toAlgHom :
+    (hsymmGradedAlgHom σ R).toAlgHom = hsymmAlgHom σ R := rfl
+
+@[simp]
+theorem hsymmGradedAlgHom_apply (p : MvPolynomial ℕ+ R) :
+    hsymmGradedAlgHom σ R p = hsymmAlgHom σ R p := rfl
+
+end PolynomialEvaluation
 
 end MvPowerSeries
