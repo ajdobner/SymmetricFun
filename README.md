@@ -16,11 +16,19 @@ The Lean code is in the `SymmetricFun` folder.
 Nonessential subfolders: `GradedAlgebra`, `Matrix`, `Partition`. These mostly add helper functionality to augment some things in mathlib. (In the case of `Partition` we add the dominance ordering.)
 
 Core subfolders:
+
 * `MvPowerSeries` is mathlib's multivariate power series library. We add some important functionality. Namely, we define the bounded degree subalgebra and show that this is an internal direct sum of homogeneous submodules. We also define the action of the symmetric group on the variables.
-* `SymmetricFunction`. In `Basic.lean` we define `symmetricFunctionSubalgebra` as a subalgebra of the ring of multivariate power series. In `Grading.lean` we show that it is the internal direct sum of graded submodules. 
-  * Thus far we have defined three types of symmetric functions $m_\lambda, e_\lambda, h_\lambda$. 
-  * We have proved that $(m_\lambda)_\lambda$ is a basis.
-  * We have proved $(e_\lambda)_\lambda$ is a basis . This is done by deriving an explicit combinatorial expression for the entries of the transition matrix. (see the **Plan** below)
+* `SymmetricFunction`. In `Basic.lean` we define `symmetricFunctionSubalgebra` as a subalgebra of the ring of multivariate power series. In `Grading.lean` we show that it is the internal direct sum of graded submodules.
+
+The symmetric function families and their bases are developed in `SymmetricFunction/Basis`:
+
+* `Defs.lean` defines the monomial, elementary, and complete homogeneous families $m_\lambda, e_\lambda, h_\lambda$, their basic properties, and their bundled versions in the graded pieces.
+* `Monomial.lean` constructs monomial coordinates and the monomial basis of each graded piece.
+* `Transition/ElementaryMonomial.lean` expresses elementary-to-monomial coefficients as counts of binary matrices and proves the dominance bound and leading coefficient formula.
+* `Elementary.lean` uses these transition results to construct the elementary bases, then proves the fundamental theorem identifying symmetric functions with the polynomial algebra in the elementary generators, compatibly with grading.
+
+The basis results currently assume an infinite variable type. The monomial basis works over a commutative semiring; the elementary basis and polynomial presentation use a commutative ring.
+Further complete homogeneous theory will go in `Basis/Complete.lean` when developed; its current definitions and basic properties are all in `Basis/Defs.lean`.
 
 ## Plan
 1. Construct the ring of symmetric functions (and polynomials) as a subalgebra of the existing `MvPowerSeries σ R` ring in `mathlib`.

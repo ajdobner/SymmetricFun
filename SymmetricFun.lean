@@ -3,11 +3,9 @@ module
 public import SymmetricFun.Partition.Dominance
 public import SymmetricFun.SymmetricFunction.Basic
 public import SymmetricFun.SymmetricFunction.Grading
-public import SymmetricFun.SymmetricFunction.Monomial
-public import SymmetricFun.SymmetricFunction.Elementary
-public import SymmetricFun.SymmetricFunction.ElementaryBasis
-public import SymmetricFun.SymmetricFunction.Complete
-public import SymmetricFun.SymmetricFunction.FundamentalTheorem
+public import SymmetricFun.SymmetricFunction.Basis.Defs
+public import SymmetricFun.SymmetricFunction.Basis.Monomial
+public import SymmetricFun.SymmetricFunction.Basis.Elementary
 
 /-!
 # Symmetric functions

@@ -1,8 +1,8 @@
 module
 
 public import SymmetricFun.Matrix.Partition
-public import SymmetricFun.SymmetricFunction.Elementary
-public import SymmetricFun.SymmetricFunction.Monomial
+public import SymmetricFun.SymmetricFunction.Basis.Defs
+public import SymmetricFun.SymmetricFunction.Basis.Monomial
 
 /-!
 # Elementary coefficients as counts of binary matrices

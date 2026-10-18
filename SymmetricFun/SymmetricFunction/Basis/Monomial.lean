@@ -2,22 +2,18 @@ module
 
 public import Mathlib.Data.List.ToFinsupp
 public import Mathlib.LinearAlgebra.Basis.Defs
-public import SymmetricFun.Partition.Finsupp
-public import SymmetricFun.SymmetricFunction.Grading
+public import SymmetricFun.SymmetricFunction.Basis.Defs
 
 /-!
-# Monomial symmetric functions and their coordinates
+# The monomial symmetric basis and its coordinates
 
-`msymmPart` takes a partition of `n`, with the degree inferred from the partition.
-Its coefficientwise definition is independent of any choice of exponent
-representatives. For an index `μ : AllPartitions`, use `msymmPart σ R μ.2`.
-Chosen representatives let `msymmPartEquivFun` read the coordinates of
+The monomial symmetric functions are defined in `SymmetricFunction/Basis/Defs`.
+Chosen exponent representatives let `msymmPartEquivFun` read the coordinates of
 a homogeneous symmetric series; `msymmPartEquivFun_apply_eq_coeff` allows any exponent
 vector with the required partition to be used instead.
 
-The definition and symmetry proof use only the fact that reindexing preserves
-the partition of an exponent vector. The coordinate construction also uses the
-converse: exponent vectors with the same partition differ by a permutation.
+The coordinate construction uses the fact that exponent vectors with the same
+partition differ by a permutation.
 
 `msymmPart_basis` is a basis of the internal degree-`n` piece of the symmetric-function
 algebra. Its vectors are `msymmPartGraded`, and its coordinates are described by
@@ -28,51 +24,6 @@ algebra. Its vectors are `msymmPartGraded`, and its coordinates are described by
 noncomputable section
 
 namespace MvPowerSeries
-
-/-! ## Monomial symmetric functions -/
-
-section MonomialSymmetric
-variable (σ R : Type*) [CommSemiring R] {n : ℕ} (μ : Nat.Partition n)
-
-/-- The monomial symmetric power series indexed by a partition of `n`. -/
-def msymmPart : MvPowerSeries σ R :=
-  fun (m : σ →₀ ℕ) =>
-    if m.toAllPartitions = μ.toAllPartitions then 1 else 0
-
-theorem isHomogeneous_msymmPart : IsHomogeneous (msymmPart σ R μ) n := by
-  intro m hm
-  change (if m.toAllPartitions = μ.toAllPartitions then 1 else 0 : R) ≠ 0 at hm
-  split_ifs at hm with h
-  · rw [← m.toAllPartitions_size, h, Nat.Partition.size_toAllPartitions]
-  · exact (hm rfl).elim
-
-@[simp]
-lemma coeff_msymmPart {σ R : Type*} [CommSemiring R]
-    (μ : Nat.Partition n) (m : σ →₀ ℕ) :
-    coeff m (msymmPart σ R μ) = if m.toAllPartitions = μ.toAllPartitions then 1 else 0 := rfl
-
-theorem isSymmetric_msymmPart : IsSymmetric (msymmPart σ R μ) := by
-  intro e
-  ext m
-  simp only [renameEquiv_coeff, coeff_msymmPart, Finsupp.toAllPartitions_equivMapDomain]
-
-lemma msymmPart_mem_symmetricFunctionSubalgebra :
-    msymmPart σ R μ ∈ symmetricFunctionSubalgebra σ R :=
-  mem_symmetricFunctionSubalgebra_of_isHomogeneous
-    (isHomogeneous_msymmPart σ R μ) (isSymmetric_msymmPart σ R μ)
-
-/-- A monomial symmetric function as an element of the degree-`n` piece of the
-symmetric-function algebra. -/
-def msymmPartGraded : symmetricFunctionGrading σ R n :=
-  symmetricFunctionGrading.mk (msymmPart σ R μ)
-    (isHomogeneous_msymmPart σ R μ) (isSymmetric_msymmPart σ R μ)
-
-@[simp]
-theorem coe_msymmPartGraded :
-    (msymmPartGraded σ R μ : MvPowerSeries σ R) = msymmPart σ R μ :=
-  rfl
-
-end MonomialSymmetric
 
 /-! ## Representatives and coordinates -/
 
