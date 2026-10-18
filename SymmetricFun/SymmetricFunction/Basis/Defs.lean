@@ -3,21 +3,26 @@ module
 public import SymmetricFun.Partition.Finsupp
 public import SymmetricFun.Partition.Multiplicity
 public import SymmetricFun.SymmetricFunction.Grading
+public import SymmetricFun.Tableau.Kostka
 public import Mathlib.RingTheory.MvPolynomial.WeightedHomogeneous
 
 /-!
 # Families of symmetric functions
 
-This file defines the monomial, elementary, and complete homogeneous symmetric
+This file defines the monomial, elementary, complete homogeneous, and Schur symmetric
 functions and their basic coefficient, symmetry, and homogeneity properties.
 
 * `msymmPart σ R μ` has coefficient one on exponent vectors whose partition is `μ`.
 * `esymm σ R n` has coefficient one on squarefree monomials of degree `n`.
 * `hsymm σ R n` has coefficient one on all monomials of degree `n`.
+* `skewSsymmPart σ R π μ` has skew Kostka coefficients for the shape `π / μ`.
+* `ssymmPart σ R π` specializes to the empty inner shape.
 
 The elementary and complete partition products are `esymmPart` and `hsymmPart`.
 Each family also has a version bundled in `symmetricFunctionGrading`, with a name
-ending in `Graded`. For an index `μ : AllPartitions`, use its partition `μ.2`.
+ending in `Graded`. For an index `μ : IntegerPartition`, use its partition `μ.2`.
+For skew Schur functions with outer size `n` and inner size `m`, the degree-`d`
+homogeneity theorem and graded version take a hypothesis `hd : n = m + d`.
 
 The polynomial evaluation maps `esymmAlgHom` and `hsymmAlgHom` send the variable
 indexed by a positive integer `i` to the corresponding degree-`i` function.
@@ -42,24 +47,24 @@ variable (σ R : Type*) [CommSemiring R] {n : ℕ} (μ : Nat.Partition n)
 /-- The monomial symmetric power series indexed by a partition of `n`. -/
 def msymmPart : MvPowerSeries σ R :=
   fun (m : σ →₀ ℕ) =>
-    if m.toAllPartitions = μ.toAllPartitions then 1 else 0
+    if m.toIntegerPartition = μ.toIntegerPartition then 1 else 0
 
 theorem isHomogeneous_msymmPart : IsHomogeneous (msymmPart σ R μ) n := by
   intro m hm
-  change (if m.toAllPartitions = μ.toAllPartitions then 1 else 0 : R) ≠ 0 at hm
+  change (if m.toIntegerPartition = μ.toIntegerPartition then 1 else 0 : R) ≠ 0 at hm
   split_ifs at hm with h
-  · rw [← m.toAllPartitions_size, h, Nat.Partition.size_toAllPartitions]
+  · rw [← m.toIntegerPartition_size, h, Nat.Partition.size_toIntegerPartition]
   · exact (hm rfl).elim
 
 @[simp]
 lemma coeff_msymmPart {σ R : Type*} [CommSemiring R]
     (μ : Nat.Partition n) (m : σ →₀ ℕ) :
-    coeff m (msymmPart σ R μ) = if m.toAllPartitions = μ.toAllPartitions then 1 else 0 := rfl
+    coeff m (msymmPart σ R μ) = if m.toIntegerPartition = μ.toIntegerPartition then 1 else 0 := rfl
 
 theorem isSymmetric_msymmPart : IsSymmetric (msymmPart σ R μ) := by
   intro e
   ext m
-  simp only [renameEquiv_coeff, coeff_msymmPart, Finsupp.toAllPartitions_equivMapDomain]
+  simp only [renameEquiv_coeff, coeff_msymmPart, Finsupp.toIntegerPartition_equivMapDomain]
 
 lemma msymmPart_mem_symmetricFunctionSubalgebra :
     msymmPart σ R μ ∈ symmetricFunctionSubalgebra σ R :=
@@ -319,6 +324,121 @@ theorem hsymmPartGraded_indiscrete (n : ℕ) :
 
 end CompleteHomogeneousSymmetric
 
+/-! ## Schur functions -/
+
+section Schur
+
+variable (σ R : Type*) [CommSemiring R]
+
+/-- The skew Schur power series of shape `π / μ`, defined by its Kostka coefficients. -/
+def skewSsymmPart {n m : ℕ} (π : Nat.Partition n) (μ : Nat.Partition m) :
+    MvPowerSeries σ R :=
+  fun a => (Nat.Partition.skewKostka π μ a.toIntegerPartition.2 : R)
+
+@[simp]
+theorem coeff_skewSsymmPart {n m : ℕ} (π : Nat.Partition n) (μ : Nat.Partition m)
+    (a : σ →₀ ℕ) :
+    coeff a (skewSsymmPart σ R π μ) =
+      (Nat.Partition.skewKostka π μ a.toIntegerPartition.2 : R) := rfl
+
+/-- The ordinary Schur power series is the skew Schur series with empty inner shape. -/
+def ssymmPart {n : ℕ} (π : Nat.Partition n) : MvPowerSeries σ R :=
+  skewSsymmPart σ R π (default : Nat.Partition 0)
+
+@[simp]
+theorem skewSsymmPart_empty_inner {n : ℕ} (π : Nat.Partition n) :
+    skewSsymmPart σ R π (default : Nat.Partition 0) = ssymmPart σ R π := rfl
+
+@[simp]
+theorem coeff_ssymmPart {n : ℕ} (π : Nat.Partition n) (a : σ →₀ ℕ) :
+    coeff a (ssymmPart σ R π) = (Nat.Partition.kostka π a.toIntegerPartition.2 : R) := rfl
+
+theorem isSymmetric_skewSsymmPart {n m : ℕ} (π : Nat.Partition n) (μ : Nat.Partition m) :
+    IsSymmetric (skewSsymmPart σ R π μ) := by
+  intro e
+  ext a
+  rw [renameEquiv_coeff, coeff_skewSsymmPart, coeff_skewSsymmPart,
+    Finsupp.toIntegerPartition_equivMapDomain]
+
+theorem isSymmetric_ssymmPart {n : ℕ} (π : Nat.Partition n) :
+    IsSymmetric (ssymmPart σ R π) :=
+  isSymmetric_skewSsymmPart σ R π default
+
+private theorem size_eq_of_coeff_skewSsymmPart_ne_zero {n m : ℕ}
+    (π : Nat.Partition n) (μ : Nat.Partition m) {a : σ →₀ ℕ}
+    (ha : coeff a (skewSsymmPart σ R π μ) ≠ 0) : n = m + a.degree := by
+  by_contra h
+  have hsize : m + a.toIntegerPartition.size ≠ n := by
+    change m + a.degree ≠ n
+    exact Ne.symm h
+  apply ha
+  rw [coeff_skewSsymmPart,
+    Nat.Partition.skewKostka_eq_zero_of_size_ne π μ a.toIntegerPartition.2 hsize, Nat.cast_zero]
+
+/-- A skew Schur series has degree `d` when the outer size is the inner size plus `d`. -/
+theorem isHomogeneous_skewSsymmPart {n m d : ℕ}
+    (π : Nat.Partition n) (μ : Nat.Partition m) (hd : n = m + d) :
+    IsHomogeneous (skewSsymmPart σ R π μ) d := by
+  intro a ha
+  have h := size_eq_of_coeff_skewSsymmPart_ne_zero σ R π μ ha
+  change Finsupp.weight (fun _ : σ => 1) a = d
+  rw [← Finsupp.degree_eq_weight_one]
+  omega
+
+theorem isHomogeneous_ssymmPart {n : ℕ} (π : Nat.Partition n) :
+    IsHomogeneous (ssymmPart σ R π) n :=
+  isHomogeneous_skewSsymmPart σ R π default (by simp)
+
+theorem skewSsymmPart_mem_symmetricFunctionSubalgebra {n m : ℕ}
+    (π : Nat.Partition n) (μ : Nat.Partition m) :
+    skewSsymmPart σ R π μ ∈ symmetricFunctionSubalgebra σ R := by
+  rw [mem_symmetricFunctionSubalgebra]
+  refine ⟨⟨n, fun a ha => ?_⟩, isSymmetric_skewSsymmPart σ R π μ⟩
+  have h := size_eq_of_coeff_skewSsymmPart_ne_zero σ R π μ ha
+  omega
+
+theorem ssymmPart_mem_symmetricFunctionSubalgebra {n : ℕ} (π : Nat.Partition n) :
+    ssymmPart σ R π ∈ symmetricFunctionSubalgebra σ R :=
+  skewSsymmPart_mem_symmetricFunctionSubalgebra σ R π default
+
+/-- A skew Schur function bundled in its specified degree. -/
+def skewSsymmPartGraded {n m d : ℕ}
+    (π : Nat.Partition n) (μ : Nat.Partition m) (hd : n = m + d) :
+    symmetricFunctionGrading σ R d :=
+  symmetricFunctionGrading.mk (skewSsymmPart σ R π μ)
+    (isHomogeneous_skewSsymmPart σ R π μ hd) (isSymmetric_skewSsymmPart σ R π μ)
+
+@[simp]
+theorem coe_skewSsymmPartGraded {n m d : ℕ}
+    (π : Nat.Partition n) (μ : Nat.Partition m) (hd : n = m + d) :
+    (skewSsymmPartGraded σ R π μ hd : MvPowerSeries σ R) = skewSsymmPart σ R π μ := rfl
+
+/-- A Schur function bundled in the degree of its shape. -/
+def ssymmPartGraded {n : ℕ} (π : Nat.Partition n) : symmetricFunctionGrading σ R n :=
+  symmetricFunctionGrading.mk (ssymmPart σ R π)
+    (isHomogeneous_ssymmPart σ R π) (isSymmetric_ssymmPart σ R π)
+
+@[simp]
+theorem coe_ssymmPartGraded {n : ℕ} (π : Nat.Partition n) :
+    (ssymmPartGraded σ R π : MvPowerSeries σ R) = ssymmPart σ R π := rfl
+
+/-- In `k` variables, a skew Schur coefficient counts tableaux of the given weight. -/
+theorem coeff_skewSsymmPart_eq_skewKostkaWeight {k n m : ℕ}
+    (π : Nat.Partition n) (μ : Nat.Partition m) (a : Fin k →₀ ℕ) :
+    coeff a (skewSsymmPart (Fin k) R π μ) =
+      (Nat.Partition.skewKostkaWeight π μ (fun i => a i) : R) := by
+  rw [coeff_skewSsymmPart, ← Finsupp.ofFn_eq_toIntegerPartition a,
+    ← Nat.Partition.skewKostkaWeight_eq_skewKostka]
+
+/-- The ordinary Schur coefficient formula is the empty-inner-shape case. -/
+theorem coeff_ssymmPart_eq_skewKostkaWeight {k n : ℕ}
+    (π : Nat.Partition n) (a : Fin k →₀ ℕ) :
+    coeff a (ssymmPart (Fin k) R π) =
+      (Nat.Partition.skewKostkaWeight π (default : Nat.Partition 0) (fun i => a i) : R) :=
+  coeff_skewSsymmPart_eq_skewKostkaWeight R π default a
+
+end Schur
+
 /-! ## Polynomial evaluation -/
 
 section PolynomialEvaluation
@@ -344,12 +464,12 @@ theorem esymmAlgHom_X (i : ℕ+) :
 /-- A polynomial monomial evaluates to the elementary product with those part multiplicities. -/
 theorem esymmAlgHom_monomial (a : ℕ+ →₀ ℕ) (r : R) :
     esymmAlgHom σ R (MvPolynomial.monomial a r) =
-      r • (esymmPartGraded σ R (AllPartitions.ofMultiplicities a).2 :
+      r • (esymmPartGraded σ R (IntegerPartition.ofMultiplicities a).2 :
         symmetricFunctionSubalgebra σ R) := by
   have hprod :
-      (((AllPartitions.ofMultiplicities a).parts).map (esymm σ R)).prod =
+      (((IntegerPartition.ofMultiplicities a).parts).map (esymm σ R)).prod =
         a.prod (fun i k => esymm σ R (i : ℕ) ^ k) := by
-    rw [AllPartitions.parts_ofMultiplicities, Multiset.map_map, Finsupp.toMultiset_map,
+    rw [IntegerPartition.parts_ofMultiplicities, Multiset.map_map, Finsupp.toMultiset_map,
       Finsupp.prod_toMultiset,
       Finsupp.prod_mapDomain_index (fun _ => pow_zero _) (fun _ _ _ => pow_add _ _ _)]
     rfl
@@ -359,7 +479,7 @@ theorem esymmAlgHom_monomial (a : ℕ+ →₀ ℕ) (r : R) :
   change (symmetricFunctionSubalgebra σ R).val
       (a.prod (fun i k => (esymmGraded σ R (i : ℕ) :
         symmetricFunctionSubalgebra σ R) ^ k)) =
-    esymmPart σ R (AllPartitions.ofMultiplicities a).2
+    esymmPart σ R (IntegerPartition.ofMultiplicities a).2
   rw [map_finsuppProd]
   simp only [map_pow]
   exact hprod.symm
@@ -379,8 +499,8 @@ theorem esymmAlgHom_mem_grading {n : ℕ} {p : MvPolynomial ℕ+ R}
   | monomial a r ha =>
     rw [esymmAlgHom_monomial]
     apply (symmetricFunctionGrading σ R n).smul_mem
-    rw [← ha, ← AllPartitions.size_ofMultiplicities]
-    exact (esymmPartGraded σ R (AllPartitions.ofMultiplicities a).2).property
+    rw [← ha, ← IntegerPartition.size_ofMultiplicities]
+    exact (esymmPartGraded σ R (IntegerPartition.ofMultiplicities a).2).property
 
 /-- Evaluation in elementary symmetric functions as a graded algebra homomorphism,
 where the polynomial variable indexed by `i` has weight `i`. -/
@@ -424,12 +544,12 @@ theorem hsymmAlgHom_X (i : ℕ+) :
 /-- A monomial evaluates to the complete homogeneous product with those part multiplicities. -/
 theorem hsymmAlgHom_monomial (a : ℕ+ →₀ ℕ) (r : R) :
     hsymmAlgHom σ R (MvPolynomial.monomial a r) =
-      r • (hsymmPartGraded σ R (AllPartitions.ofMultiplicities a).2 :
+      r • (hsymmPartGraded σ R (IntegerPartition.ofMultiplicities a).2 :
         symmetricFunctionSubalgebra σ R) := by
   have hprod :
-      (((AllPartitions.ofMultiplicities a).parts).map (hsymm σ R)).prod =
+      (((IntegerPartition.ofMultiplicities a).parts).map (hsymm σ R)).prod =
         a.prod (fun i k => hsymm σ R (i : ℕ) ^ k) := by
-    rw [AllPartitions.parts_ofMultiplicities, Multiset.map_map, Finsupp.toMultiset_map,
+    rw [IntegerPartition.parts_ofMultiplicities, Multiset.map_map, Finsupp.toMultiset_map,
       Finsupp.prod_toMultiset,
       Finsupp.prod_mapDomain_index (fun _ => pow_zero _) (fun _ _ _ => pow_add _ _ _)]
     rfl
@@ -439,7 +559,7 @@ theorem hsymmAlgHom_monomial (a : ℕ+ →₀ ℕ) (r : R) :
   change (symmetricFunctionSubalgebra σ R).val
       (a.prod (fun i k => (hsymmGraded σ R (i : ℕ) :
         symmetricFunctionSubalgebra σ R) ^ k)) =
-    hsymmPart σ R (AllPartitions.ofMultiplicities a).2
+    hsymmPart σ R (IntegerPartition.ofMultiplicities a).2
   rw [map_finsuppProd]
   simp only [map_pow]
   exact hprod.symm
@@ -459,8 +579,8 @@ theorem hsymmAlgHom_mem_grading {n : ℕ} {p : MvPolynomial ℕ+ R}
   | monomial a r ha =>
     rw [hsymmAlgHom_monomial]
     apply (symmetricFunctionGrading σ R n).smul_mem
-    rw [← ha, ← AllPartitions.size_ofMultiplicities]
-    exact (hsymmPartGraded σ R (AllPartitions.ofMultiplicities a).2).property
+    rw [← ha, ← IntegerPartition.size_ofMultiplicities]
+    exact (hsymmPartGraded σ R (IntegerPartition.ofMultiplicities a).2).property
 
 /-- Complete homogeneous evaluation as a graded algebra homomorphism. -/
 def hsymmGradedAlgHom :

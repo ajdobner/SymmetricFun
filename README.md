@@ -13,12 +13,12 @@ Mathematically speaking, we construct the ring of symmetric functions within the
 
 The Lean code is in the `SymmetricFun` folder.
 
-"Nonessential" subfolders: `GradedAlgebra`, `Matrix`, `Partition`. These mostly add helper functionality to augment some things in mathlib. In `Partition` we add the dominance ordering. In `GradedAlgebra` we add `GradedAlgEquiv`, written `𝒜 ≃ₐᵍ[R] ℬ`, for algebra equivalences that respect a grading.
+"Auxiliary" subfolders: `GradedAlgebra`, `Matrix`, `Partition`. These mostly add helper functionality to augment some things in mathlib. In `Partition` we add the dominance relation and interlacing relation. In `Tableau` we define (skew) semistandard Young tableaux as sequences of interlacing partitions. In `GradedAlgebra` we add `GradedAlgEquiv`, written `𝒜 ≃ₐᵍ[R] ℬ`, for algebra equivalences that respect a grading.
 
 Core subfolders:
 
 * `MvPowerSeries` is mathlib's multivariate power series library. We add some important functionality. Namely, we define the bounded degree subalgebra and show that this is an internal direct sum of homogeneous submodules. We also define the action of the symmetric group on the variables.
-* `SymmetricFunction`. In `Basic.lean` we define `symmetricFunctionSubalgebra` as a subalgebra of the ring of multivariate power series. In `Grading.lean` we show that it is the internal direct sum of graded submodules.
+* `SymmetricFunction`. In `Basic.lean` we define `symmetricFunctionSubalgebra` as a subalgebra of the ring of multivariate power series. In `Grading.lean` we show that it is the internal direct sum of graded submodules. Then the main results are the various facts about the different bases.
 
 ## Plan
 
@@ -37,13 +37,13 @@ Core subfolders:
 4. Construct the complete homogeneous symmetric functions.
     * Prove the relation $\sum_{r=0}^d (-1)^r e_r h_{d-r}=0$ for $d > 0$, with $e_0=h_0=1$.
     * If `σ` has cardinality $n \in \mathbb{N}$, then we define an algebra homomorphism $\omega$ satisfying $\omega(e_r)=h_r$ for all $1 \leq r \leq n$. Use the recurrence to show inductively that $\omega(h_r) = e_r$ for all $1 \leq r \leq n$.
-    * If `σ` is infinite, define the graded algebra involution $\omega(e_r)=h_r$ for all $r \geq 1$. The relation $E(-t)H(t)=1$ implies $\omega(h_r)=e_r$, and the elementary generators then give $\omega^2=\mathrm{id}$.
+    * If `σ` is infinite, define the graded algebra involution $\omega(e_r)=h_r$ for all $r \geq 1$. The relation implies $\omega(h_r)=e_r$, and the elementary generators then give $\omega^2=\mathrm{id}$.
     * Use the involution to construct the complete homogeneous bases and the graded polynomial presentation.
----
 5. Construct Schur functions as generating functions of semistandard Young tableaux.
-    * When writing $s_\lambda$ in terms of the $m_\mu$'s, the entries $K_{\lambda\mu}$ of the transition matrix are the [Kostka numbers](https://en.wikipedia.org/wiki/Kostka_number), which count SSYTs of shape $\lambda$ and weight $\mu$. This number is positive if and only if $\lambda$ is above than $\mu$ in the dominance order. $K_{\lambda\mu}$ is unitriangular if one chooses a linear order on partitions that is compatible with dominance.
+    * When writing $s_\lambda$ in terms of the $m_\mu$'s, the entries $K_{\lambda\mu}$ of the transition matrix are the [Kostka numbers](https://en.wikipedia.org/wiki/Kostka_number), which count SSYTs of shape $\lambda$ and weight $\mu$. We prove that $K_{\lambda\mu}=0$ unless $\lambda$ dominates $\mu$, and that $K_{\lambda\lambda}=1$. These facts make the matrix unitriangular for a linear order compatible with dominance.
     * If `σ` has cardinality $n \in \mathbb{N}$, then the unitriangularity of the transition matrix implies that $(s_\lambda)_{\ell(\lambda)\leq n}$ is a basis.
     * If `σ` is infinite, then $(s_\lambda)$ is a basis.
+---
 6. Prove the Pieri rules.
 7. Derive other expressions for Schur functions: Jacobi-Trudi identity, Weyl character formula. 
 8. Define the Hall inner product.

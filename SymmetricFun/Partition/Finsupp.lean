@@ -3,7 +3,7 @@ module
 public import Mathlib.Data.Finsupp.Basic
 public import Mathlib.Logic.Equiv.Fintype
 public import Mathlib.Data.Finsupp.Weight
-public import SymmetricFun.Partition.AllPartitions
+public import SymmetricFun.Partition.IntegerPartition
 
 /-!
 # Exponent vectors and partitions
@@ -19,7 +19,7 @@ noncomputable section
 namespace Finsupp
 
 /-- The partition formed by the nonzero entries of an exponent vector. -/
-def toAllPartitions (m : σ →₀ ℕ) : AllPartitions :=
+def toIntegerPartition (m : σ →₀ ℕ) : IntegerPartition :=
   ⟨m.degree, {
     parts := Multiset.map m m.support.val
     parts_pos := by
@@ -31,22 +31,36 @@ def toAllPartitions (m : σ →₀ ℕ) : AllPartitions :=
     parts_sum := rfl
   }⟩
 
-theorem toAllPartitions_size (m : σ →₀ ℕ) : m.toAllPartitions.size = m.weight 1 := by
+theorem toIntegerPartition_size (m : σ →₀ ℕ) : m.toIntegerPartition.size = m.weight 1 := by
   change m.degree = m.weight 1
   rw [degree_eq_weight_one]
   rfl
 
-theorem embDomain_toAllPartitions (f : α ↪ β) (m : α →₀ ℕ) :
-    (m.embDomain f).toAllPartitions = m.toAllPartitions := by
-  apply AllPartitions.ext
-  simp [toAllPartitions, AllPartitions.parts]
+/-- On `Fin k`, the partition of an exponent agrees with the partition of its entries. -/
+theorem ofFn_eq_toIntegerPartition {k : ℕ} (m : Fin k →₀ ℕ) :
+    IntegerPartition.ofFn (fun i => m i) = m.toIntegerPartition := by
+  apply IntegerPartition.ext
+  change (List.ofFn (fun i => m i) : Multiset ℕ).filter (· ≠ 0) =
+    m.support.val.map m
+  rw [← Fin.univ_val_map, Multiset.filter_map]
+  have h : Finset.univ.filter (fun i : Fin k => m i ≠ 0) = m.support := by
+    ext i
+    simp
+  rw [← Finset.filter_val]
+  change (Finset.univ.filter (fun i : Fin k => m i ≠ 0)).val.map m = m.support.val.map m
+  rw [h]
+
+theorem embDomain_toIntegerPartition (f : α ↪ β) (m : α →₀ ℕ) :
+    (m.embDomain f).toIntegerPartition = m.toIntegerPartition := by
+  apply IntegerPartition.ext
+  simp [toIntegerPartition, IntegerPartition.parts]
 
 /-- Reindexing an exponent vector by an equivalence preserves its partition. -/
 @[simp]
-theorem toAllPartitions_equivMapDomain (e : σ ≃ τ) (m : σ →₀ ℕ) :
-    (equivMapDomain e m).toAllPartitions = m.toAllPartitions := by
+theorem toIntegerPartition_equivMapDomain (e : σ ≃ τ) (m : σ →₀ ℕ) :
+    (equivMapDomain e m).toIntegerPartition = m.toIntegerPartition := by
   simpa only [embDomain_eq_mapDomain, equivMapDomain_eq_mapDomain, Equiv.coe_toEmbedding]
-    using embDomain_toAllPartitions e.toEmbedding m
+    using embDomain_toIntegerPartition e.toEmbedding m
 
 /-- Finitely supported functions with the same multiset of nonzero values differ by
 a permutation of their indices. -/
@@ -83,10 +97,10 @@ theorem exists_equivMapDomain_of_multiset_eq {α β : Type*} [Zero β]
   ext a
   simp only [Finsupp.equivMapDomain_apply, h_e_large a, Equiv.symm_symm]
 
-lemma exists_equivMapDomain_of_toAllPartitions_eq {σ : Type*} (m₁ m₂ : σ →₀ ℕ)
-    (h : m₁.toAllPartitions = m₂.toAllPartitions) :
+lemma exists_equivMapDomain_of_toIntegerPartition_eq {σ : Type*} (m₁ m₂ : σ →₀ ℕ)
+    (h : m₁.toIntegerPartition = m₂.toIntegerPartition) :
     ∃ e : Equiv.Perm σ, m₁ = equivMapDomain e m₂ := by
   apply exists_equivMapDomain_of_multiset_eq m₁ m₂
-  exact congrArg AllPartitions.parts h
+  exact congrArg IntegerPartition.parts h
 
 end Finsupp

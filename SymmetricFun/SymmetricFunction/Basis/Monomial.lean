@@ -29,19 +29,19 @@ namespace MvPowerSeries
 
 /-- A chosen exponent vector on `ℕ` with the given partition.
 The ordering supplied by `Multiset.toList` is an implementation choice. -/
-def monomialRepresentativeNat (μ : AllPartitions) : ℕ →₀ ℕ :=
+def monomialRepresentativeNat (μ : IntegerPartition) : ℕ →₀ ℕ :=
   List.toFinsupp μ.parts.toList
 
 /-- A chosen exponent vector with the given partition in an infinite set of variables.
 The embedding of `ℕ` into `σ` is an implementation choice. Use
-`monomialRepresentative_toAllPartitions` to work with its partition. -/
-noncomputable def monomialRepresentative (σ : Type*) [Infinite σ] (μ : AllPartitions) : σ →₀ ℕ :=
+`monomialRepresentative_toIntegerPartition` to work with its partition. -/
+noncomputable def monomialRepresentative (σ : Type*) [Infinite σ] (μ : IntegerPartition) : σ →₀ ℕ :=
   (monomialRepresentativeNat μ).embDomain (Infinite.natEmbedding σ)
 
 @[simp]
-theorem monomialRepresentativeNat_toAllPartitions (μ : AllPartitions) :
-    (monomialRepresentativeNat μ).toAllPartitions = μ := by
-  apply AllPartitions.ext
+theorem monomialRepresentativeNat_toIntegerPartition (μ : IntegerPartition) :
+    (monomialRepresentativeNat μ).toIntegerPartition = μ := by
+  apply IntegerPartition.ext
   let l := μ.parts.toList
   have hs : l.toFinsupp.support = Finset.range l.length := by
     rw [List.toFinsupp_support]
@@ -63,49 +63,49 @@ theorem monomialRepresentativeNat_toAllPartitions (μ : AllPartitions) :
   exact Multiset.coe_toList μ.parts
 
 @[simp]
-theorem monomialRepresentative_toAllPartitions (σ : Type*) [Infinite σ] (μ : AllPartitions) :
-    (monomialRepresentative σ μ).toAllPartitions = μ := by
+theorem monomialRepresentative_toIntegerPartition (σ : Type*) [Infinite σ] (μ : IntegerPartition) :
+    (monomialRepresentative σ μ).toIntegerPartition = μ := by
   unfold monomialRepresentative
-  rw [Finsupp.embDomain_toAllPartitions]
-  exact monomialRepresentativeNat_toAllPartitions μ
+  rw [Finsupp.embDomain_toIntegerPartition]
+  exact monomialRepresentativeNat_toIntegerPartition μ
 
-lemma coeff_eq_of_toAllPartitions_eq {σ R : Type*} [CommSemiring R]
+lemma coeff_eq_of_toIntegerPartition_eq {σ R : Type*} [CommSemiring R]
     (m₁ m₂ : σ →₀ ℕ) (f : MvPowerSeries σ R) (hf : f.IsSymmetric)
-    (h : m₁.toAllPartitions = m₂.toAllPartitions) :
+    (h : m₁.toIntegerPartition = m₂.toIntegerPartition) :
     coeff m₁ f = coeff m₂ f := by
-  obtain ⟨e, rfl⟩ := Finsupp.exists_equivMapDomain_of_toAllPartitions_eq m₁ m₂ h
+  obtain ⟨e, rfl⟩ := Finsupp.exists_equivMapDomain_of_toIntegerPartition_eq m₁ m₂ h
   exact coeff_equivMapDomain_of_isSymmetric e m₂ f hf
 
 theorem coeff_of_isSymmetric {σ R : Type*} [CommSemiring R] [Infinite σ]
     (m : σ →₀ ℕ) (f : MvPowerSeries σ R) (hf : f.IsSymmetric) :
-    coeff m f = coeff (monomialRepresentative σ m.toAllPartitions) f :=
-  coeff_eq_of_toAllPartitions_eq m _ f hf
-    (monomialRepresentative_toAllPartitions σ m.toAllPartitions).symm
+    coeff m f = coeff (monomialRepresentative σ m.toIntegerPartition) f :=
+  coeff_eq_of_toIntegerPartition_eq m _ f hf
+    (monomialRepresentative_toIntegerPartition σ m.toIntegerPartition).symm
 
 /-- Homogeneous symmetric series are determined by one coefficient per partition of their degree. -/
 theorem homogeneousSymmetric_ext {σ R : Type*} [CommSemiring R] [Infinite σ]
     {n : ℕ} {f g : symmetricFunctionGrading σ R n}
     (h : ∀ μ : Nat.Partition n,
-      coeff (monomialRepresentative σ μ.toAllPartitions) (f : MvPowerSeries σ R) =
-        coeff (monomialRepresentative σ μ.toAllPartitions) (g : MvPowerSeries σ R)) : f = g := by
+      coeff (monomialRepresentative σ μ.toIntegerPartition) (f : MvPowerSeries σ R) =
+        coeff (monomialRepresentative σ μ.toIntegerPartition) (g : MvPowerSeries σ R)) : f = g := by
   have hf : IsHomogeneous (f : MvPowerSeries σ R) n := symmetricFunctionGrading.isHomogeneous f
   have hg : IsHomogeneous (g : MvPowerSeries σ R) n := symmetricFunctionGrading.isHomogeneous g
   apply symmetricFunctionGrading.ext
   ext m
-  by_cases hm : m.toAllPartitions.size = n
+  by_cases hm : m.toIntegerPartition.size = n
   · rw [coeff_of_isSymmetric m (f : MvPowerSeries σ R) (symmetricFunctionGrading.isSymmetric f),
       coeff_of_isSymmetric m (g : MvPowerSeries σ R) (symmetricFunctionGrading.isSymmetric g)]
-    simpa only [AllPartitions.toAllPartitions_toPartition] using
-      h (m.toAllPartitions.toPartition hm)
+    simpa only [IntegerPartition.toIntegerPartition_toPartition] using
+      h (m.toIntegerPartition.toPartition hm)
   · exact (hf.coeff_eq_zero hm).trans (hg.coeff_eq_zero hm).symm
 
 /-- Reading a monomial symmetric function at a chosen representative gives a delta coefficient. -/
 @[simp]
 theorem coeff_monomialRepresentative_msymmPart {σ R : Type*} [CommSemiring R] [Infinite σ]
-    {n : ℕ} (μ : AllPartitions) (ν : Nat.Partition n) :
+    {n : ℕ} (μ : IntegerPartition) (ν : Nat.Partition n) :
     coeff (monomialRepresentative σ μ) (msymmPart σ R ν) =
-      if μ = ν.toAllPartitions then 1 else 0 := by
-  rw [coeff_msymmPart, monomialRepresentative_toAllPartitions]
+      if μ = ν.toIntegerPartition then 1 else 0 := by
+  rw [coeff_msymmPart, monomialRepresentative_toIntegerPartition]
 
 section MonomialBasis
 variable (σ R : Type*) [CommSemiring R]
@@ -116,7 +116,7 @@ partition, as expressed by `msymmPartEquivFun_apply_eq_coeff`. -/
 def msymmPartEquivFun [Infinite σ] (n : ℕ) :
     symmetricFunctionGrading σ R n ≃ₗ[R] (Nat.Partition n → R) where
   toLinearMap := LinearMap.pi fun μ =>
-    (coeff (monomialRepresentative σ μ.toAllPartitions)).comp
+    (coeff (monomialRepresentative σ μ.toIntegerPartition)).comp
       (symmetricFunctionGradingToMvPowerSeries σ R n)
   invFun g := ∑ μ : Nat.Partition n,
     (g μ) • msymmPartGraded σ R μ
@@ -131,17 +131,17 @@ def msymmPartEquivFun [Infinite σ] (n : ℕ) :
 @[simp]
 theorem msymmPartEquivFun_apply [Infinite σ] {n : ℕ}
     (f : symmetricFunctionGrading σ R n) (μ : Nat.Partition n) :
-    msymmPartEquivFun σ R n f μ = coeff (monomialRepresentative σ μ.toAllPartitions) f := rfl
+    msymmPartEquivFun σ R n f μ = coeff (monomialRepresentative σ μ.toIntegerPartition) f := rfl
 
 /-- The monomial symmetric coordinate is independent of the choice of representative. -/
 theorem msymmPartEquivFun_apply_eq_coeff [Infinite σ] {n : ℕ}
     (f : symmetricFunctionGrading σ R n) (μ : Nat.Partition n) (m : σ →₀ ℕ)
-    (hm : m.toAllPartitions = μ.toAllPartitions) :
+    (hm : m.toIntegerPartition = μ.toIntegerPartition) :
     msymmPartEquivFun σ R n f μ = coeff m f := by
   rw [msymmPartEquivFun_apply]
-  apply coeff_eq_of_toAllPartitions_eq
+  apply coeff_eq_of_toIntegerPartition_eq
   · exact symmetricFunctionGrading.isSymmetric f
-  · rw [monomialRepresentative_toAllPartitions, hm]
+  · rw [monomialRepresentative_toIntegerPartition, hm]
 
 @[simp]
 theorem msymmPartEquivFun_symm_apply [Infinite σ] {n : ℕ} (g : Nat.Partition n → R) :
@@ -161,13 +161,13 @@ theorem msymmPart_basis_apply [Infinite σ] {n : ℕ} (μ : Nat.Partition n) :
 @[simp]
 theorem msymmPart_basis_repr_apply [Infinite σ] {n : ℕ}
     (f : symmetricFunctionGrading σ R n) (μ : Nat.Partition n) :
-    (msymmPart_basis σ R n).repr f μ = coeff (monomialRepresentative σ μ.toAllPartitions) f := by
+    (msymmPart_basis σ R n).repr f μ = coeff (monomialRepresentative σ μ.toIntegerPartition) f := by
   rw [msymmPart_basis, Module.Basis.ofEquivFun_repr_apply, msymmPartEquivFun_apply]
 
 /-- Basis coordinates can be computed using any exponent vector with the required partition. -/
 theorem msymmPart_basis_repr_apply_eq_coeff [Infinite σ] {n : ℕ}
     (f : symmetricFunctionGrading σ R n) (μ : Nat.Partition n) (m : σ →₀ ℕ)
-    (hm : m.toAllPartitions = μ.toAllPartitions) :
+    (hm : m.toIntegerPartition = μ.toIntegerPartition) :
     (msymmPart_basis σ R n).repr f μ = coeff m f := by
   rw [msymmPart_basis, Module.Basis.ofEquivFun_repr_apply]
   exact msymmPartEquivFun_apply_eq_coeff σ R f μ m hm

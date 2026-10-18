@@ -131,9 +131,9 @@ theorem msymmPart_basis_repr_esymmPartGraded_eq_card [Infinite σ] {n : ℕ}
   have hs : d.support = Finset.univ := by
     ext j
     simp [d, (hpos j).ne']
-  have hd : (d.embDomain v).toAllPartitions = β.toAllPartitions := by
-    rw [Finsupp.embDomain_toAllPartitions]
-    apply AllPartitions.ext
+  have hd : (d.embDomain v).toIntegerPartition = β.toIntegerPartition := by
+    rw [Finsupp.embDomain_toIntegerPartition]
+    apply IntegerPartition.ext
     change d.support.val.map d = β.parts
     rw [hs]
     exact hb

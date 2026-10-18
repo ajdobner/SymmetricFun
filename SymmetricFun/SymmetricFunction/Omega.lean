@@ -145,9 +145,9 @@ theorem omega_esymmPartGraded {n : ℕ} (μ : Nat.Partition n) :
   change hsymmAlgHom σ R ((esymmGradedAlgEquiv σ R).symm
     (esymmPartGraded σ R μ : symmetricFunctionSubalgebra σ R)) = _
   rw [esymmGradedAlgEquiv_symm_esymmPartGraded, hsymmAlgHom_monomial, one_smul]
-  exact congrArg (fun ν : AllPartitions =>
+  exact congrArg (fun ν : IntegerPartition =>
     (hsymmPartGraded σ R ν.2 : symmetricFunctionSubalgebra σ R))
-    (AllPartitions.ofMultiplicities_multiplicities μ.toAllPartitions)
+    (IntegerPartition.ofMultiplicities_multiplicities μ.toIntegerPartition)
 
 /-- Omega sends a complete homogeneous partition product to the elementary product. -/
 @[simp]

@@ -40,11 +40,11 @@ theorem hsymmPart_basis_apply {n : ℕ} (μ : Nat.Partition n) :
 
 /-- The complete homogeneous products form a basis of the whole symmetric-function algebra. -/
 def hsymmPart_basis_all :
-    Module.Basis AllPartitions R (symmetricFunctionSubalgebra σ R) :=
+    Module.Basis IntegerPartition R (symmetricFunctionSubalgebra σ R) :=
   (esymmPart_basis_all σ R).map (omega σ R).toAlgEquiv.toLinearEquiv
 
 @[simp]
-theorem hsymmPart_basis_all_apply (μ : AllPartitions) :
+theorem hsymmPart_basis_all_apply (μ : IntegerPartition) :
     hsymmPart_basis_all σ R μ =
       (hsymmPartGraded σ R μ.2 : symmetricFunctionSubalgebra σ R) := by
   change omega σ R (esymmPart_basis_all σ R μ) = _
@@ -113,7 +113,7 @@ theorem hsymmGradedAlgEquiv_symm_hsymmGraded (i : ℕ+) :
 theorem hsymmGradedAlgEquiv_symm_hsymmPartGraded {n : ℕ} (μ : Nat.Partition n) :
     (hsymmGradedAlgEquiv σ R).symm
         (hsymmPartGraded σ R μ : symmetricFunctionSubalgebra σ R) =
-      MvPolynomial.monomial μ.toAllPartitions.multiplicities 1 := by
+      MvPolynomial.monomial μ.toIntegerPartition.multiplicities 1 := by
   rw [hsymmGradedAlgEquiv_symm_apply, omega_hsymmPartGraded,
     esymmGradedAlgEquiv_symm_esymmPartGraded]
 
@@ -150,7 +150,7 @@ theorem hsymmAlgEquiv_symm_hsymmGraded (i : ℕ+) :
 theorem hsymmAlgEquiv_symm_hsymmPartGraded {n : ℕ} (μ : Nat.Partition n) :
     (hsymmAlgEquiv σ R).symm
         (hsymmPartGraded σ R μ : symmetricFunctionSubalgebra σ R) =
-      MvPolynomial.monomial μ.toAllPartitions.multiplicities 1 :=
+      MvPolynomial.monomial μ.toIntegerPartition.multiplicities 1 :=
   hsymmGradedAlgEquiv_symm_hsymmPartGraded σ R μ
 
 /-- The complete homogeneous presentation identifies the weighted homogeneous pieces. -/

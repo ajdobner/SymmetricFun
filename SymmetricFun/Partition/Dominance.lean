@@ -1,5 +1,6 @@
 module
 
+public import SymmetricFun.Partition.Parts
 public import Mathlib.Combinatorics.Enumerative.Partition.YoungDiagram
 
 /-!
@@ -86,6 +87,12 @@ theorem partialSum_zero {n : ℕ} (μ : Partition n) : μ.partialSum 0 = 0 := by
 
 theorem partialSum_eq_sum_take {n : ℕ} (μ : Partition n) (k : ℕ) :
     μ.partialSum k = ((μ.parts.sort (· ≥ ·)).take k).sum := rfl
+
+/-- Express partial sums using the padded numerical parts. -/
+theorem partialSum_eq_sum_part {n : ℕ} (μ : Partition n) (k : ℕ) :
+    μ.partialSum k = ∑ i ∈ range k, μ.toIntegerPartition.part i := by
+  rw [← IntegerPartition.size_take]
+  simp [IntegerPartition.take, partialSum]
 
 theorem partialSum_eq_sum_rowLen {n : ℕ} (μ : Partition n) (k : ℕ) :
     μ.partialSum k = ∑ i ∈ range k, (YoungDiagram.ofPartition μ).rowLen i := by

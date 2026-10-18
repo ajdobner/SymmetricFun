@@ -1,6 +1,6 @@
 module
 
-public import SymmetricFun.Partition.AllPartitions
+public import SymmetricFun.Partition.IntegerPartition
 public import Mathlib.Data.Finsupp.Multiset
 public import Mathlib.Data.Finsupp.Weight
 public import Mathlib.Data.PNat.Basic
@@ -8,7 +8,7 @@ public import Mathlib.Data.PNat.Basic
 /-!
 # Partitions and multiplicities of positive parts
 
-`AllPartitions.multiplicitiesEquiv` identifies a partition with the finitely
+`IntegerPartition.multiplicitiesEquiv` identifies a partition with the finitely
 supported function recording how many times each positive part occurs.
 The size of the partition is the weight of this function, giving part `i`
 weight `i`.
@@ -17,19 +17,19 @@ weight `i`.
 @[expose] public section
 noncomputable section
 
-namespace AllPartitions
+namespace IntegerPartition
 
 /-- The number of occurrences of each positive part in a partition. -/
-def multiplicities (μ : AllPartitions) : ℕ+ →₀ ℕ :=
+def multiplicities (μ : IntegerPartition) : ℕ+ →₀ ℕ :=
   μ.parts.toFinsupp.subtypeDomain (fun i : ℕ => 0 < i)
 
 @[simp]
-theorem multiplicities_apply (μ : AllPartitions) (i : ℕ+) :
+theorem multiplicities_apply (μ : IntegerPartition) (i : ℕ+) :
     μ.multiplicities i = μ.parts.count (i : ℕ) := rfl
 
 theorem multiplicities_injective : Function.Injective multiplicities := by
   intro μ ν h
-  apply AllPartitions.ext
+  apply IntegerPartition.ext
   apply Multiset.ext.mpr
   intro i
   by_cases hi : 0 < i
@@ -39,7 +39,7 @@ theorem multiplicities_injective : Function.Injective multiplicities := by
     simp [Multiset.count_eq_zero.mpr hμ, Multiset.count_eq_zero.mpr hν]
 
 /-- Form a partition with `a i` copies of each positive integer `i`. -/
-def ofMultiplicities (a : ℕ+ →₀ ℕ) : AllPartitions :=
+def ofMultiplicities (a : ℕ+ →₀ ℕ) : IntegerPartition :=
   ⟨(a.toMultiset.map PNat.val).sum,
     { parts := a.toMultiset.map PNat.val
       parts_pos := by
@@ -60,19 +60,19 @@ theorem multiplicities_ofMultiplicities (a : ℕ+ →₀ ℕ) :
     Multiset.count_map_eq_count' _ _ PNat.coe_injective, Finsupp.count_toMultiset]
 
 @[simp]
-theorem ofMultiplicities_multiplicities (μ : AllPartitions) :
+theorem ofMultiplicities_multiplicities (μ : IntegerPartition) :
     ofMultiplicities μ.multiplicities = μ :=
   multiplicities_injective (multiplicities_ofMultiplicities μ.multiplicities)
 
 /-- Partitions of arbitrary size are equivalent to multiplicities of positive parts. -/
-def multiplicitiesEquiv : AllPartitions ≃ (ℕ+ →₀ ℕ) where
+def multiplicitiesEquiv : IntegerPartition ≃ (ℕ+ →₀ ℕ) where
   toFun := multiplicities
   invFun := ofMultiplicities
   left_inv := ofMultiplicities_multiplicities
   right_inv := multiplicities_ofMultiplicities
 
 @[simp]
-theorem multiplicitiesEquiv_apply (μ : AllPartitions) :
+theorem multiplicitiesEquiv_apply (μ : IntegerPartition) :
     multiplicitiesEquiv μ = μ.multiplicities := rfl
 
 @[simp]
@@ -88,8 +88,8 @@ theorem size_ofMultiplicities (a : ℕ+ →₀ ℕ) :
   rfl
 
 @[simp]
-theorem weight_multiplicities (μ : AllPartitions) :
+theorem weight_multiplicities (μ : IntegerPartition) :
     Finsupp.weight PNat.val μ.multiplicities = μ.size := by
   rw [← size_ofMultiplicities, ofMultiplicities_multiplicities]
 
-end AllPartitions
+end IntegerPartition

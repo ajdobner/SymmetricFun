@@ -88,11 +88,11 @@ theorem esymmPart_basis_apply {n : ℕ} (μ : Nat.Partition n) :
 
 /-- The elementary symmetric products form a basis of the whole symmetric-function algebra. -/
 def esymmPart_basis_all :
-    Module.Basis AllPartitions R (symmetricFunctionSubalgebra σ R) :=
+    Module.Basis IntegerPartition R (symmetricFunctionSubalgebra σ R) :=
   (symmetricFunctionGrading_isInternal σ R).collectedBasis (esymmPart_basis σ R)
 
 @[simp]
-theorem esymmPart_basis_all_apply (μ : AllPartitions) :
+theorem esymmPart_basis_all_apply (μ : IntegerPartition) :
     esymmPart_basis_all σ R μ =
       (esymmPartGraded σ R μ.2 : symmetricFunctionSubalgebra σ R) := by
   simp [esymmPart_basis_all]
@@ -112,15 +112,15 @@ variable [CommRing R] [Infinite σ]
 /-- Evaluation in the elementary symmetric functions is bijective. -/
 theorem esymmAlgHom_bijective : Function.Bijective (esymmAlgHom σ R) := by
   let e := (MvPolynomial.basisMonomials ℕ+ R).equiv
-    (esymmPart_basis_all σ R) AllPartitions.multiplicitiesEquiv.symm
+    (esymmPart_basis_all σ R) IntegerPartition.multiplicitiesEquiv.symm
   have h : (esymmAlgHom σ R).toLinearMap = e.toLinearMap := by
     apply (MvPolynomial.basisMonomials ℕ+ R).ext
     intro a
     change esymmAlgHom σ R (MvPolynomial.monomial a 1) =
       (MvPolynomial.basisMonomials ℕ+ R).equiv (esymmPart_basis_all σ R)
-        AllPartitions.multiplicitiesEquiv.symm ((MvPolynomial.basisMonomials ℕ+ R) a)
+        IntegerPartition.multiplicitiesEquiv.symm ((MvPolynomial.basisMonomials ℕ+ R) a)
     rw [Module.Basis.equiv_apply]
-    simp only [esymmPart_basis_all_apply, AllPartitions.multiplicitiesEquiv_symm_apply,
+    simp only [esymmPart_basis_all_apply, IntegerPartition.multiplicitiesEquiv_symm_apply,
       esymmAlgHom_monomial, one_smul]
   change Function.Bijective (esymmAlgHom σ R).toLinearMap
   rw [h]
@@ -159,13 +159,13 @@ theorem esymmGradedAlgEquiv_symm_esymmGraded (i : ℕ+) :
 theorem esymmGradedAlgEquiv_symm_esymmPartGraded {n : ℕ} (μ : Nat.Partition n) :
     (esymmGradedAlgEquiv σ R).symm
         (esymmPartGraded σ R μ : symmetricFunctionSubalgebra σ R) =
-      MvPolynomial.monomial μ.toAllPartitions.multiplicities 1 := by
+      MvPolynomial.monomial μ.toIntegerPartition.multiplicities 1 := by
   apply (esymmGradedAlgEquiv σ R).injective
   simp only [GradedAlgEquiv.apply_symm_apply, esymmGradedAlgEquiv_apply,
     esymmAlgHom_monomial, one_smul]
-  exact congrArg (fun ν : AllPartitions =>
+  exact congrArg (fun ν : IntegerPartition =>
     (esymmPartGraded σ R ν.2 : symmetricFunctionSubalgebra σ R))
-    (AllPartitions.ofMultiplicities_multiplicities μ.toAllPartitions).symm
+    (IntegerPartition.ofMultiplicities_multiplicities μ.toIntegerPartition).symm
 
 /-- The underlying algebra equivalence of `esymmGradedAlgEquiv`. -/
 def esymmAlgEquiv :
@@ -201,7 +201,7 @@ theorem esymmAlgEquiv_symm_esymmGraded (i : ℕ+) :
 theorem esymmAlgEquiv_symm_esymmPartGraded {n : ℕ} (μ : Nat.Partition n) :
     (esymmAlgEquiv σ R).symm
         (esymmPartGraded σ R μ : symmetricFunctionSubalgebra σ R) =
-      MvPolynomial.monomial μ.toAllPartitions.multiplicities 1 :=
+      MvPolynomial.monomial μ.toIntegerPartition.multiplicities 1 :=
   esymmGradedAlgEquiv_symm_esymmPartGraded σ R μ
 
 /-- The algebra equivalence identifies weighted homogeneous polynomials with the
